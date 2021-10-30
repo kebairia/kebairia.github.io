@@ -15,7 +15,7 @@ this is my [[file:about.org][about]] page
   def Greeting(x):
       for i in range(2):
           print("Hello", x)
-  Greeting("Kebairia")
+  Greeting("Kebairia, and How are you")
   #+end_src
 
   #+RESULTS:
