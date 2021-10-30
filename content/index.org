@@ -1,2 +1,4 @@
-The website is still under construction.
-stay tuned for interesting articles
+#+html: <p align="center">
+#+html: <img src="././under_const.gif" alt="contruction image" width="80" align="center">
+#+html: </p>
+#+html: <hr>
