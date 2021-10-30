@@ -24,6 +24,7 @@
       org-html-head-include-default-style nil
       org-html-head "<link rel=\"stylesheet\"
 href=\"https://cdn.simplecss.org/simple.min.css\" />")
+;; href=\"https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css\"/>")
 (setq org-publish-project-alist
       (list
        (list "org-site:main"
@@ -33,7 +34,7 @@ href=\"https://cdn.simplecss.org/simple.min.css\" />")
 	     :publishing-directory "./public"
 	     :with-author nil
 	     :with-creator t
-	     :with-toc t
+	     :with-toc nil 
 	     :section-numbers nil
 	     :time-stamp-file nil)))
 ;; Generate the site output
