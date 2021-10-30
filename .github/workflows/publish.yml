@@ -1,16 +1,19 @@
 name: Publish to GitHub Pages
+
 on: 
-push:
-  branches:
-    - main
+  push:
+    branches:
+      - main
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
         uses: actions/checkout@v1
+
       - name: Install Emacs
         run: sudo apt install emacs-nox --yes
+
       - name: Build the site
         run: ./build.sh
 
