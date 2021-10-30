@@ -1,3 +1,2 @@
-#+TITLE: My org site
-the site is under construction
-stay tooned for great articles
+The website is still under construction.
+stay tuned for interesting articles
