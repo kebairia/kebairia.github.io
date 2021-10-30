@@ -34,7 +34,7 @@ href=\"https://cdn.simplecss.org/simple.min.css\" />")
 	     :publishing-directory "./public"
 	     :with-author nil
 	     :with-creator t
-	     :with-toc nil 
+	     :with-toc nil
 	     :section-numbers nil
 	     :time-stamp-file nil)))
 ;; Generate the site output

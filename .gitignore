@@ -2,3 +2,5 @@
 *.html~
 *.mp4
 *.html
+/public/
+/*.log

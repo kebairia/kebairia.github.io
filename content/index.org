@@ -1,30 +1,3 @@
-Articles and tutorials about open source, BSD and GNU/Linux system administration, and programming - the pragmatic way.
+The website is still under construction.
 
-- [[file:about.org][The Zettelkasten method]]
-- [[file:about.org][The Zettelkasten method]]
-- [[file:about.org][The Zettelkasten method]]
-- [[file:about.org][The Zettelkasten method]]
-- [[file:about.org][The Zettelkasten method]]
-- [[file:about.org][The Zettelkasten method]]
-- [[file:about.org][The Zettelkasten method]]
-- [[file:about.org][The Zettelkasten method]]
-- [[file:about.org][The Zettelkasten method]]
-# * Heading 1
-# ** Subheading
-# #+begin_quote
-# this is a quote
-# #+end_quote
-# #+begin_example
-# and this is an example
-# #+end_example
-# this is a *bold* text, /italic/ and =verbatim= and ~code~ _underlined_ and +stocked+
-# and a code for python
-# #+begin_src python :results output :exports both
-#   import math
-#   from manim import *
-#   class test(Scene):
-#       def construct(self):
-#           c = Circle(radius=2)
-#           self.play(Create(c))
-#           self.wait(2)
-# #+end_src
+stay tuned for interesting articles
