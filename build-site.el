@@ -29,8 +29,10 @@
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
-      org-html-head "<link rel=\"stylesheet\"
-href=\"https://cdn.simplecss.org/simple.min.css\" />")
+      org-html-head "<link rel=\"stylesheet\"href=\"css/book.css\" type=\"text/css\" />"
+      )
+
+;; href=\"https://cdn.simplecss.org/simple.min.css\" />")
 (setq org-publish-project-alist
       (list
        (list "org-site:main"
@@ -42,7 +44,17 @@ href=\"https://cdn.simplecss.org/simple.min.css\" />")
 	     :with-creator t
 	     :with-toc t
 	     :section-numbers nil
-	     :time-stamp-file nil)))
+	     :time-stamp-file nil)
+       (list "org-static"
+	     :recursive t
+	     :base-directory "./content/"
+	     :publishing-function 'org-publish-attachment
+	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf"
+	     :publishing-directory "./public/"
+	     )
+       ;; (list "org"
+       ;; 	     :components ("org-site:main" "org-static"))
+       ))
 ;; Generate the site output
 (org-publish-all t)
 (message "Build completed")
