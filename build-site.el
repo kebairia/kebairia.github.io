@@ -1,3 +1,6 @@
+;;-------------------------
+;; straight.el bootstraping
+;;-------------------------
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -16,8 +19,12 @@
 ;; without the need for adding `:straight t`.
 (setq straight-use-package-by-default t)
 
+;; htmlize package for syntax highlighting for the code blocks
+
 (use-package htmlize)
-;; site
+;;-------
+;; SITE
+;;-------
 (require 'ox-publish)
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
