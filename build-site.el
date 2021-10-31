@@ -29,7 +29,7 @@
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
-      org-html-head "<link rel=\"stylesheet\"href=\"css/book.css\" type=\"text/css\" />"
+      org-html-head "<link rel=\"stylesheet\"href=\"css/main.css\" type=\"text/css\" />"
       )
 
 ;; href=\"https://cdn.simplecss.org/simple.min.css\" />")
