@@ -42,7 +42,7 @@
 	     :publishing-directory "./public"
 	     :with-author nil
 	     :with-creator t
-	     :with-toc nil
+	     :with-toc t
 	     :section-numbers nil
 	     :time-stamp-file nil)
        (list "org-static"
