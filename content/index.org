@@ -1,6 +1,6 @@
 #+TITLE: My blog
 
+- [[file:projects.org][A list of my Projects]]
 - [[file:first_blog.org][My first blog]]
 - [[file:about.org][about]]
 - [[file:presentations.org][presentations]]
-- [[file:projects.org][projects]]
