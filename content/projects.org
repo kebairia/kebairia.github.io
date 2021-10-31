@@ -1,0 +1,38 @@
+#+TITLE: A list of my Projects
+#+HTML_LINK_UP: index.html
+#+HTML_LINK_HOME: index.html
+
+- [[https://github.com/kebairia/vagrant-cluster][vagrant-cluster: A fully automated infrastructure]] 
+
+  *Organization*: /LABRI Research Center SBA & URD-SE Internship Internship/\\
+  *Dates Employed*: Mar 2021 -– Sep 2021\\
+  *Location*: Sidi Bel Abbès, Algeria\\
+  *GitHub*: [[https://github.com/kebairia/vagrant-cluster][🚀 vagrant-cluster]] \\
+
+  #+begin_quote
+  "*Serverless Edge Computing: Application for Real-Time Suspicious Behavior Detection usingDeep Learning*"
+
+  Developing a full automated infrastructure for Real-Time Suspicious Behavior Detection Using Deep
+  Learning Techniques, on an Edge Computing Architecture with DevOps and Performance testing activities,
+  developing automation frameworks, scalability Using Vagrant, Ansible and Packer, Docker, Kubernetes,
+  High Availability using Pacemaker, HAProxy, Keepalived for services and for file system server.
+  #+end_quote
+
+- [[https://github.com/kebairia/zars][zars: Zakaria's Auto Ricing Script]]
+
+  *Type*: Personal \\
+  *GitHub*: [[https://github.com/kebairia/zars][ZARS]] \\
+  #+begin_quote
+  A scrip for auto ricing my own system
+  for now, it only work with Arch and Arch based distro
+  it install my own build of the [[https://github.com/kebairia/dwm][dwm]] window manager, and setting up my dotfiles and configuration
+  #+end_quote
+
+* Local Variables                                           :noexport:ignore:
+# Local Variables:
+# mode: org
+# org-export-allow-bind-keywords: t
+# eval: (setq display-fill-column-indicator-column 100)
+# eval: (display-fill-column-indicator-mode)
+# eval: (flyspell-mode t)
+# End:
