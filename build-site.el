@@ -44,7 +44,11 @@
 	     :with-creator t
 	     :with-toc t
 	     :section-numbers nil
-	     :time-stamp-file nil)
+	     :time-stamp-file nil
+	     :auto-sitemap t                ; Generate sitemap.org automagically...
+	     :sitemap-filename "index.org"  ; ... call it sitemap.org (it's the default)...
+	     :sitemap-title "My blog"         ; ... with title 'Sitemap'.
+	     )
        (list "org-static"
 	     :recursive t
 	     :base-directory "./content/"
