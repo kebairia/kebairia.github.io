@@ -14,3 +14,13 @@ stay tuned for interesting articles
 
 #+RESULTS:
 : ('Hello', 'Zakaria')
+
+* Math
+#+begin_export latex
+\begin{equation}                        % arbitrary environments,
+x=\sqrt{b}                              % even tables, figures
+\end{equation}                          % etc
+
+If $a^2=b$ and \( b=2 \), then the solution must be
+either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
+#+end_export
