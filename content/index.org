@@ -1,9 +1,9 @@
 * Heading
-** Subheading
+** subheading
 #+attr_html: :width 300cm
 [[file:img/one_punch_man.png]]
 * Description
-The website is still under construction.
+The website is still under construction.[fn:1]
 
 stay tuned for interesting articles
 * Code
@@ -25,3 +25,7 @@ x=\sqrt{b}                              % even tables, figures
 If $a^2=b$ and \( b=2 \), then the solution must be
 either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
 #+end_export
+
+* Footnotes
+
+[fn:1] this is just for testing purposes 
