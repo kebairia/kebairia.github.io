@@ -1,5 +1,2 @@
-#+attr_html: :width 300cm
-[[file:img/one_punch_man.png]]
-The website is still under construction.
-
-stay tuned for interesting articles
+#+attr_html: :width 800cm
+[[file:img/const.gif]]
