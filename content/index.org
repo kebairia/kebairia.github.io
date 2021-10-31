@@ -1,5 +1,21 @@
+* Heading
+** subheading
 #+attr_html: :width 300cm
 [[file:img/one_punch_man.png]]
+* Description
 The website is still under construction.[fn:1]
 
 stay tuned for interesting articles
+* Code
+#+begin_src python :results output :exports both
+  def Greeting(x):
+      return ("Hello", x)
+  print(Greeting("Zakaria"))
+#+end_src
+
+#+RESULTS:
+: ('Hello', 'Zakaria')
+
+* Footnotes
+
+[fn:1] this is just for testing purposes 
