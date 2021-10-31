@@ -32,6 +32,7 @@
       org-html-head "<link rel=\"stylesheet\"href=\"css/main.css\" type=\"text/css\" />"
       )
 
+      ;; org-html-head "<link rel=\"stylesheet\"href=\"https://cdn.simplecss.org/simple.min.css\" />"
 ;; href=\"https://cdn.simplecss.org/simple.min.css\" />")
 (setq org-publish-project-alist
       (list

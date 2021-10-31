@@ -1,14 +1,39 @@
-#+title: My first blog
+#+title: From Python to Numpy
+#+subtitle: *Copyright (c) 2017 - Nicolas P. Rougier <Nicolas.Rougier@inria.fr*
+
 #+HTML_LINK_UP: index.html
 #+HTML_LINK_HOME: index.html
-#+OPTIONS: num:nil
+#+OPTIONS: num:t
+
+#+options: html5-fancy:t tex:t
+#+html_doctype: html5
 
 * Content
-This is *bold*, /italic/, ~code~ and =verbatime=, +crrosed+, _underline_.
+#+name: Note
+#+caption: test
+#+begin_note
+slangiest spousals ouster defrocks peeved Wasatch deranged fastidious spasmodically entrepreneurship hamburgers
+#+end_note
+
+This is *bold*, /italic/, ~code~ and =verbatime=, +crossed+, _underline_.
+Numpy is all about vectorization. If you are familiar with Python, this is the main difficulty you'll face because you'll need to change your way of thinking and your new friends (among others) are named "vectors", "arrays", "views" or "ufuncs".
+
+Let's take a very simple example, random walk. One possible object oriented approach would be to define a RandomWalker class and write a walk method that would return the current position after each (random) step. It's nice, it's readable, but it is slow:
+** subheading
+*** Hello
+For such a simple problem, we can probably save the class definition and concentrate only on the walk method that computes successive positions after each random step.
+
 * Code
-#+begin_admonition note
-this is a note testing
-#+end_admonition
+#+HTML_MATHJAX: align: left
+#+begin_export latex
+\begin{equation}                        % arbitrary environments,
+x=\sqrt{b}                              % even tables, figures
+\end{equation}                          % etc
+
+If $a^2=b$ and \( b=2 \), then the solution must be
+either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
+#+end_export
+
 #+begin_src python :results output :exports both :num t
   def Greeting(x):
       return ("Hello", x)
@@ -17,6 +42,12 @@ this is a note testing
 
 #+RESULTS:
 : ('Hello', 'Zakaria')
+
+* Images
+
+#+ATTR_HTML: :width 500 :style border:2px solid gray :align right
+[[file:img/one_punch_man.png]]
+
 
 * Tables
 |---------------+------+------+-------+-------|
@@ -34,10 +65,6 @@ this is a note testing
 | Worms 2       | 0.16 | 0.08 | 0.054 | 0.063 |
 | Zebrafish     | 0.16 | 0.08 | 0.035 | 0.060 |
 |---------------+------+------+-------+-------|
-* Images
-#+ATTR_HTML: :width 300cm
-
-[[file:img/one_punch_man.png]]
 * Footnotes
 
 [fn:1] this is just for testing purposes 
