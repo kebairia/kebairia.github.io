@@ -1,5 +1,5 @@
 #+title: From Python to Numpy
-#+subtitle: *Copyright (c) 2017 - Nicolas P. Rougier <Nicolas.Rougier@inria.fr*
+#+LANGUAGE: en
 
 #+HTML_LINK_UP: index.html
 #+HTML_LINK_HOME: index.html
@@ -8,46 +8,98 @@
 #+options: html5-fancy:t tex:t
 #+html_doctype: html5
 
-* Content
-#+name: Note
-#+caption: test
+* Back to Python
+You've *almost* ~reached~ the end of the book and, hopefully, you've learned that numpy is a very versatile and powerful library.
+However in the meantime, remember that Python is also quite a powerful language.
+In fact, in some specific cases, it might be more powerful than numpy[fn:2].
+Let's consider, for example, an interesting exercise that has been proposed by Tucker Balch in his Coursera's Computational Investing course. The exercise is written as:
+
 #+begin_note
-slangiest spousals ouster defrocks peeved Wasatch deranged fastidious spasmodically entrepreneurship hamburgers
+this is a note.
 #+end_note
 
-This is *bold*, /italic/, ~code~ and =verbatime=, +crossed+, _underline_.
-Numpy is all about vectorization. If you are familiar with Python, this is the main difficulty you'll face because you'll need to change your way of thinking and your new friends (among others) are named "vectors", "arrays", "views" or "ufuncs".
+Write the most succinct code possible to compute all "legal" allocations to 4 stocks such that the allocations are in 1.
+0 chunks, and the allocations sum to 10.0.
+Yaser Martinez collected the different answers from the community and the proposed solutions yield surprising results.
+But let's start with the most obvious Python solution:
 
-Let's take a very simple example, random walk. One possible object oriented approach would be to define a RandomWalker class and write a walk method that would return the current position after each (random) step. It's nice, it's readable, but it is slow:
-** subheading
-*** Hello
-For such a simple problem, we can probably save the class definition and concentrate only on the walk method that computes successive positions after each random step.
-
-* Code
-#+HTML_MATHJAX: align: left
-#+begin_export latex
-\begin{equation}                        % arbitrary environments,
-x=\sqrt{b}                              % even tables, figures
-\end{equation}                          % etc
-
-If $a^2=b$ and \( b=2 \), then the solution must be
-either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
-#+end_export
-
-#+begin_src python :results output :exports both :num t
-  def Greeting(x):
-      return ("Hello", x)
-  print(Greeting("Zakaria"))
+#+begin_src python
+def solution_1():
+    # Brute force
+    # 14641 (=11*11*11*11) iterations & tests
+    Z = []
+    for i in range(11):
+        for j in range(11):
+            for k in range(11):
+                for l in range(11):
+                    if i+j+k+l == 10:
+                        Z.append((i,j,k,l))
+    return Z
 #+end_src
+This solution is the slowest solution because it requires 4 loops, and more importantly, it tests all the different combinations (11641) of 4 integers between 0 and 10 to retain only combinations whose sum is 10. We can of course get rid of the 4 loops using itertools, but the code remains slow:
 
-#+RESULTS:
-: ('Hello', 'Zakaria')
+#+begin_src python
+import itertools as it
 
-* Images
+def solution_2():
+    # Itertools
+    # 14641 (=11*11*11*11) iterations & tests
+    return [(i,j,k,l)
+            for i,j,k,l in it.product(range(11),repeat=4) if i+j+k+l == 10]
+#+end_src
+One of the best solution that has been proposed by Nick Popplas takes advantage of the fact we can have intelligent imbricated loops that will allow us to directly build each tuple without any test as shown below:
 
-#+ATTR_HTML: :width 500 :style border:2px solid gray :align right
-[[file:img/one_punch_man.png]]
+#+begin_src python
+def solution_3():
+    return [(a, b, c, (10 - a - b - c))
+            for a in range(11)
+            for b in range(11 - a)
+            for c in range(11 - a - b)]
+#+end_src
+The best numpy solution by Yaser Martinez uses a different strategy with a restricted set of tests:
 
+#+begin_src python
+def solution_4():
+    X123 = np.indices((11,11,11)).reshape(3,11*11*11)
+    X4 = 10 - X123.sum(axis=0)
+    return np.vstack((X123, X4)).T[X4 > -1]
+#+end_src
+If we benchmark these methods, we get:
+
+#+begin_example
+>>> timeit("solution_1()", globals())
+100 loops, best of 3: 1.9 msec per loop
+>>> timeit("solution_2()", globals())
+100 loops, best of 3: 1.67 msec per loop
+>>> timeit("solution_3()", globals())
+1000 loops, best of 3: 60.4 usec per loop
+>>> timeit("solution_4()", globals())
+1000 loops, best of 3: 54.4 usec per loop
+#+end_example
+The numpy solution is the fastest but the pure Python solution is comparable. But let me introduce a small modification to the Python solution:
+
+#+begin_src python
+def solution_3_bis():
+    return ((a, b, c, (10 - a - b - c))
+            for a in range(11)
+            for b in range(11 - a)
+            for c in range(11 - a - b))
+#+end_src
+If we benchmark it, we get:
+
+#+begin_example
+>>> timeit("solution_3_bis()", globals())
+10000 loops, best of 3: 0.643 usec per loop
+#+end_example
+You read that right, we have gained a factor of 100 just by replacing square brackets with parenthesis. How is that possible? The explanation can be found by looking at the type of the returned object:
+
+#+begin_example
+>>> print(type(solution_3()))
+<class 'list'>
+>>> print(type(solution_3_bis()))
+<class 'generator'>
+#+end_example
+The solution_3_bis() returns a generator that can be used to generate the full list or to iterate over all the different elements. In any case, the huge speedup comes from the non-instantiation of the full list and it is thus important to wonder if you need an actual instance of your result or if a simple generator might do the job.
 
 * Tables
 |---------------+------+------+-------+-------|
@@ -66,5 +118,6 @@ either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
 | Zebrafish     | 0.16 | 0.08 | 0.035 | 0.060 |
 |---------------+------+------+-------+-------|
 * Footnotes
+[fn:2] this is footnote. 
 
 [fn:1] this is just for testing purposes 
