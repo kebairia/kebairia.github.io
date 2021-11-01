@@ -89,24 +89,22 @@ a:active {
 
 /* --- Headers ------------------------------------------------------------- */
 h1::before {
-    content: counter(h1) "";
-    counter-increment: h1;
+    /*content: counter(h1) "";*/
+    /*counter-increment: h1;*/
     margin-right:10px;
     color: white;
     background-color: black;
     padding-left: 10px; padding-right:10px;
 }
 h2::before {
-    content: counter(h1) "."counter(h2) " ";
-    counter-increment: h2;
+    /*content: counter(h1) "."counter(h2) " ";*/
+    /*counter-increment: h2;*/
     margin-right: 10px;
 }
 h3::before {
-/*
-    content: counter(h1) "."counter(h2) "."counter(h3) " ";
-    counter-increment: h3;
+    /*content: counter(h1) "."counter(h2) "."counter(h3) " ";*/
+    /*counter-increment: h3; */
     margin-right:10px;
-*/
 }
 
 
@@ -120,8 +118,8 @@ h1, h2, h3 {
     clear: both;
     font-weight: 400;
 }
-h1 { font-size: 1.5em; counter-reset: h2;   padding-top: 2.5em;}
-h2 { font-size: 1.25em;  counter-reset: h3; padding-top: 1.5em;}
+h1 { font-size: 1.5em; /*counter-reset: h2;*/   padding-top: 2.5em;}
+h2 { font-size: 1.25em;  /*counter-reset: h3;*/ padding-top: 1.5em;}
 h3, h4, h5, h6 { font-size: 1.00em; }
 h1, h1 a, h1 a:visited,
 h2, h2 a, h2 a:visited,
