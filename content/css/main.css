@@ -242,7 +242,7 @@ code {
     font-family: 'Source Code Pro';
 }
 pre.code,
-pre.output {
+pre.output,pre.src {
     font-size:      85%;
     font-family:    'Source Code Pro', monospace;
     line-height:    125%;
@@ -251,7 +251,7 @@ pre.output {
     padding-bottom: 0.5em;
     overflow-x: auto;
 }
-pre.code {
+pre.code,pre.src {
 
     background:     #fcfcfc;
     border-top:     .5px solid #ccc;
