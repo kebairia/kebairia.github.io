@@ -1,0 +1,7 @@
+* Components 
+This is built with the following components:
+
+- Org, and Org’s export backends for the file generation
+- My Emacs config, for configuring the export to make it prettier
+- Org publish for orchestrating the process
+* Licensing 
