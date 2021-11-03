@@ -1,3 +1,4 @@
+/*FONT CONFIG {{{1*/
 @font-face{
     font-family: 'Source Code Pro';
     font-weight: 100;
@@ -45,6 +46,7 @@
     font-stretch: normal;
     src: url('fonts/SourceSansPro-It.otf.woff') format('woff');
 }
+/*}}}*/
 /* main {{{1 */
 html {
 }
@@ -242,7 +244,8 @@ code {
     font-family: 'Source Code Pro';
 }
 pre.code,
-pre.output,pre.src {
+pre.output,
+pre.src {
     font-size:      85%;
     font-family:    'Source Code Pro', monospace;
     line-height:    125%;
@@ -311,10 +314,17 @@ tr:nth-child(even) td {
 .note {
     font-size: 85%;
     line-height: 125%;
+    background-color: #fcfcfc;
     float: left;
     width: 240px;
-    padding: 0;
+    padding-bottom: .25em;
     margin-left: -270px;
+}
+p.note-title {
+    background-color: #eeeeaa;
+    font-weight: 600;
+    padding: 0.1em 1em;
+    padding-bottom: .25em;
 }
 .note p {
     text-align: left;
