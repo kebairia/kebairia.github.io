@@ -19,6 +19,9 @@
 ;; without the need for adding `:straight t`.
 (setq straight-use-package-by-default t)
 
+(setf org-html-preamble t)
+(setf org-html-postamble nil)
+
 ;; htmlize package for syntax highlighting for the code blocks
 
 (use-package htmlize)
@@ -41,14 +44,19 @@
 	     :base-directory "./content"
 	     :publishing-function 'org-html-publish-to-html
 	     :publishing-directory "./public"
-	     :with-author nil
+	     :with-author t
 	     :with-creator t
 	     :with-toc t
-	     :section-numbers nil
-	     :time-stamp-file nil
+	     :section-numbers t
+	     :time-stamp-file t
 	     :auto-sitemap t                ; Generate sitemap.org automagically...
 	     :sitemap-filename "index.org"  ; ... call it sitemap.org (it's the default)...
-	     :sitemap-title "My blog"         ; ... with title 'Sitemap'.
+	     :sitemap-title "Index"         ; ... with title 'Sitemap'.
+	     ;; :sitemap-style list
+	     :author "Zakaria Kebairia"
+	     :auto-preamble t
+	     :auto-preamble t
+	     :email "4.kebairia@gmail.com"
 	     )
        (list "org-static"
 	     :recursive t
