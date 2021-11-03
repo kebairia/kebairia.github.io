@@ -17,10 +17,6 @@ In fact, in some specific cases, it might be more powerful than numpy[fn:2].
 #+begin_quote
 Let's consider, for example, an interesting exercise that has been proposed by Tucker Balch in his Coursera's Computational Investing course. The exercise is written as:
 #+end_quote
-#+name: fig:img1
-#+caption: This is an image
-#+attr_html: :width 600 :align center
-[[file:img/cubes.png]]
 
 #+begin_note
 this is a note.
