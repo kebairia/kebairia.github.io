@@ -1,8 +1,10 @@
-#+TITLE: My blog
+#+TITLE: 
 
 - [[file:projects.org][A list of my Projects]]
-- [[file:first_blog.org][From Python to Numpy]]
+- [[file:from_python_to_numpy.org][From Python to Numpy]]
+- [[file:tufte.org][Tufte CSS]]
 - [[file:about.org][about]]
 - [[file:presentations.org][presentations]]
 - posts
   - [[file:posts/first_blog.org][My first blog]]
+  - [[file:posts/tufte.org][Tufte CSS]]
