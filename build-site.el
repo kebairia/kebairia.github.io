@@ -64,7 +64,7 @@
 	     :with-toc nil
 	     :with-date t
 	     :with-tags t
-	     :section-numbers nil
+	     :section-numbers t
 	     :time-stamp-file t
 	     :auto-preamble nil
 	     :auto-postamble nil
