@@ -99,27 +99,342 @@ blockquote {
   padding: 10px;
 }
 
-/* Code */
-.highlight {
-  font-size: 0.9em;
-  margin: 5px auto;
-  padding: 5px 15px;
-  border: 2px dashed #ccc;
+/* Code {{{1*/
+code {
+    font-size: 95%;
+    font-weight: 300;
+    font-family: 'Source Code Pro';
+}
+pre.code,
+pre.output,
+pre.src {
+    font-size:      85%;
+    font-family:    'Source Code Pro', monospace;
+    line-height:    125%;
+    padding-left:   2.0em;
+    padding-top:    0.5em;
+    padding-bottom: 0.5em;
+    overflow-x: auto;
+}
+pre.code,pre.src {
+
+    background:     #fcfcfc;
+    border-top:     .5px solid #ccc;
+    border-bottom:  .5px solid #ccc;
+}
+pre.output {
+    background:     #fff;
+    border:         none;
+
 }
 
-sup, sub {
-  vertical-align: baseline;
-  position: relative;
-  top: -0.4em;
+.function, .class {
+    font-weight: 400;
+}
+.comment {
+    color: #459;
 }
 
-sub {
-  top: 0.4em;
+/*OLD {{{2*/
+/*.highlight {*/
+  /*font-size: 0.9em;*/
+  /*margin: 5px auto;*/
+  /*padding: 5px 15px;*/
+  /*border: 2px dashed #ccc;*/
+/*}*/
+
+/*sup, sub {*/
+  /*vertical-align: baseline;*/
+  /*position: relative;*/
+  /*top: -0.4em;*/
+/*}*/
+
+/*sub {*/
+  /*top: 0.4em;*/
+/*}*/
+
+/*p code {*/
+  /*background: hsla(25deg,75%,25%,0.1);*/
+  /*padding: 0.15em 0.33em 0.1em;*/
+  /*border: solid #FFF8;*/
+  /*border-width: 2px 0;*/
+/*}*/
+/*}}}*/
+
+pre.src, pre.example {
+  border-width: 0;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: var(--back-medium);
+  margin: 20px 0;
+  padding: 0;
+  padding-left: 15px;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 14px;
+  line-height: 1.9;
+  overflow-x: visible;
+  box-shadow: none;
+  white-space: pre-wrap;
+  position: relative; }
+
+pre.example {
+  border-left-style: dotted;
+  border-left-width: 2px; }
+
+pre.src::before {
+  display: inline-block;
+  position: absolute;
+  background-color: transparent;
+  top: unset;
+  /*bottom: -16px;*/
+  right: 20px;
+  padding: 0px;
+  border: none;
+  font-size: 80%;
+  font-style: italic;
+  color: var(--text-light); }
+
+pre.src:empty {
+  display: none; }
+
+code {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  color: var(--code-foreground);
+  font-size: 15px;
+  padding: 0 5px; }
+
+/*additional code blocks format {{{1*/
+/* Languages per Org manual */
+pre.src-asymptote::before {
+  content: 'Asymptote'; }
+
+pre.src-authinfo::before {
+  content: 'Authinfo'; }
+
+pre.src-awk::before {
+  content: 'Awk'; }
+
+pre.src-C::before {
+  content: 'C'; }
+
+/* pre.src-C++ doesn't work in CSS */
+pre.src-clojure::before {
+  content: 'Clojure'; }
+
+pre.src-css::before {
+  content: 'CSS'; }
+
+pre.src-emacs-lisp::before {
+  content: 'Emacs Lisp'; }
+
+pre.src-gnuplot::before {
+  content: 'gnuplot'; }
+
+pre.src-haskell::before {
+  content: 'Haskell'; }
+pre.src-java::before {
+  content: 'Java'; }
+
+pre.src-js::before {
+  content: 'Javascript'; }
+
+pre.src-latex::before {
+  content: 'LaTeX'; }
+pre.src-lisp::before {
+  content: 'Lisp'; }
+pre.src-lua::before {
+  content: 'Lua'; }
+
+pre.src-matlab::before {
+  content: 'MATLAB'; }
+
+pre.src-octave::before {
+  content: 'Octave'; }
+
+pre.src-org::before {
+  content: 'Org mode'; }
+
+pre.src-python::before {
+  content: 'Python'; }
+
+pre.src-R::before {
+  content: 'R'; }
+
+pre.src-ruby::before {
+  content: 'Ruby'; }
+
+pre.src-sass::before {
+  content: 'Sass'; }
+
+pre.src-screen::before {
+  content: 'Gnu Screen'; }
+
+pre.src-sed::before {
+  content: 'Sed'; }
+
+pre.src-sh::before {
+  content: 'shell'; }
+
+pre.src-sql::before {
+  content: 'SQL'; }
+
+pre.src-sqlite::before {
+  content: 'SQLite'; }
+
+/* additional languages in org.el's org-babel-load-languages alist */
+
+pre.src-makefile::before {
+  content: 'Makefile'; }
+
+pre.src-perl::before {
+  content: 'Perl'; }
+pre.src-scala::before {
+  content: 'Scala'; }
+
+pre.src-shell::before {
+  content: 'Shell Script'; }
+
+pre.src-systemd::before {
+  content: 'Systemd'; }
+
+/* additional language identifiers per \"defun org-babel-execute\"
+      in ob-*.el */
+pre.src-cpp::before {
+  content: 'C++'; }
+ content: 'Groovy'; }
+
+/* additional language identifiers from org-babel-shell-names in
+    ob-shell.el: ob-shell is the only babel language using a lambda to put
+    the execution function name together. */
+pre.src-bash::before {
+  content: 'bash'; }
+
+pre.src-csh::before {
+  content: 'csh'; }
+
+pre.src-ash::before {
+  content: 'ash'; }
+
+pre.src-dash::before {
+  content: 'dash'; }
+
+pre.src-ksh::before {
+  content: 'ksh'; }
+
+pre.src-mksh::before {
+  content: 'mksh'; }
+
+pre.src-posh::before {
+  content: 'posh'; }
+
+/* Additional Emacs modes also supported by the LaTeX listings package */
+
+pre.src-html::before {
+  content: 'HTML'; }
+
+pre.src-pascal::before {
+  content: 'Pascal'; }
+
+pre.src-tcl::before {
+  content: 'tcl'; }
+
+pre.src-tex::before {
+  content: 'LaTeX'; }
+
+pre.src-plain-tex::before {
+  content: 'TeX'; }
+
+pre.src-xml::before {
+  content: 'XML'; }
+
+pre.src-nxml::before {
+  content: 'XML'; }
+
+pre.src-conf::before {
+  content: 'Configuration File'; }
+  
+/*}}}*/
+
+
+/*}}}*/
+
+/*NOTES {{{1*/
+.note {
+    font-size: 85%;
+    line-height: 125%;
+    float: left;
+    width: 240px;
+    padding-bottom: .25em;
+    margin-left: -270px;
+}
+p.note-title {
+    background-color: #eeeeaa;
+    font-weight: 600;
+    padding: 0.1em 1em;
+    padding-bottom: .25em;
+}
+.note p {
+    text-align: left;
+    padding: 0;
+    margin:0;
+    padding-top: 0.5em;
+}
+.note p.first {
+    padding: 0;
+    padding-bottom: .5em;
+    font-weight: 400;
+    border-bottom: 1px solid #000;
 }
 
-p code {
-  background: hsla(25deg,75%,25%,0.1);
-  padding: 0.15em 0.33em 0.1em;
-  border: solid #FFF8;
-  border-width: 2px 0;
+
+.legend {
+    font-size: 85%;
+    line-height: 125%;
+    padding: 0;
+    float: right;
+    width: 240px;
+    margin-right: -270px;
 }
+.legend p {
+    text-align: left;
+    padding: 0;
+    margin:0;
+    padding-top: 0.5em;
+}
+.legend p.first {
+    padding: 0;
+    padding-bottom: .5em;
+    font-weight: 400;
+    border-bottom: 1px solid #000;
+}
+
+@media all and (max-width: 1400px) {
+    .note,
+    .legend {
+        box-sizing: border-box;
+        width: 80%;
+        margin: 10px auto;
+        float: none;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        border-radius: 5px;
+        padding: 10px;
+    }
+}
+
+@media all and (max-width: 870px) {
+    pre.code,
+    pre.output {
+        padding-left: 0.5em;
+    }
+
+    body {
+        font-size: 16px;
+    }
+}
+
+@media all and (max-width: 500px) {
+    body {
+        font-size: 14px;
+    }
+}
+/*}}}*/
