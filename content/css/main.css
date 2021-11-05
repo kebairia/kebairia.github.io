@@ -33,6 +33,55 @@ p, a :not(.uncoloured-link) {
   font-size: small;
 }
 
+/*SECTION NUMBERS  {{{1*/
+/*from  lepisma.xyz' blog :) */
+
+.section-number-1,
+.section-number-2,
+.section-number-3,
+.section-number-4,
+.section-number-5,
+.section-number-6 {
+  font-family: "Source Serif Pro";
+  font-weight: bold;
+  font-style: normal;
+  font-size: 12px;
+  /*line-height: 1.9;*/
+  color: #7b7b7b;
+  text-transform: uppercase;
+  color: #c8c8c8;
+  /*line-height: 1;*/
+}
+
+@media (min-width: 1000px) {
+  .section-number-1,
+.section-number-2,
+.section-number-3,
+.section-number-4,
+.section-number-5,
+.section-number-6 {
+    position: absolute;
+    transform: translateX(-100%) translateX(-10px);
+  }
+}
+
+.section-number-1 {
+  font-size: 30px;
+}
+
+.section-number-2 {
+  font-size: 24px;
+}
+
+.section-number-3,
+.section-number-4,
+.section-number-5,
+.section-number-6 {
+  font-size: 20px;
+}
+
+/*}}}*/
+
 h1, h2, h3 {
   line-height: 1.46;
   margin-top: 1.5rem;
