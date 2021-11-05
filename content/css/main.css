@@ -1,391 +1,125 @@
-/*FONT CONFIG {{{1*/
-@font-face{
-    font-family: 'Source Code Pro';
-    font-weight: 100;
-    font-style: normal;
-    font-stretch: normal;
-    src: url('fonts/SourceCodePro-Light.otf.woff') format('woff');
-}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap');
 
-@font-face{
-    font-family: 'Source Code Pro';
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: normal;
-    src: url('fonts/SourceCodePro-Regular.otf.woff') format('woff');
-}
+* {box-sizing: border-box}
 
-@font-face{
-    font-family: 'Source Sans Pro';
-    font-weight: 100;
-    font-style: normal;
-    font-stretch: normal;
-    src: url('fonts/SourceSansPro-Light.otf.woff') format('woff');
-}
+@media all and (min-width:1000px) { html { font-size: 18px; } }
+@media all and (max-width:520px) { html{ font-size: 14px; } }
 
-@font-face{
-    font-family: 'Source Sans Pro';
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: normal;
-    src: url('fonts/SourceSansPro-Regular.otf.woff') format('woff');
-}
-
-@font-face{
-    font-family: 'Source Sans Pro';
-    font-weight: 100;
-    font-style: italic;
-    font-stretch: normal;
-    src: url('fonts/SourceSansPro-LightIt.otf.woff') format('woff');
-}
-
-@font-face{
-    font-family: 'Source Sans Pro';
-    font-weight: 400;
-    font-style: italic;
-    font-stretch: normal;
-    src: url('fonts/SourceSansPro-It.otf.woff') format('woff');
-}
-/*}}}*/
-/* main {{{1 */
-html {
+html, body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
 }
 
 body {
-    color: #222;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 18px;
-    font-weight: 370;
-    line-height: 1.5em;
-    padding: 1em;
-    margin: auto;
-    max-width: 42em;
-    background: #fff;
-    counter-reset: h1 h2 h3;
+  font-family: 'Source Serif Pro', serif;
+  max-width: 800px;
+  margin: 40px auto;
+  font-size: 0.93rem;
+  padding: 0 10px;
+  color: rgb(38, 27, 13);
 }
 
-strong {
-    font-weight: 400;
+article {
+  line-height: 1.45;
 }
 
-p {
-    margin: 1em 0;
-    text-align: justify;
+p, a :not(.uncoloured-link) {
+  color: inherit;
+  hyphens: auto;
 }
 
-/* --- Links --------------------------------------------------------------- */
-a {
-    color: #06e;
-    text-decoration:none;
-}
-a:visited {
-    color: #06e;
-}
-a:hover {
-    color: #06e;
-    border-bottom: .5px solid #06e;
-}
-a:active {
-    color:#000000;
-}
-
-/* --- Headers ------------------------------------------------------------- */
-h1::before {
-    /*content: counter(h1) "";*/
-    /*counter-increment: h1;*/
-    margin-right:10px;
-    color: white;
-    background-color: black;
-    padding-left: 10px; padding-right:10px;
-}
-h2::before {
-    /*content: counter(h1) "."counter(h2) " ";*/
-    /*counter-increment: h2;*/
-    margin-right: 10px;
-}
-h3::before {
-    /*content: counter(h1) "."counter(h2) "."counter(h3) " ";*/
-    /*counter-increment: h3; */
-    margin-right:10px;
-}
-
-
-::selection {
-    color: #000;
-    background-color: #f0f0ff;
+.date {
+  font-size: small;
 }
 
 h1, h2, h3 {
-    padding: 15px 0 3px;
-    clear: both;
-    font-weight: 400;
-}
-h1 { font-size: 1.5em; /*counter-reset: h2;*/   padding-top: 2.5em;}
-h2 { font-size: 1.25em;  /*counter-reset: h3;*/ padding-top: 1.5em;}
-h3, h4, h5, h6 { font-size: 1.00em; }
-h1, h1 a, h1 a:visited,
-h2, h2 a, h2 a:visited,
-h3, h3 a, h3 a:visited {
-    color: black;
-    text-decoration: none;
-}
-h1, h1 a, h1 a:visited {
-    color: black;
-    margin-top: 3em;
-    padding-left:  5%;
-    margin-left:  -5%;
-    text-decoration: none;
-}
-h1 {
-    border-bottom: 2px solid black;
+  line-height: 1.46;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  hyphens: none;
 }
 
-h1 a:hover {
-     color: #06e;
-       color: white;
-       background-color: black;
-}
-h2 a:hover, h3 a:hover {
-    color: black;
-    border-bottom: 1px solid black;
+p {
+  margin-bottom: 1em;
+  hyphens: auto; 
 }
 
-/* --- Images -------------------------------------------------------------- */
-.bordered {
-    border: 1px solid black;
+.inline {
+  display: inline;
 }
 
-/* --- Table of contents --------------------------------------------------- */
-.main-content {
-    padding-top: 1em;
-}
-    
-.main-content .topic-title {
-    border-bottom: 1px solid black;
-    padding-left:  5%;
-    margin-left:  -5%;
+.no-underline {
+  text-decoration: none;
 }
 
-.main-content ul.simple {
-    padding-left: 0;
-    column-count: 3;
-    -moz-column-count: 3;
-    -webkit-column-count: 3;
+.right {
+  text-align: right;
+  float: right;
 }
 
-.main-content ul ul {
-    padding-left: 1em;
+img {
+  max-width: 100%;
 }
 
-.main-content ul.simple li {
-    color: #06e;
-    font-weight: 400;
-    list-style-type: decimal;
-    list-style-position: inside;
-/*  list-style-type: none;*/
+figcaption {
+  font-style: italic;
 }
 
-.main-content ul.simple li li {
-    font-weight: 200;
-    list-style-type: none;
-}
-.main-content ul.simple li li:before {
-    content: "•"; /* Insert content that looks like bullets */
-    padding-right: 0.5em;
+pre {
+  width: 100%;
+  overflow: auto;
 }
 
 
-
-
-/* --- Title/Subtitle ------------------------------------------------------ */
-h1.title::before { content: none; }
-h1.title {
-    font-size: 2.5em;
-    font-weight: 500;
-    text-align: center;
-    margin: 0;
-    margin-top:    64px;
-    margin-bottom: 12px;
-    padding: 0;
-    border: none;
-}
-h2.subtitle::before { content: none; }
-h2.subtitle {
-    font-size: 1.0em;
-    font-weight: 500;
-    text-align: center;
-    padding: 0;
-}
-.title-logos {
-    /* opacity: 0.15; */
-    text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 64px;
-}
-.title-logos p {
-    text-align: center;
+.footer-nav ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
-    
-/* --- Math ---------------------------------------------------------------- */
-span.formula,
-div.formula {
-    color: #955;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: 300;
+.footer-nav ul li {
+  list-style-type: none;
+  margin: auto 10px;
 }
 
-/* --- Code ---------------------------------------------------------------- */
-code {
-    font-size: 95%;
-    font-weight: 300;
-    font-family: 'Source Code Pro';
-}
-pre.code,
-pre.output,
-pre.src {
-    font-size:      85%;
-    font-family:    'Source Code Pro', monospace;
-    line-height:    125%;
-    padding-left:   2.0em;
-    padding-top:    0.5em;
-    padding-bottom: 0.5em;
-    overflow-x: auto;
-}
-pre.code,pre.src {
-
-    background:     #fcfcfc;
-    border-top:     .5px solid #ccc;
-    border-bottom:  .5px solid #ccc;
-}
-pre.output {
-    background:     #fff;
-    border:         none;
-
+footer {
+  margin: 2em 0;
+  padding: 2em 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.125), rgba(0,0,0,0.25)) no-repeat 50% 1em / 100% 1px;
 }
 
-.function, .class {
-    font-weight: 400;
-}
-.comment {
-    color: #459;
+/* Summaries */
+.summary {
+  margin: 5px auto;
 }
 
-/* --- Bibliography -------------------------------------------------------- */
-.abstract {
-    border-left: 1px solid #ddd;
-    padding-left: 1em;
-    font-size:    85%;
-    line-height: 125%;
-}
-.line-block {
-    line-height: 125%;
+blockquote {
+  border: 2px dashed #ccc;
+  padding: 10px;
 }
 
-/* --- Tables -------------------------------------------------------------- */
-table {
-    margin-left: auto;
-    margin-right: auto;
-    min-width: 33%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: none;
-    border-bottom: .5px solid #999999;
-}
-td, th {
-    border: none;
-}
-th {
-    text-align: left; 
-    font-weight: 400; /* Make sure they're bold */
-    border-bottom: 1px solid black;
-}
-td {
-    text-align: left; 
-    border: none;
-}
-tr:nth-child(even) td {
-    background: #f0f0f0;
+/* Code */
+.highlight {
+  font-size: 0.9em;
+  margin: 5px auto;
+  padding: 5px 15px;
+  border: 2px dashed #ccc;
 }
 
-/* --- Admonitions --------------------------------------------------------- */
-.note {
-    font-size: 85%;
-    line-height: 125%;
-    background-color: #fcfcfc;
-    float: left;
-    width: 240px;
-    padding-bottom: .25em;
-    margin-left: -270px;
-}
-p.note-title {
-    background-color: #eeeeaa;
-    font-weight: 600;
-    padding: 0.1em 1em;
-    padding-bottom: .25em;
-}
-.note p {
-    text-align: left;
-    padding: 0;
-    margin:0;
-    padding-top: 0.5em;
-}
-.note p.first {
-    padding: 0;
-    padding-bottom: .5em;
-    font-weight: 400;
-    border-bottom: 1px solid #000;
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
 }
 
-.legend {
-    font-size: 85%;
-    line-height: 125%;
-    padding: 0;
-    float: right;
-    width: 240px;
-    margin-right: -270px;
-}
-.legend p {
-    text-align: left;
-    padding: 0;
-    margin:0;
-    padding-top: 0.5em;
-}
-.legend p.first {
-    padding: 0;
-    padding-bottom: .5em;
-    font-weight: 400;
-    border-bottom: 1px solid #000;
+sub {
+  top: 0.4em;
 }
 
-@media all and (max-width: 1400px) {
-    .note,
-    .legend {
-        box-sizing: border-box;
-        width: 80%;
-        margin: 10px auto;
-        float: none;
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        border-radius: 5px;
-        padding: 10px;
-    }
-}
-
-@media all and (max-width: 870px) {
-    pre.code,
-    pre.output {
-        padding-left: 0.5em;
-    }
-
-    body {
-        font-size: 16px;
-    }
-}
-
-@media all and (max-width: 500px) {
-    body {
-        font-size: 14px;
-    }
+p code {
+  background: hsla(25deg,75%,25%,0.1);
+  padding: 0.15em 0.33em 0.1em;
+  border: solid #FFF8;
+  border-width: 2px 0;
 }
