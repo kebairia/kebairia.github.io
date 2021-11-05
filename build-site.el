@@ -19,15 +19,24 @@
 ;; without the need for adding `:straight t`.
 (setq straight-use-package-by-default t)
 
-(setf org-html-preamble t)
-(setf org-html-postamble nil)
+;; (setf org-html-preamble t)
+;; (setf org-html-postamble t)
 
 ;; htmlize package for syntax highlighting for the code blocks
 
-;; (use-package htmlize)
+(use-package htmlize)
 ;;-------
 ;; SITE
 ;;-------
+(defun file-contents (file)
+  (with-temp-buffer
+    (insert-file-contents file)
+    (buffer-string)))
+
+;; footer and header
+;; (setq html-preamble (file-contents "assets/header.html")
+;;       html-postamble (file-contents "assets/footer.html"))
+
 (require 'ox-publish)
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
@@ -89,8 +98,8 @@
  %d - %a</p> ")
 ;; (setq org-html-postamble "<hr> <p class=\"postamble\">Last Updated %C. Created by  %a %d</p>")
 (setq org-html-postamble "
-<hr>
-<p> 
+<p class=\"postamble\"> 
+<br>
 <a href=\"https://www.kebairia.github.io/index.html\">Index</a>
 &nbsp
 <a href=\"mailto:4.kebairia@gmail.com\">email</a>

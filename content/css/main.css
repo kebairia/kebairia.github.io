@@ -36,11 +36,10 @@ body {
     margin: -20px 0px;
 }
 
-
 .postamble {
+    border-top: 1px solid #ccc;
     margin-bottom: 20px;
-    position: bottom;
-    color: #7b7b7b;
+    margin-top: 20px;
 }
 .postamble h3 {
     margin: -20px 0px;
