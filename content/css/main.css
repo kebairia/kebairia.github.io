@@ -98,8 +98,12 @@ p {
   display: inline;
 }
 
-.no-underline {
-  text-decoration: none;
+/*.no-underline {*/
+  /*text-decoration: none;*/
+/*}*/
+
+.underline {
+    text-decoration: underline;
 }
 
 .right {
