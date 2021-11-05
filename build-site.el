@@ -24,7 +24,7 @@
 
 ;; htmlize package for syntax highlighting for the code blocks
 
-(use-package htmlize)
+;; (use-package htmlize)
 ;;-------
 ;; SITE
 ;;-------
@@ -39,15 +39,17 @@
 ;; href=\"https://cdn.simplecss.org/simple.min.css\" />")
 (setq org-publish-project-alist
       (list
-       (list "org-site:main"
+       (list "blog:main"
 	     :recursive t
 	     :base-directory "./content"
 	     :publishing-function 'org-html-publish-to-html
 	     :publishing-directory "./public"
 	     :with-author t
 	     :with-creator t
-	     :with-toc t
-	     :section-numbers t
+	     :with-toc nil
+	     :with-date t
+	     :with-tags t
+	     :section-numbers nil
 	     :time-stamp-file t
 	     :auto-sitemap t                ; Generate sitemap.org automagically...
 	     :sitemap-filename "index.org"  ; ... call it sitemap.org (it's the default)...
@@ -55,16 +57,16 @@
 	     ;; :sitemap-style list
 	     :author "Zakaria Kebairia"
 	     :auto-preamble t
-	     :auto-preamble t
 	     :email "4.kebairia@gmail.com"
 	     )
-       (list "org-static"
+       (list "blog-static"
 	     :recursive t
 	     :base-directory "./content/"
 	     :publishing-function 'org-publish-attachment
 	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf"
 	     :publishing-directory "./public/"
 	     )
+
        ;; (list "org"
        ;; 	     :components ("org-site:main" "org-static"))
        ))

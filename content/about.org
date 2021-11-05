@@ -4,23 +4,3 @@
 
 * About
 Hello Humans, my name is Zakaria Kebairia
-
-Please forgive any shortcomings and mistakes on this website. Also, English is not my native language.
-
-I started programming in BASIC on the Sharp MZ-800 when I was about 9 or 10 and I have been passionately interested in computers and programming since then. :)
-
-*Simplicity*: The system should always be as simple and small as possible. When software projects grow, so do errors and bugs. Techniques such as line-by-line inspection of software, relevant unit testing, and physical examination of hardware that implements protection mechanisms are great. For such techniques to be successful a small and simple design is essential. This is sometimes described as the KISS principle and YAGNI.
-
-*Least privilege*: Each user and program should operate using the fewest privileges possible.
-
-*Open design*: In order for a system to be secure it must never depend on attacker ignorance. Instead the design should be based upon technology that depend upon public scrutiny - whenever possible.
-
-*Complete mediation*: Every access attempt must be checked and validated.
-
-*Easy to use*: The human interface must be as easy and intuitive to use as possible. Easy and simple is always better than smart and fancy. Simple user testing is a great way to get valuable feedback.
-
-*Usability*: Well known usability standards should be met if required.
-
-*Discrimination*: User discrimination is never good. User discrimination is when an application only works for a very limited amount of systems, like when a website only works with JavaScript enabled even though it doesn't provide any functionality that really requires JavaScript.
-
-*Documentation*: Lacking or inadequate documentation is a bug. Everything needs to be adequately documented from the very beginning, it is an integrate part of software development. I strongly abhor poor or lacking documentation.
