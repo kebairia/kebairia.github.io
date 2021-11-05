@@ -44,20 +44,18 @@
       org-html-head "<link rel=\"stylesheet\"href=\"css/main.css\" type=\"text/css\" />"
       )
 
-      ;; org-html-head "<link rel=\"stylesheet\"href=\"https://cdn.simplecss.org/simple.min.css\" />"
-;; href=\"https://cdn.simplecss.org/simple.min.css\" />")
 (setq org-publish-project-alist
       (list
 
        (list "blog-index"
 	     :recursive t
-	     :base-directory "./content"
+	     :base-directory "./content/"
 	     :publishing-function 'org-html-publish-to-html
 	     :publishing-directory "./public"
-	     :auto-sitemap t                ; Generate sitemap.org automagically...
-	     :sitemap-filename "index.org"  ; ... call it sitemap.org (it's the default)...
-	     :sitemap-title "Posts"         ; ... with title 'Sitemap'.
-	     ;; :sitemap-style list
+	     :auto-sitemap  t 
+	     :sitemap-filename "index.org"  
+	     :sitemap-file-entry-format "%t -- %d"
+	     :sitemap-title "Posts"         
 	     :auto-preamble nil
 	     :auto-postamble nil
 	     )
@@ -67,7 +65,7 @@
 	     :recursive t
 	     :base-directory "./content"
 	     :publishing-function 'org-html-publish-to-html
-	     :publishing-directory "./public"
+	     :publishing-directory "./public/"
 	     :with-author t
 	     :with-creator t
 	     :with-toc nil
@@ -96,10 +94,10 @@
 
 (setq org-html-preamble "<p class=\"preamble\">
  %d - %a</p> ")
+
 ;; (setq org-html-postamble "<hr> <p class=\"postamble\">Last Updated %C. Created by  %a %d</p>")
 (setq org-html-postamble "
 <p class=\"postamble\"> 
-<br>
 <a href=\"https://www.kebairia.github.io/index.html\">Index</a>
 &nbsp
 <a href=\"mailto:4.kebairia@gmail.com\">email</a>
@@ -111,7 +109,7 @@
 <br>
 &\copy Zakaria Kebairia
 </p>"
-)
+      )
 
 
 (org-publish-all t)
