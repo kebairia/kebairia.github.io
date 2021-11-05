@@ -39,7 +39,22 @@
 ;; href=\"https://cdn.simplecss.org/simple.min.css\" />")
 (setq org-publish-project-alist
       (list
+
+       (list "blog-index"
+	     :recursive t
+	     :base-directory "./content"
+	     :publishing-function 'org-html-publish-to-html
+	     :publishing-directory "./public"
+	     :auto-sitemap t                ; Generate sitemap.org automagically...
+	     :sitemap-filename "index.org"  ; ... call it sitemap.org (it's the default)...
+	     :sitemap-title "Posts"         ; ... with title 'Sitemap'.
+	     ;; :sitemap-style list
+	     :auto-preamble nil
+	     :auto-postamble nil
+	     )
        (list "blog:main"
+	     :author "Zakaria Kebairia"
+	     :email "4.kebairia@gmail.com"
 	     :recursive t
 	     :base-directory "./content"
 	     :publishing-function 'org-html-publish-to-html
@@ -51,13 +66,8 @@
 	     :with-tags t
 	     :section-numbers nil
 	     :time-stamp-file t
-	     :auto-sitemap t                ; Generate sitemap.org automagically...
-	     :sitemap-filename "index.org"  ; ... call it sitemap.org (it's the default)...
-	     :sitemap-title "Index"         ; ... with title 'Sitemap'.
-	     ;; :sitemap-style list
-	     :author "Zakaria Kebairia"
-	     :auto-preamble t
-	     :email "4.kebairia@gmail.com"
+	     :auto-preamble nil
+	     :auto-postamble nil
 	     )
        (list "blog-static"
 	     :recursive t
