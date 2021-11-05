@@ -20,7 +20,32 @@ body {
   padding: 0 10px;
   color: rgb(38, 27, 13);
 }
+/*title{{{1*/
 
+.title{
+}
+/*}}}*/
+/*preamble and postamble {{{1*/
+.preamble {
+    color: #7b7b7b;
+    font-family: "Source Serif Pro";
+    font-style: normal;
+    font-size: 15px;
+}
+.preamble h3 {
+    margin: -20px 0px;
+}
+
+
+.postamble {
+    margin-bottom: 20px;
+    position: bottom;
+    color: #7b7b7b;
+}
+.postamble h3 {
+    margin: -20px 0px;
+}
+/*}}}*/
 article {
   line-height: 1.45;
 }
