@@ -1,0 +1,42 @@
+#+TITLE: entr
+#+subtitle: Run arbitrary commands when files change
+#+AUTHOR: Zakaria.k
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 06 Nov 2021 Wed
+#+KEYWORDS: emacs,test
+
+Long ago, i came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.
+
+What does is really simple, but yer powerfull, it let you run any of commands when a specific files changes
+
+let's take example to grasp the idea:
+#+begin_src sh :results output :exports both
+  ls | entr make install 
+#+end_src
+
+* My use case
+lately, i started get frustrated from a workflow that i was following.
+
+it  began with latex and it the rebuilding that i used to do every time i change my =.tex= files.
+But i managed to solve this problem with the =latexmk= command since it has its way of monitoring the =.tex= files, 
+and rebuilding the output =pdf= file.\\
+#+begin_note
+You can check my [[https://github.com/kebairia/org-master][org-master]] repo which contain my latex/org build.
+#+end_note
+But when i started this blog, the problem came to appear again.
+** The old workflow
+the old workflow that i used to follow is to create chunks of section of the blog, then rebuilding the whole 
+blog using a simple script '=build.sh=', and i was doing that manually 😑.
+** My new workflow
+#+begin_src makefile
+.PHONY: clean
+
+publish:
+	./build.sh
+clean:
+	rm -rf public
+watch:
+	find -iname "*.org" | entr ./build.sh
+#+end_src
+and than i use =make watch=. And that's it 😀.
+
