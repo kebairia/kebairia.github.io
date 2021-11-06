@@ -36,7 +36,6 @@
 ;; footer and header
 ;; (setq html-preamble (file-contents "assets/header.html")
 ;;       html-postamble (file-contents "assets/footer.html"))
-
 (require 'ox-publish)
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
@@ -54,7 +53,6 @@
 	     :publishing-directory "./public"
 	     :auto-sitemap  t 
 	     :sitemap-filename "index.org"  
-	     :sitemap-file-entry-format "%t -- %d"
 	     :sitemap-title "Posts"         
 	     :auto-preamble nil
 	     :auto-postamble nil
@@ -104,24 +102,24 @@
 ;; (setq org-export-html-postamble-format 
 ;;       '(("en" "<p class=\"postamble\">Last Updated %d. Created by %c</p>")))
 
-(setq org-html-preamble "<p class=\"preamble\">
- %d - %a</p> ")
+;; (setq org-html-preamble "<p class=\"preamble\">
+;;  %d - %a</p> ")
 
-;; (setq org-html-postamble "<hr> <p class=\"postamble\">Last Updated %C. Created by  %a %d</p>")
-(setq org-html-postamble "
-<p class=\"postamble\"> 
-<a href=\"https://www.kebairia.github.io/index.html\">Index</a>
-&nbsp
-<a href=\"mailto:4.kebairia@gmail.com\">email</a>
-&nbsp
-<a href=\"https://www.github.com/kebairia\">GitHub</a>
-&nbsp
-<a href=\"https://www.linkedin.com/in/zakaria-kebairia/\">LinkedIn</a>
-&nbsp
-<br>
-&\copy Zakaria Kebairia
-</p>"
-      )
+;; ;; (setq org-html-postamble "<hr> <p class=\"postamble\">Last Updated %C. Created by  %a %d</p>")
+;; (setq org-html-postamble "
+;; <p class=\"postamble\"> 
+;; <a href=\"https://www.kebairia.github.io/index.html\">Index</a>
+;; &nbsp
+;; <a href=\"mailto:4.kebairia@gmail.com\">email</a>
+;; &nbsp
+;; <a href=\"https://www.github.com/kebairia\">GitHub</a>
+;; &nbsp
+;; <a href=\"https://www.linkedin.com/in/zakaria-kebairia/\">LinkedIn</a>
+;; &nbsp
+;; <br>
+;; &\copy Zakaria Kebairia
+;; </p>"
+;;       )
 
 
 (org-publish-all t)
