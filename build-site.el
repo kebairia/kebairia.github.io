@@ -72,13 +72,18 @@
 	     :with-latex t
 	     :html-head-extra 
 	     "<header>
-		      <h4><a href=\"https://orgmode.org\" class=\"orgicorn\"><img src=\"img/org-icon-monochrome.svg\" width=\"25\" class=\"invertible\"></a>
-		       <a href=\"https://www.kebairia.github.io/\" class=\"title\">
-		       Home</a>
-		       <a href=\"rss.xml\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
-		       <img src=\"img/rss.svg\" alt=\"RSS icon\" />
-		       </a></h4>
-		       </header>"
+		      <h4>
+		      <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
+		      <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
+		      </a>
+		      <a href=\"rss.xml\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
+		      <img src=\"img/rss.svg\" alt=\"RSS icon\" />
+		      </a>
+                      <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
+                      <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" />
+                      </a>
+                      </h4>
+		      </header>"
 
 	     
 	     :section-numbers t
