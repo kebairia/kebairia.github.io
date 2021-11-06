@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap');
+@import  url('./note.css')
 
 * {box-sizing: border-box}
 
 @media all and (min-width:1000px) { html { font-size: 18px; } }
 @media all and (max-width:520px) { html{ font-size: 14px; } }
 
+/*All, body {{{1*/
 html, body {
   margin: 0;
   padding: 0;
@@ -382,7 +384,7 @@ code {
     color: #222;
   }
 
-/*additional code blocks format {{{1*/
+/*additional code blocks format {{{2*/
 /* Languages per Org manual */
 pre.src-asymptote::before {
   content: 'Asymptote'; }
@@ -538,7 +540,9 @@ pre.src-conf::before {
 /*}}}*/
 
 /*NOTES {{{1*/
+
 .note {
+    /*border-top:  .5px solid #aaa;*/
     font-size: 85%;
     line-height: 125%;
     float: left;
