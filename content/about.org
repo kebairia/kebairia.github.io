@@ -1,6 +1,0 @@
-#+HTML_LINK_UP: ..
-#+HTML_LINK_HOME: index.html
-#+options: html-link-use-abs-url:nil html-postamble:nil toc:nil
-
-* About
-Hello Humans, my name is Zakaria Kebairia
