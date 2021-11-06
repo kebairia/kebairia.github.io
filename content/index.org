@@ -1,8 +1,5 @@
-#+TITLE: Index
+#+TITLE: Posts
 
-- [[file:projects.org][A list of my Projects]]
 - [[file:from_python_to_numpy.org][From Python to Numpy]]
-- [[file:tufte.org][Tufte CSS]]
-- [[file:2021-04-26-Welcome.org][Welcome]]
-- [[file:about.org][about]]
-- [[file:presentations.org][presentations]]
+- [[file:Understanding DNS.org][Understanding DNS]]
+- [[file:Welcome.org][Welcome]]
