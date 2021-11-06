@@ -29,19 +29,20 @@ body {
 header {
     position: relative;
     margin: 0 auto -2rem;
-    padding-bottom: 30px;
+    padding-bottom: 60px;
 }
-header > h4 > a.orgicorn img {
-    height: 1.5em;
+header > h4 > a.home img {
+    height: 2em;
     top: 0.25em;
     opacity: 0.85;
     position: relative;
 }
+
 @media (min-width: 1000px) {
     #content {
         margin: auto;
     }
-    header > h4 > a.orgicorn img {
+    header > h4 > a.home img {
         position: absolute;
         top: -0.3em;
         transform: translateX(-100%) translateX(-0.8rem);
@@ -52,14 +53,6 @@ header > h4 > a {
     color: inherit;
 }
 
-
-
-
-
-header > h4 > a {
-    text-decoration: none;
-    color: inherit;
-}
 header > h4 > a.rss {
     float: right;
 }
@@ -73,6 +66,32 @@ header > h4 > a.rss img:hover {
     filter: invert(38%) sepia(98%) saturate(1640%) hue-rotate(11deg) contrast(98%);
 }
 
+header > h4 > a.resume {
+    float: right;
+}
+header > h4 > a.resume img {
+    position: relative;
+    top: -0.2em;
+    filter: invert(0.6);
+    padding-right: 15px;
+    padding-top: 1px;
+}
+header > h4 > a.resume img:hover {
+    opacity: 1;
+    filter: invert(18%) sepia(120%) saturate(1085%) hue-rotate(220deg) contrast(58%);
+}
+
+/*}}}*/
+
+/*TITLE {{{1*/
+.title:after{
+    font-size: 10px;
+    content: "";
+    display: block;
+    position: absolute;
+
+
+}
 /*}}}*/
 
 /*preamble and postamble {{{1*/
