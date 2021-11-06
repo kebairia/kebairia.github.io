@@ -1,7 +1,7 @@
 #+title: Hello World
 #+author: Zakaria.k
 #+email: 4.kebairia@gmail.com
-#+date: 04 Nov 2021 Wed
+#+date: 06 Nov 2021 Wed
 #+keywords: emacs,test
 
 #+begin_quote
@@ -12,5 +12,5 @@
 #+end_quote
 Hello world! 
 
-well this is my blog, and as Carl Sagan said in the quote above, "/When you're in love, you want to tell the world.../" 
-and here I'm doing the same 😀
+Well this is my blog, and as Carl Sagan said in the quote above, "/When you're in love, you want to tell the world.../" 
+and here I'm doing the same 😀.
