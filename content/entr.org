@@ -1,42 +1,71 @@
 #+TITLE: entr
-#+subtitle: Run arbitrary commands when files change
+#+subtitle: Run arbitrary commands when files change 
 #+AUTHOR: Zakaria.k
 #+EMAIL: 4.kebairia@gmail.com
 #+DATE: 06 Nov 2021 Wed
 #+KEYWORDS: emacs,test
 
 Long ago, i came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.
+What it does is really simple, but yet powerfull, it let you run any arbitrary set of commands when a specific files changes.\\
 
-What does is really simple, but yer powerfull, it let you run any of commands when a specific files changes
-
-let's take example to grasp the idea:
+The [[http://eradman.com/entrproject/][entr's website]] has a great explanation for it with a bunch of great example to start with.\\
+But long story short, you pass a set of files (using regex for example) to the command through =stdin=, and then make it run
+a script or a command whenever one of these file changes.\\
+For example, here I make it monitor any =markdown= files in my current directory, and execute a script that commit and pushes the changes
+i made automatically.
 #+begin_src sh :results output :exports both
-  ls | entr make install 
+  find -iname "*.md" | entr commit-and-push.sh
+#+end_src
+* My use case
+I can think of numerous use cases and scenarios in which this utility may be quite useful, but for the time being,
+I'm integrating it into my blog writing workflow.
+
+#+begin_note
+[[https://orgmode.org/][org mode]] is a markdown language and a major mode for Emacs
+#+end_note
+
+Before i publish any blog online, I use a small local web server to see the output result locally .
+Of course I use Emacs and [[https://orgmode.org/][org mode]] to create my own blog posts, and I use another Emacs package called 
+[[https://github.com/skeeto/emacs-web-server][simple-httpd]] to create a simple web server --- as the name implies! --- .
+
+The issue I was having was that I had to rebuild the =html= files from the =org= files every time I wanted to see the output.
+I wrote a simple shell script to accomplish this, but still, you need to run it manually.
+
+You can see how now *entr* can fits into this workflow.
+Why don't I use *entr* to monitor my =org= files and make it run the =build.sh= script whenever I make a change 😀?
+
+#+begin_src sh :results output
+  find . -iname "*.org" | entr ./build.sh
 #+end_src
 
-* My use case
-lately, i started get frustrated from a workflow that i was following.
+And that's it, it's that simple.\\
+All I have to do now is to write my posts, save them, and then reload the web page to see the results.\\
+Wonderful.
 
-it  began with latex and it the rebuilding that i used to do every time i change my =.tex= files.
-But i managed to solve this problem with the =latexmk= command since it has its way of monitoring the =.tex= files, 
-and rebuilding the output =pdf= file.\\
-#+begin_note
-You can check my [[https://github.com/kebairia/org-master][org-master]] repo which contain my latex/org build.
-#+end_note
-But when i started this blog, the problem came to appear again.
-** The old workflow
+** The old workflow                                              :noexport:
 the old workflow that i used to follow is to create chunks of section of the blog, then rebuilding the whole 
-blog using a simple script '=build.sh=', and i was doing that manually 😑.
-** My new workflow
+blog using a simple script =build.sh=, and i was doing that manually 😑.
+** My new workflow                                               :noexport:
 #+begin_src makefile
-.PHONY: clean
-
-publish:
-	./build.sh
-clean:
-	rm -rf public
-watch:
-	find -iname "*.org" | entr ./build.sh
+  .PHONY: clean
+  
+  publish:
+  ./build.sh
+  clean:
+  rm -rf public
+  watch:
+  find -iname "*.org" | entr ./build.sh
 #+end_src
 and than i use =make watch=. And that's it 😀.
 
+* References
+:PROPERTIES:
+:EXPORT_OPTIONS: num:nil
+:END:
+- [[https://github.com/skeeto/emacs-web-server][GitHub - skeeto/emacs-web-server: Extensible Emacs HTTP 1.1 server]]
+- [[http://eradman.com/entrproject/][entr(1)]]
+- [[https://jvns.ca/blog/2020/06/28/entr/][entr: rerun your build when files change]]
+
+* to add                                                           :noexport:
+entr stands for =Event Notify Test Runner= 
+this is the [[https://github.com/eradman/entr/][github]] repo
