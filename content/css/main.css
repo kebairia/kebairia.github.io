@@ -20,12 +20,61 @@ body {
   padding: 0 10px;
   color: rgb(38, 27, 13);
 }
-/*title{{{1*/
-
-.title{
-}
 /*}}}*/
+
+/*Header {{{1*/
+
+header {
+    position: relative;
+    margin: 0 auto -2rem;
+    padding-bottom: 30px;
+}
+header > h4 > a.orgicorn img {
+    height: 1.5em;
+    top: 0.25em;
+    opacity: 0.85;
+    position: relative;
+}
+@media (min-width: 1000px) {
+    #content {
+        margin: auto;
+    }
+    header > h4 > a.orgicorn img {
+        position: absolute;
+        top: -0.3em;
+        transform: translateX(-100%) translateX(-0.8rem);
+    }
+}
+header > h4 > a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+
+
+header > h4 > a {
+    text-decoration: none;
+    color: inherit;
+}
+header > h4 > a.rss {
+    float: right;
+}
+header > h4 > a.rss img {
+    position: relative;
+    top: -0.2em;
+    filter: invert(0.6);
+}
+header > h4 > a.rss img:hover {
+    opacity: 1;
+    filter: invert(38%) sepia(98%) saturate(1640%) hue-rotate(11deg) contrast(98%);
+}
+
+/*}}}*/
+
 /*preamble and postamble {{{1*/
+
 .preamble {
     color: #7b7b7b;
     font-family: "Source Serif Pro";
