@@ -5,3 +5,5 @@ publish:
 
 clean:
 	rm -rf public
+watch:
+	find -iname "*.org" | entr ./build.sh
