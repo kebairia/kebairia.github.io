@@ -617,3 +617,47 @@ p.note-title {
     }
 }
 /*}}}*/
+
+/*figures {{{1*/
+/* click on a figure to enlarge it */
+figure {
+
+  text-align: center;
+}
+
+figure img {
+  max-width: 50%;
+}
+figure figcaption {
+  margin-top: 10px;
+  font-family: "Open Sans";
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+}
+figure figcaption .figure-number {
+  font-family: "Open Sans";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 1.9;
+  color: #7b7b7b;
+  text-transform: uppercase;
+}
+
+/*img.zoomTarget:hover {*/
+  /*cursor: default !important;*/
+/*}*/
+
+
+
+/*figure:active {*/
+  /*position: relative;*/
+  /*left: min(0px, 720px - 60vw);*/
+  /*width: 80vw;*/
+  /*transition-duration: 150ms;*/
+/*}*/
+
+
+/*}}}*/
