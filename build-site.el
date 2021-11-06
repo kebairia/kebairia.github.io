@@ -112,7 +112,7 @@
 ;; (setq org-html-postamble "<hr> <p class=\"postamble\">Last Updated %C. Created by  %a %d</p>")
 (setq org-html-postamble "
 <p class=\"postamble\"> 
-<a href=\"https://www.kebairia.github.io/index.html\">Index</a>
+<a href=\"https://kebairia.github.io/index.html\">Index</a>
 &nbsp
 <a href=\"mailto:4.kebairia@gmail.com\">email</a>
 &nbsp
