@@ -1,5 +1,3 @@
 #+TITLE: Posts
 
-- [[file:from_python_to_numpy.org][From Python to Numpy]]
-- [[file:Understanding DNS.org][Understanding DNS]]
-- [[file:Welcome.org][Welcome]]
+- [[file:Hello World.org][Hello World]]
