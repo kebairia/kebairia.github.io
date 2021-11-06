@@ -8,9 +8,4 @@
 "When you're in love, you want to tell the world. This book is a personal statement, reflecting my lifelong love affair with science.''
 
 -- Carl Sagan, /The Demon-Haunted World: Science as a Candle in the Dark/
-
 #+end_quote
-Hello world! 
-
-Well this is my blog, and as Carl Sagan said in the quote above, "/When you're in love, you want to tell the world.../" 
-and here I'm doing the same 😀.
