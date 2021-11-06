@@ -92,7 +92,7 @@
 	     :recursive t
 	     :base-directory "./content/"
 	     :publishing-function 'org-publish-attachment
-	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf"
+	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf\\|svg"
 	     :publishing-directory "./public/"
 	     )
 
