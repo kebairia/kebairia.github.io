@@ -81,6 +81,11 @@ header > h4 > a.resume img:hover {
     filter: invert(18%) sepia(120%) saturate(1085%) hue-rotate(220deg) contrast(58%);
 }
 
+.subtitle {
+      font-size: 24px;
+      color: grey;
+      margin: 0; }
+
 /*}}}*/
 
 /*TITLE {{{1*/
