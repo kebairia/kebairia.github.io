@@ -2,13 +2,13 @@
 #+subtitle: Run arbitrary commands when files change 
 #+AUTHOR: Zakaria.k
 #+EMAIL: 4.kebairia@gmail.com
-#+DATE: 06 Nov 2021 Wed
+#+DATE: 07 Nov 2021 Wed
 #+KEYWORDS: emacs,test
 
-Long ago, i came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.
-What it does is really simple, but yet powerfull, it let you run any arbitrary set of commands when a specific files changes.\\
+Long ago, I came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.
+What it does is really simple, but yet powerful, it let you run any arbitrary set of commands when a specific files changes.\\
 
-The [[http://eradman.com/entrproject/][entr's website]] has a great explanation for it with a bunch of great example to start with.\\
+The [[http://eradman.com/entrproject/][entr's website]] has a great explanation for it with a bunch of great examples to start with.\\
 But long story short, you pass a set of files (using regex for example) to the command through =stdin=, and then make it run
 a script or a command whenever one of these file changes.\\
 For example, here I make it monitor any =markdown= files in my current directory, and execute a script that commit and pushes the changes
@@ -31,7 +31,7 @@ Of course I use Emacs and [[https://orgmode.org/][org mode]] to create my own bl
 The issue I was having was that I had to rebuild the =html= files from the =org= files every time I wanted to see the output.
 I wrote a simple shell script to accomplish this, but still, you need to run it manually.
 
-You can see how now *entr* can fits into this workflow.
+You can see now how *entr* can fits into this workflow.
 Why don't I use *entr* to monitor my =org= files and make it run the =build.sh= script whenever I make a change 😀?
 
 #+begin_src sh :results output
@@ -42,29 +42,13 @@ And that's it, it's that simple.\\
 All I have to do now is to write my posts, save them, and then reload the web page to see the results.\\
 Wonderful.
 
-** The old workflow                                              :noexport:
-the old workflow that i used to follow is to create chunks of section of the blog, then rebuilding the whole 
-blog using a simple script =build.sh=, and i was doing that manually 😑.
-** My new workflow                                               :noexport:
-#+begin_src makefile
-  .PHONY: clean
-  
-  publish:
-  ./build.sh
-  clean:
-  rm -rf public
-  watch:
-  find -iname "*.org" | entr ./build.sh
-#+end_src
-and than i use =make watch=. And that's it 😀.
-
 * References
 :PROPERTIES:
 :EXPORT_OPTIONS: num:nil
 :END:
-- [[https://github.com/skeeto/emacs-web-server][GitHub - skeeto/emacs-web-server: Extensible Emacs HTTP 1.1 server]]
+- [[https://github.com/skeeto/emacs-web-server][simple-httpd GitHub repo]]
 - [[http://eradman.com/entrproject/][entr(1)]]
-- [[https://jvns.ca/blog/2020/06/28/entr/][entr: rerun your build when files change]]
+- [[https://jvns.ca/blog/2020/06/28/entr/][Julia Evans's blog post on entr]]
 
 * to add                                                           :noexport:
 entr stands for =Event Notify Test Runner= 
