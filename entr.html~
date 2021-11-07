@@ -22,8 +22,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org85c14b4">1. My use case</a></li>
-<li><a href="#org4f9e8b8">2. References</a></li>
+<li><a href="#org8d3b36e">1. My use case</a></li>
+<li><a href="#org4670274">2. References</a></li>
 </ul>
 </div>
 </div>
@@ -43,8 +43,8 @@ i made automatically.
 <pre class="src src-sh">find -iname <span style="font-style: italic;">"*.md"</span> | entr commit-and-push.sh
 </pre>
 </div>
-<div id="outline-container-org85c14b4" class="outline-2">
-<h2 id="org85c14b4"><span class="section-number-2">1</span> My use case</h2>
+<div id="outline-container-org8d3b36e" class="outline-2">
+<h2 id="org8d3b36e"><span class="section-number-2">1</span> My use case</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I can think of numerous use cases and scenarios in which this utility may be quite useful, but for the time being,
@@ -87,8 +87,8 @@ Wonderful.
 </div>
 </div>
 
-<div id="outline-container-org4f9e8b8" class="outline-2">
-<h2 id="org4f9e8b8"><span class="section-number-2">2</span> References</h2>
+<div id="outline-container-org4670274" class="outline-2">
+<h2 id="org4670274"><span class="section-number-2">2</span> References</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li><a href="https://github.com/skeeto/emacs-web-server">GitHub - skeeto/emacs-web-server: Extensible Emacs HTTP 1.1 server</a></li>
