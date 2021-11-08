@@ -1,9 +1,19 @@
-.PHONY: clean
-
+# A Makefile for managing files and scripts for my blog
+#
+# --- Macros ---
+#PATH = content
+#BUILD = build.sh
+# --- Targets ---
 publish:
 	./build.sh
 
-clean:
+cleanall:
 	rm -rf public
-watch:
-	find -iname "*.org" | entr ./build.sh
+
+cleancache:
+	@echo "removing cache files"
+	rm -rf ./public/*~
+
+watch: ./build.sh ./content
+	@find ./content -type f | entr ./build.sh
+.PHONY: cleanall cleancache watch publish
