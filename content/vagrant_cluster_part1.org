@@ -3,4 +3,33 @@
 #+AUTHOR: Zakaria.k
 #+EMAIL: 4.kebairia@gmail.com
 #+DATE: 07 Nov 2021 Wed
-#+KEYWORDS: virtualization,kvm,vagrant,devops
+#+KEYWORDS: virtualization,kvm,Vagrant,devops
+#+PROPERTY:  header-args :results output :exports both :dir /tmp/test
+
+This is the first post of a series that cover my implementation for creating a cluster using *KVM*, *Vagrant*, *Ansible*
+and a lot of other technologies.
+
+In this post we will cover the installation of *Vagrant* on *CentOS7*, and also using it with KVM instead of VirtualBox,
+the default choise of Vagrant.
+* First, the installation 
+First of all, we must update our system, so that we wont encounter any unrecognizble issue.
+this step may be ignored by a lot of people, and i was one of them, especially when i used to setup a latest version
+of CentOS, i was thinking that, ahhh, it's the latest version, what can be happen, all updates may be just some irreleavant 
+bug fixes or something, it isn't that important...
+And in a lot of cases, the problems that i encountred had relation somehow to the lack of updates that i ignored.
+#+begin_src shell 
+  sudo dnf update
+#+end_src
+** Vagrant
+#+begin_src shell :var version="10" 
+  # sudo wget https://releases.hashicorp.com/vagrant/"call_echo_var(version)"/vagrant_2.2.19_x86_64.rpm
+#+end_src
+we will download the "call_echo_var"
+
+#+RESULTS:
+: call_echo_var(version)
+
+*** Verify the vagrant's installation
+#+begin_src shell 
+  vagrant ––version
+#+end_src
