@@ -1,0 +1,6 @@
+#+TITLE: Vagrant Cluster -- Part 1
+#+subtitle: Using Vagrant with KVM
+#+AUTHOR: Zakaria.k
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 07 Nov 2021 Wed
+#+KEYWORDS: virtualization,kvm,vagrant,devops
