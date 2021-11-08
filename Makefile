@@ -16,4 +16,5 @@ cleancache:
 
 watch: ./build.sh ./content
 	@find ./content -type f | entr ./build.sh
+
 .PHONY: cleanall cleancache watch publish
