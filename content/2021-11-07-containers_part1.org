@@ -1,0 +1,8 @@
+#+TITLE: Building Your own container -- Part 1
+#+subtitle: In the beginning was the chroot!
+#+AUTHOR: Zakaria.k
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 07 Nov 2021 Wed
+#+KEYWORDS: container,docker,DevOps,Linux
+
+In the beginning was the =chroot=
