@@ -1,0 +1,85 @@
+#+TITLE: Vagrant Cluster -- Part 1
+#+subtitle: Using Vagrant with KVM
+#+AUTHOR: Zakaria.k
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 07 Nov 2021 Wed
+#+KEYWORDS: virtualization,kvm,Vagrant,devops
+#+PROPERTY:  header-args :results output :exports both :dir /tmp/test
+
+This is the first post of a series that cover my implementation for creating a cluster using *KVM*, *Vagrant*, *Ansible*
+and a lot of other technologies.
+
+In this post we will cover the installation of *Vagrant* on *CentOS7*, and also using it with KVM instead of VirtualBox,
+the default hypervisor of Vagrant.
+* System Preparation
+At first let's do some system check to see if our hardware support the virtualization first, so that we can use kvm
+#+name: code:kvm_support
+#+begin_src sh :results output 
+  grep -oE '(vmx|svm)' /proc/cpuinfo
+#+end_src
+
+#+RESULTS: code:kvm_support
+: vmx
+: vmx
+: vmx
+: vmx
+: vmx
+: vmx
+: vmx
+: vmx
+** KVM installation
+#+begin_src sh :results none
+  sudo dnf install qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer bridge-utils dejavu-lgc-sans-fonts
+#+end_src
+** Configuring network
+#+begin_src sh :results none
+  echo "net.ipv4.ip_forward = 1" | tee /etc/sysctl.conf
+  sysctl -p
+#+end_src
+#+begin_note
+This step may be ignored by a lot of people, and i was one of them, especially when i used to setup a latest version
+of CentOS, i was thinking that, ahhh, it's the latest version, what can be happen, all updates may be just some irreleavant 
+bug fixes or something, it isn't that important...
+And in a lot of cases, the problems that i encountred had relation somehow to the lack of updates that i ignored.
+#+end_note
+At first, let's ensure that our system is updated.
+#+begin_src sh 
+  sudo dnf update && sudo dnf upgrade -y
+#+end_src
+** Vagrant
+try to install the latest version of vagrant.
+On the time of writing this post, the latest version is 2.2.19
+#+begin_src sh :var version="10" 
+  sudo wget https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.rpm
+#+end_src
+check vagrant's version
+#+begin_src sh 
+  vagrant ––version
+#+end_src
+
+As we mentioned earlier, we will use *Vagrant* with *KVM*, so we need to install the =vagrant-libvirt= plugin
+First, we install the =vagrant-libvirt= dependencies.
+#+begin_src sh
+sudo yum install -y qemu libvirt libvirt-devel ruby-devel gcc qemu-kvm rsync
+#+end_src
+Then we install the plugin
+#+begin_src sh
+  vagrant plugin install vagrant-libvirt
+#+end_src
+* Configuration
+Let's start and enable the libvirtd service
+#+begin_note
+you can use
+=sudo systemctl start libvirtd && sudo systemctl enable libvirtd=
+#+end_note
+#+begin_src sh
+  sudo systemctl enable --now libvirtd
+#+end_src
+Add your user to the =libvirtd= group, so that you can use the service freely.
+Re-login to have the group applied to your user.
+
+#+begin_src sh
+  sudo usermod -aG libvirt $USER
+#+end_src
+
+
