@@ -564,15 +564,17 @@ pre.src-conf::before {
 /*}}}*/
 
 /*NOTES {{{1*/
-
+.note::before{
+      content: "Note:";
+      font-weight: bold;
+  }
 .note {
-    /*border-top:  .5px solid #aaa;*/
     font-size: 85%;
     line-height: 125%;
     float: left;
     width: 240px;
     padding-bottom: .25em;
-    margin-left: -270px;
+    margin-left: -290px;
 }
 p.note-title {
     background-color: #eeeeaa;
@@ -581,6 +583,7 @@ p.note-title {
     padding-bottom: .25em;
 }
 .note p {
+    border-top:  .5px solid #aaa;
     text-align: left;
     padding: 0;
     margin:0;
