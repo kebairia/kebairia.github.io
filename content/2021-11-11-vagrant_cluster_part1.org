@@ -58,7 +58,7 @@ check vagrant's version
 #+end_src
 
 As we mentioned earlier, we will use *Vagrant* with *KVM*, so we need to install the =vagrant-libvirt= plugin
-First, we install the =vagrant-libvirt= dependencies.
+First, we install the ~vagrant-libvirt~ dependencies.
 #+begin_src sh
 sudo yum install -y qemu libvirt libvirt-devel ruby-devel gcc qemu-kvm rsync
 #+end_src

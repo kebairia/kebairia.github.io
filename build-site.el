@@ -75,7 +75,7 @@
 		      <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
 		      <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
 		      </a>
-		      <a href=\"rss.xml\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
+		      <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
 		      <img src=\"img/rss.svg\" alt=\"RSS icon\" />
 		      </a>
                       <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
@@ -83,8 +83,6 @@
                       </a>
                       </h4>
 		      </header>"
-
-	     
 	     :section-numbers t
 	     :time-stamp-file t
 	     :auto-preamble nil
@@ -94,7 +92,7 @@
 	     :recursive t
 	     :base-directory "./content/"
 	     :publishing-function 'org-publish-attachment
-	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf\\|svg"
+	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf\\|svg\\|rss\\|xml"
 	     :publishing-directory "./public/"
 	     )
 
