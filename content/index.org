@@ -1,6 +1,4 @@
 #+TITLE: Posts
 
-- [[file:2021-11-15-containers_part1.org][Building Your own container -- Part 1]]
 - [[file:2021-11-06-hello-world.org][Hello World]]
-- [[file:2021-11-11-vagrant_cluster_part1.org][Vagrant Cluster -- Part 1]]
 - [[file:2021-11-07-entr.org][entr]]
