@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-11-10 Wed 16:35 -->
+<!-- 2021-11-10 Wed 16:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>entr</title>
@@ -11,6 +11,19 @@
 <meta name="author" content="Zakaria.k" />
 <meta name="keywords" content="emacs,test" />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
+<header>
+		      <h4>
+		      <a href="https://kebairia.github.io" title="Home" class="home">
+		      <img src="img/home.svg" width="50" alt="Home" />
+		      </a>
+		      <a href="files/feed.rss" title="RSS Feed" type="application/rss+xml" class="rss">
+		      <img src="img/rss.svg" alt="RSS icon" />
+		      </a>
+                      <a href="files/cv.pdf" title="My Resume" type="application/pdf" class="resume">
+                      <img src="img/cv.svg" width="25"  alt="My CV icon" />
+                      </a>
+                      </h4>
+		      </header>
 </head>
 <body>
 <div id="content">
@@ -18,15 +31,6 @@
 <br />
 <span class="subtitle">Run arbitrary commands when files change</span>
 </h1>
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#org767a9c3">1. My use case</a></li>
-<li><a href="#org8cf9553">2. References</a></li>
-</ul>
-</div>
-</div>
 <p>
 Long ago, I came across a tool called <a href="http://eradman.com/entrproject/">entr</a>, and it's a pretty cool program actually.
 What it does is really simple, but yet powerful, it let you run any arbitrary set of commands when a specific files changes.<br />
@@ -43,8 +47,8 @@ i made automatically.
 <pre class="src src-sh">find -iname <span style="font-style: italic;">"*.md"</span> | entr commit-and-push.sh
 </pre>
 </div>
-<div id="outline-container-org767a9c3" class="outline-2">
-<h2 id="org767a9c3"><span class="section-number-2">1</span> My use case</h2>
+<div id="outline-container-org3b90e42" class="outline-2">
+<h2 id="org3b90e42"><span class="section-number-2">1</span> My use case</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I can think of numerous use cases and scenarios in which this utility may be quite useful, but for the time being,
@@ -87,8 +91,8 @@ Wonderful.
 </div>
 </div>
 
-<div id="outline-container-org8cf9553" class="outline-2">
-<h2 id="org8cf9553"><span class="section-number-2">2</span> References</h2>
+<div id="outline-container-orge256d06" class="outline-2">
+<h2 id="orge256d06"><span class="section-number-2">2</span> References</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li><a href="https://github.com/skeeto/emacs-web-server">simple-httpd GitHub repo</a></li>
