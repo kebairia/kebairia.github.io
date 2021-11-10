@@ -74,7 +74,6 @@
 		      <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
 		      </a>
 		      <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
-
 		      <img src=\"img/rss.svg\" alt=\"RSS icon\" />
 		      </a>
 
