@@ -70,17 +70,13 @@
 	     :with-tags t
 	     :with-latex t
 	     :html-head-extra 
-	     "<header>
-		      <h4>
-		      <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
+	     "<header> <h4> <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
 		      <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
 		      </a>
 		      <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
-		      <img src=\"img/rss.svg\" alt=\"RSS icon\" />
-		      </a>
+		      <img src=\"img/rss.svg\" alt=\"RSS icon\" /> </a>
                       <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
-                      <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" />
-                      </a>
+                      <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" /> </a>
                       </h4>
 		      </header>"
 	     :section-numbers t
