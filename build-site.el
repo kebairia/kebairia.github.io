@@ -99,30 +99,48 @@
        ;; (list "org"
        ;; 	     :components ("org-site:main" "org-static"))
        ))
-;; Generate the site output
-;; (setq org-html-postamble-format "\copy Zakaria Kebairia")
-;; (setq org-export-html-postamble-format 
-;;       '(("en" "<p class=\"postamble\">Last Updated %d. Created by %c</p>")))
 
-;; (setq org-html-preamble "<p class=\"preamble\">
-;;  %d - %a</p> ")
+;; (setq org-html-postamble "
+;; <p class=\"postamble\"> 
+;; <a href=\"https://kebairia.github.io/index.html\">Index</a>
+;; &nbsp
+;; <a href=\"mailto:4.kebairia@gmail.com\">email</a>
 
-;; (setq org-html-postamble "<hr> <p class=\"postamble\">Last Updated %C. Created by  %a %d</p>")
+;; <a href=\"https://www.linkedin.com/in/zakaria-kebairia\" title=\"LinkedIn Account\" class=\"rss\">
+;; <img src=\"img/icons/linkedin-black-logo.svg\" width=\"60\" alt=\"LinkedIn\" /> </a>
+;; </a>
+
+;; <a href=\"https://www.github.com/kebairia\" title=\"GitHub Account\" class=\"social\">
+;; <img src=\"img/icons/github.svg\" width=\"60\" alt=\"GitHub Account\" /> </a>
+;; <br>
+;; &\copy 2021 Zakaria Kebairia
+;; </p>"
+;; )
+
+
 (setq org-html-postamble "
 <p class=\"postamble\"> 
-<a href=\"https://kebairia.github.io/index.html\">Index</a>
-&nbsp
-<a href=\"mailto:4.kebairia@gmail.com\">email</a>
-&nbsp
-<a href=\"https://www.github.com/kebairia\">GitHub</a>
-&nbsp
-<a href=\"https://www.linkedin.com/in/zakaria-kebairia/\">LinkedIn</a>
-&nbsp
+
+<a href=\"https://www.linkedin.com/in/zakaria-kebairia/\" title=\"LinkedIn account\" class=\"social\">
+<img src=\"img/icons/linkedin-icon-logo.svg\" width=\"45\" alt=\"LinkedIn Account\" />
+</a>
+
+<a href=\"https://twitter.com/z_kebairia\" title=\"Twitter Account\" class=\"social\">
+<img src=\"img/icons/twitter-logo.svg\" width=\"40\" alt=\"Twitter Account\" /> </a>
+
+<a href=\"https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg\" title=\"Youtube Account\" class=\"social\">
+<img src=\"img/icons/youtube-black-logo.svg\" width=\"40\" alt=\"Youtube Account\" /> </a>
+
+<a href=\"https://www.github.com/kebairia\" title=\"GitHub Account\" class=\"social\">
+<img src=\"img/icons/github.svg\" width=\"43\" alt=\"GitHub Account\" /> </a>
+<br>
+<br>
+This blog is made by Free and Opensource software
 <br>
 &\copy 2021 Zakaria Kebairia
+
 </p>"
       )
-
 
 (org-publish-all t)
 (message "Build completed")
