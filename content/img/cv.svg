@@ -24,14 +24,26 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.14186834"
-     inkscape:cx="2689.113"
-     inkscape:cy="514.5616"
-     inkscape:window-width="1920"
-     inkscape:window-height="1060"
+     inkscape:cx="1667.0386"
+     inkscape:cy="-1459.0993"
+     inkscape:window-width="1366"
+     inkscape:window-height="748"
      inkscape:window-x="0"
      inkscape:window-y="20"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     inkscape:snap-global="false"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       position="983.06862,1281.0742"
+       orientation="0,-1"
+       id="guide6765" />
+    <sodipodi:guide
+       position="981.08782,1280.5435"
+       orientation="0,-1"
+       id="guide6767" />
+  </sodipodi:namedview>
   <defs
      id="defs2" />
   <g
@@ -49,5 +61,56 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:381.18px;font-family:'Bai Jamjuree SemiBold';-inkscape-font-specification:'Bai Jamjuree SemiBold, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:9.52952;fill:#1a1a1a;stroke:#1a1a1a"
          x="0.37427226"
          y="391.95816">CV</tspan></text>
+    <rect
+       style="opacity:1;fill:#1d120e;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:6.5219;stroke-linecap:round;stroke-linejoin:round;paint-order:markers fill stroke"
+       id="rect19344"
+       width="17.989998"
+       height="25.241379"
+       x="788.84167"
+       y="-775.75049"
+       ry="1.3814812" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.327322;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke"
+       id="rect19376"
+       width="12.015765"
+       height="1.0307944"
+       x="790.8338"
+       y="-762.47644" />
+    <g
+       id="g19540"
+       transform="matrix(1.0341561,0,0,1.0341561,-31.020923,26.384655)">
+      <circle
+         style="opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0.649814;stroke-linecap:round;stroke-linejoin:round;paint-order:markers fill stroke"
+         id="circle19350"
+         cx="797.83667"
+         cy="-771.14948"
+         r="1.7771978" />
+      <path
+         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 800.96349,-764.99359 v -3.54995 l -2.01408,-0.5307 -1.10352,1.1965 -1.15531,-1.19652 -1.9808,0.53075 v 3.54703 z"
+         id="path19352"
+         sodipodi:nodetypes="cccccccc" />
+    </g>
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.327322;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke"
+       id="rect19578"
+       width="12.015765"
+       height="1.0307944"
+       x="790.8338"
+       y="-759.92255" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.327322;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke"
+       id="rect19580"
+       width="12.015765"
+       height="1.0307944"
+       x="790.8338"
+       y="-757.36877" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.327322;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke"
+       id="rect19582"
+       width="12.015765"
+       height="1.0307944"
+       x="790.8338"
+       y="-754.81494" />
   </g>
 </svg>
