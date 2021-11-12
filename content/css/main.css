@@ -102,7 +102,7 @@ header > h4 > a.resume img:hover {
 .postamble {
     border-top: 1px solid #ccc;
     padding:10px;    
-    background-color: #fafafa;
+    /*background-color: #fafafa;*/
     width: 100%;
 }
 .postamble h3 {
@@ -277,6 +277,25 @@ footer {
   margin: 2em 0;
   padding: 2em 0;
   background: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.125), rgba(0,0,0,0.25)) no-repeat 50% 1em / 100% 1px;
+}
+
+.social {
+    float: left;
+    position: relative;
+    padding-right: 20px;
+    padding-left: 0px;
+    padding-top: 10px;
+}
+/*footer > a.social img {*/
+    /*position: relative;*/
+    /*top: -0.2em;*/
+    /*filter: invert(0.6);*/
+    /*padding-right: 15px;*/
+    /*padding-top: 1px;*/
+    /*align-items: baseline;*/
+/*}*/
+.social img:hover {
+    opacity: 0.85;
 }
 
 /* Summaries */
