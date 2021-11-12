@@ -3,6 +3,8 @@
 #+AUTHOR: Zakaria.k
 #+EMAIL: 4.kebairia@gmail.com
 #+DATE: 07 Nov 2021 Wed
+# #+options: tags:t title:t toc:nil num:0 date:t
+# #+tags: emacs
 #+KEYWORDS: emacs,test
 
 Long ago, I came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.

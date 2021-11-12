@@ -23,7 +23,6 @@ body {
   color: rgb(38, 27, 13);
 }
 /*}}}*/
-
 /*Header {{{1*/
 
 header {
@@ -81,24 +80,13 @@ header > h4 > a.resume img:hover {
     filter: invert(18%) sepia(120%) saturate(1085%) hue-rotate(220deg) contrast(58%);
 }
 
+
 .subtitle {
       font-size: 24px;
       color: grey;
       margin: 0; }
 
 /*}}}*/
-
-/*TITLE {{{1*/
-.title:after{
-    font-size: 10px;
-    content: "";
-    display: block;
-    position: absolute;
-
-
-}
-/*}}}*/
-
 /*preamble and postamble {{{1*/
 
 .preamble {
@@ -114,11 +102,28 @@ header > h4 > a.resume img:hover {
 .postamble {
     border-top: 1px solid #ccc;
     padding:10px;    
+    background-color: #fafafa;
+    width: 100%;
 }
 .postamble h3 {
     margin: -20px 0px;
 }
 /*}}}*/
+/*TITLE {{{1*/
+.title:before{
+    font-size: 14px;
+    color: #777;
+    /*content: "2021 Nov 07 Wed";*/
+    display: block;
+    /*position: absolute;*/
+    padding-bottom: 10px;
+
+
+}
+.title {
+}
+/*}}}*/
+/*articles & paragraphs {{{1*/
 article {
   line-height: 1.45;
 }
@@ -127,11 +132,12 @@ p, a :not(.uncoloured-link) {
   color: inherit;
   hyphens: auto;
 }
-
+/*}}}*/
+/*date {{{1*/
 .date {
   font-size: small;
 }
-
+/*}}}*/
 /*tag {{{1*/
 .tag {
   background: white;
@@ -174,7 +180,6 @@ p, a :not(.uncoloured-link) {
 
 
 /*}}}*/
-
 /*SECTION NUMBERS  {{{1*/
 /*from  lepisma.xyz' blog :) */
 
@@ -224,7 +229,7 @@ p, a :not(.uncoloured-link) {
 }
 
 /*}}}*/
-
+/*Headlines & paragraphs {{{1*/
 h1, h2, h3 {
   line-height: 1.46;
   margin-top: 1.5rem;
@@ -236,37 +241,26 @@ p {
   margin-bottom: 1em;
   hyphens: auto; 
 }
+/*}}}*/
 
 .inline {
   display: inline;
 }
 
-/*.no-underline {*/
-  /*text-decoration: none;*/
-/*}*/
-
-.underline {
-    text-decoration: underline;
+.no-underline {
+  text-decoration: none;
 }
+
+/*.underline {*/
+    /*text-decoration: underline;*/
+/*}*/
 
 .right {
   text-align: right;
   float: right;
 }
 
-img {
-  max-width: 100%;
-}
-
-figcaption {
-  font-style: italic;
-}
-
-pre {
-  width: 100%;
-  overflow: auto;
-}
-
+/*footer {{{1*/
 
 .footer-nav ul {
   display: flex;
@@ -294,6 +288,7 @@ blockquote {
   border: 2px dashed #ccc;
   padding: 10px;
 }
+
 
 /* Code {{{1*/
 code {
@@ -562,7 +557,6 @@ pre.src-conf::before {
 
 
 /*}}}*/
-
 /*NOTES {{{1*/
 .note::before{
       content: "Note:";
@@ -648,9 +642,21 @@ p.note-title {
     }
 }
 /*}}}*/
-
 /*figures {{{1*/
 /* click on a figure to enlarge it */
+
+img {
+  max-width: 100%;
+}
+
+figcaption {
+  font-style: italic;
+}
+
+pre {
+  width: 100%;
+  overflow: auto;
+}
 figure {
 
   text-align: center;

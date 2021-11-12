@@ -113,8 +113,6 @@
 <img src=\"img/social/github.svg\" width=\"43\" alt=\"GitHub Account\" /> </a>
 <br>
 <br>
-This blog is made by Free and Opensource software
-<br>
 &\copy 2021 Zakaria Kebairia
 
 </p>"

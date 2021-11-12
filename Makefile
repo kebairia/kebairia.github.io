@@ -15,6 +15,6 @@ cleancache:
 	rm -rf ./public/*~
 
 watch: ./build.sh ./content
-	@find ./content -type f | entr ./build.sh
+	@find . -type f | entr ./build.sh
 
 .PHONY: cleanall cleancache watch publish
