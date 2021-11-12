@@ -6,12 +6,25 @@
 #+KEYWORDS: virtualization,kvm,Vagrant,devops
 #+PROPERTY:  header-args :results output :exports both :dir /tmp/test
 
-This is the first post of a series that cover my implementation for creating a cluster using *KVM*, *Vagrant*, *Ansible*
+This is the first post of a series that cover my implementation for creating a cluster of VMs using *KVM*, *Vagrant*, *Ansible*
 and a lot of other technologies.
 
-In this post we will cover the installation of *Vagrant* on *CentOS7*, and also using it with KVM instead of VirtualBox,
-the default hypervisor of Vagrant.
-* System Preparation
+In this post we will cover the installation of *Vagrant* on *CentOS7*, and also using it with KVM instead of VirtualBox[fn:1].\\
+
+You can check the configuration files for these project here on [[https://github.com/kebairia/vagrant-cluster][GitHub]].
+* The Why's ?
+First and foremost, let talk about why I chose to use these main technologies
+** KVM (Kernel based Virtual Machine)
+#+begin_comment
+Kvm is a type 1 hypervisor, what do mean by that is that it's not a services that is installed on the operating system, rather
+is integrated directly with the kernel, and it does is that, it make your operating system act as a hypervisor
+that great for performance and security.
+#+end_comment
+
+KVM has also been ported to other operating systems like as FreeBSD and OpenBSD in the form of loadable kernel modules, making it an excellent choice for migration.
+** Vagrant
+** Ansible
+* Pre-requisites
 At first let's do some system check to see if our hardware support the virtualization first, so that we can use kvm
 #+name: code:kvm_support
 #+begin_src sh :results output 
@@ -82,4 +95,6 @@ Re-login to have the group applied to your user.
   sudo usermod -aG libvirt $USER
 #+end_src
 
+* Footnotes
 
+[fn:1] Virtualbox is the default hypervisor with Vagrant 
