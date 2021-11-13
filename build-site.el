@@ -116,10 +116,17 @@
 <img src=\"img/social/github.svg\" width=\"43\" alt=\"GitHub Account\" /> </a>
 <br>
 <br>
-&\copy 2021 Zakaria Kebairia
 
-</p>"
-      )
+<p class=\"credit\">
+Copyright &\copy  2021 Zakaria Kebairia
+<br>
+Content licensed <a href=\"http://creativecommons.org/licenses/by-sa/4.0/\">CC-BY-SA 4.0</a> unless otherwise noted.
+
+<a href=\"http://creativecommons.org/licenses/by-sa/4.0/\" class=\"crc\">
+<img src=\"img/crc.png\" alt=\"Creative Commons License\" title=\"Creative Commons License\" />
+</p>
+"
+)
 
 (org-publish-all t)
 (message "Build completed")

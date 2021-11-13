@@ -108,6 +108,17 @@ header > h4 > a.resume img:hover {
 .postamble h3 {
     margin: -20px 0px;
 }
+.credit{
+  font-size: 13.5px;
+  color: #222;
+  align-content: right;
+
+}
+
+.crc{
+  float: right;
+
+}
 /*}}}*/
 /*TITLE {{{1*/
 .title:before{
@@ -134,7 +145,8 @@ p, a :not(.uncoloured-link) {
 }
 /*}}}*/
 /*date {{{1*/
-.date {
+
+p.date {
   font-size: small;
 }
 /*}}}*/
@@ -677,7 +689,6 @@ pre {
   overflow: auto;
 }
 figure {
-
   text-align: center;
 }
 
