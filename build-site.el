@@ -102,6 +102,9 @@
 (setq org-html-postamble "
 <p class=\"postamble\"> 
 
+<a href=\"http://creativecommons.org/licenses/by-sa/4.0/\" class=\"crc\">
+<img src=\"img/crc.png\" alt=\"Creative Commons License\" title=\"Creative Commons License\" />
+
 <a href=\"https://www.linkedin.com/in/zakaria-kebairia/\" title=\"LinkedIn account\" class=\"social\">
 <img src=\"img/social/linkedin-icon-logo.svg\" width=\"45\" alt=\"LinkedIn Account\" />
 </a>
@@ -114,6 +117,7 @@
 
 <a href=\"https://www.github.com/kebairia\" title=\"GitHub Account\" class=\"social\">
 <img src=\"img/social/github.svg\" width=\"43\" alt=\"GitHub Account\" /> </a>
+
 <br>
 <br>
 
@@ -121,12 +125,8 @@
 Copyright &\copy  2021 Zakaria Kebairia
 <br>
 Content licensed <a href=\"http://creativecommons.org/licenses/by-sa/4.0/\">CC-BY-SA 4.0</a> unless otherwise noted.
-
-<a href=\"http://creativecommons.org/licenses/by-sa/4.0/\" class=\"crc\">
-<img src=\"img/crc.png\" alt=\"Creative Commons License\" title=\"Creative Commons License\" />
-</p>
-"
-)
+</p>"
+      )
 
 (org-publish-all t)
 (message "Build completed")
