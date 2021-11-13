@@ -6,6 +6,10 @@
 # #+options: tags:t title:t toc:nil num:0 date:t
 # #+tags: emacs
 #+KEYWORDS: emacs,test
+#+options: html5-fancy:t tex:t
+#+begin_date
+{{{date}}}
+#+end_date
 
 Long ago, I came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.
 What it does is really simple, but yet powerful, it let you run any arbitrary set of commands when a specific files changes.\\

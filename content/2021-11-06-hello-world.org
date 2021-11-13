@@ -3,6 +3,10 @@
 #+email: 4.kebairia@gmail.com
 #+date: 06 Nov 2021 Wed
 #+keywords: emacs,test
+#+options: html5-fancy:t tex:t
+#+begin_date
+{{{date}}}
+#+end_date
 
 #+begin_quote
 "When you're in love, you want to tell the world. This book is a personal statement, reflecting my lifelong love affair with science.''
