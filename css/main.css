@@ -139,8 +139,10 @@ p, a :not(.uncoloured-link) {
 /*}}}*/
 /*date {{{1*/
 
-p.date {
+.date {
   font-size: small;
+  color: #666;
+  padding-bottom: 10px;
 }
 /*}}}*/
 /*tag {{{1*/
