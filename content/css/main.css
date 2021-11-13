@@ -121,16 +121,6 @@ header > h4 > a.resume img:hover {
 }
 /*}}}*/
 /*TITLE {{{1*/
-.title:before{
-    font-size: 14px;
-    color: #777;
-    /*content: "2021 Nov 07 Wed";*/
-    display: block;
-    /*position: absolute;*/
-    padding-bottom: 10px;
-
-
-}
 .title {
 }
 /*}}}*/
