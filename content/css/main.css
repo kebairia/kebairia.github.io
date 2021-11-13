@@ -102,6 +102,7 @@ header > h4 > a.resume img:hover {
 .postamble {
     border-top: 1px solid #ccc;
     padding:10px;    
+    padding-top: 18px;
     /*background-color: #fafafa;*/
     width: 100%;
 }
@@ -109,9 +110,11 @@ header > h4 > a.resume img:hover {
     margin: -20px 0px;
 }
 .credit{
+  position: relative;
   font-size: 13.5px;
-  color: #222;
+  color: #333;
   align-content: right;
+  padding-top: 40px:
 
 }
 
@@ -284,9 +287,9 @@ footer {
 .social {
     float: left;
     position: relative;
-    padding-right: 20px;
-    padding-left: 0px;
-    padding-top: 10px;
+    padding-right: 17.5px;
+    /*padding-left: 0px;*/
+    /*padding-top: 10px;*/
 }
 /*footer > a.social img {*/
     /*position: relative;*/
