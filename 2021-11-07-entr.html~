@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-11-10 Wed 17:31 -->
+<!-- 2021-11-13 Sat 23:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>entr</title>
@@ -22,8 +22,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org257de67">1. My use case</a></li>
-<li><a href="#org9994b49">2. References</a></li>
+<li><a href="#org072c45f">1. My use case</a></li>
+<li><a href="#org8c673d8">2. References</a></li>
 </ul>
 </div>
 </div>
@@ -43,8 +43,8 @@ i made automatically.
 <pre class="src src-sh">find -iname <span style="font-style: italic;">"*.md"</span> | entr commit-and-push.sh
 </pre>
 </div>
-<div id="outline-container-org257de67" class="outline-2">
-<h2 id="org257de67"><span class="section-number-2">1</span> My use case</h2>
+<div id="outline-container-org072c45f" class="outline-2">
+<h2 id="org072c45f"><span class="section-number-2">1</span> My use case</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I can think of numerous use cases and scenarios in which this utility may be quite useful, but for the time being,
@@ -87,8 +87,8 @@ Wonderful.
 </div>
 </div>
 
-<div id="outline-container-org9994b49" class="outline-2">
-<h2 id="org9994b49"><span class="section-number-2">2</span> References</h2>
+<div id="outline-container-org8c673d8" class="outline-2">
+<h2 id="org8c673d8"><span class="section-number-2">2</span> References</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li><a href="https://github.com/skeeto/emacs-web-server">simple-httpd GitHub repo</a></li>
@@ -101,16 +101,30 @@ Wonderful.
 <div id="postamble" class="status">
 
 <p class="postamble"> 
-<a href="https://kebairia.github.io/index.html">Index</a>
-&nbsp
-<a href="mailto:4.kebairia@gmail.com">email</a>
-&nbsp
-<a href="https://www.github.com/kebairia">GitHub</a>
-&nbsp
-<a href="https://www.linkedin.com/in/zakaria-kebairia/">LinkedIn</a>
-&nbsp
+
+<a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+<img src="img/crc.png" alt="Creative Commons License" title="Creative Commons License" />
+
+<a href="https://www.linkedin.com/in/zakaria-kebairia/" title="LinkedIn account" class="social">
+<img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn Account" />
+</a>
+
+<a href="https://twitter.com/z_kebairia" title="Twitter Account" class="social">
+<img src="img/social/twitter-logo.svg" width="40" alt="Twitter Account" /> </a>
+
+<a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" title="Youtube Account" class="social">
+<img src="img/social/youtube-black-logo.svg" width="40" alt="Youtube Account" /> </a>
+
+<a href="https://www.github.com/kebairia" title="GitHub Account" class="social">
+<img src="img/social/github.svg" width="43" alt="GitHub Account" /> </a>
+
 <br>
-&copy 2021 Zakaria Kebairia
+
+<p class="credit">
+Copyright &copy  2021 Zakaria Kebairia
+<br>
+Content licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+
 </p>
 </div>
 </body>
