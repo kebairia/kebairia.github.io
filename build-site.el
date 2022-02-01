@@ -1,3 +1,5 @@
+(setq project-switch-commands t) 
+
 ;;-------------------------
 ;; straight.el bootstraping
 ;;-------------------------
