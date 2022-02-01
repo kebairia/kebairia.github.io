@@ -14,6 +14,7 @@ html, body {
 }
 
 body {
+  background-color: #f0eeed;
   font-family: 'Source Serif Pro', serif;
   line-height: 1.6;
   max-width: 800px;
