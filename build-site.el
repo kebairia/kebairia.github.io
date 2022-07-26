@@ -29,10 +29,10 @@
 ;;-------
 ;; SITE
 ;;-------
-(defun file-contents (file)
-  (with-temp-buffer
-    (insert-file-contents file)
-    (buffer-string)))
+;(defun file-contents (file)
+  ;(with-temp-buffer
+    ;(insert-file-contents file)
+    ;(buffer-string)))
 
 ;; footer and header
 ;; (setq html-preamble (file-contents "assets/header.html")
