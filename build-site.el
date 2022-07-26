@@ -43,7 +43,7 @@
       org-html-head-include-default-style nil
       org-html-head "<link rel=\"stylesheet\"href=\"css/main.css\" type=\"text/css\" />"
       )
-
+(message "start blog parssing")
 (setq org-publish-project-alist
       (list
 
@@ -100,6 +100,7 @@
        ;; 	     :components ("org-site:main" "org-static"))
        ))
 
+(message "start postamble")
 (setq org-html-postamble "
 <p class=\"postamble\"> 
 
@@ -129,6 +130,7 @@ Content licensed <a href=\"http://creativecommons.org/licenses/by-sa/4.0/\">CC-B
 </p>
 "
 )
+(message "end postamble")
 
 (org-publish-all t)
 (message "Build completed")
