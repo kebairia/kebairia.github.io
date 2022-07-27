@@ -46,6 +46,14 @@
 
 (setq org-publish-project-alist
       (list
+       (list "my-org-site"
+             :recursive t
+             :base-directory "./content"
+             :publishing-directory "./public"
+             :publishing-function 'org-html-publish-to-html)))
+
+(setq org-publish-project-alist
+      (list
 
        (list "blog-index"
 	     :recursive t
@@ -55,10 +63,10 @@
 	     :auto-sitemap  t 
 	     :sitemap-filename "index.org"  
 	     :sitemap-title "Posts"         
-	     :auto-preamble nil
-	     :auto-postamble nil
+;; 	     :auto-preamble nil
+;; 	     :auto-postamble nil
 	     )
-       (list "blog:main"
+       (list "blog-main"
 	     :author "Zakaria Kebairia"
 	     :email "4.kebairia@gmail.com"
 	     :recursive t
@@ -73,16 +81,15 @@
 	     :with-latex t
 	     :html-head-extra 
 	     "<header> <h4> <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
-		      <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
-		      </a>
-		      <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
-		      <img src=\"img/rss.svg\" alt=\"RSS icon\" />
-		      </a>
-
+	          <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
+	          </a>
+	          <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
+	          <img src=\"img/rss.svg\" alt=\"RSS icon\" />
+	          </a>
                       <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
                       <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" /> </a>
                       </h4>
-		      </header>"
+	          </header>"
 	     :section-numbers t
 	     :time-stamp-file t
 	     :auto-preamble nil
@@ -97,7 +104,7 @@
 	     )
 
        ;; (list "org"
-       ;; 	     :components ("org-site:main" "org-static"))
+       ;;       :components ("blog-index""blog-main" "blog-static"))
        ))
 
 (setq org-html-postamble "
