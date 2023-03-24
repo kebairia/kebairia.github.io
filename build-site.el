@@ -139,5 +139,5 @@
 ;"
 ;)
 
-;(org-publish-all t)
+(org-publish-all t)
 (message "Build completed")
