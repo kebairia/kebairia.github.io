@@ -1,5 +1,6 @@
 (setq project-switch-commands t) 
 
+(setq package-enable-at-startup nil)
 ;;-------------------------
 ;; straight.el bootstraping
 ;;-------------------------
@@ -15,6 +16,7 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
 ;; use use-package along with straight
 (straight-use-package 'use-package)
 ;; make `use-package` to automatically install all of your packages 
