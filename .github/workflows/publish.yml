@@ -11,8 +11,11 @@ jobs:
       - name: Check out
         uses: actions/checkout@v1
 
-      - name: Install Emacs and git
-        run: sudo apt install git emacs-nox --yes
+      - name: Install git
+        run: sudo apt install git
+
+      - name: Install Emacs
+        run: sudo apt install emacs-nox --yes
 
       - name: Build the site
         run: ./build.sh
