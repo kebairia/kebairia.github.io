@@ -1,6 +1,4 @@
 #+TITLE: Posts
 
-- [[file:2023-03-24-for-testing.org][For testing]]
 - [[file:2021-11-06-hello-world.org][Hello World]]
-- [[file:2022-10-14-testing.org][Testing]]
 - [[file:2021-11-07-entr.org][entr]]
