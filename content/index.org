@@ -1,4 +1,5 @@
 #+TITLE: Posts
 
+- [[file:2023-03-24-building-a-kubernetes-cluster-using-kubeadm.org][Building a kubernetes cluster using kubeadm]]
 - [[file:2021-11-06-hello-world.org][Hello World]]
 - [[file:2021-11-07-entr.org][entr]]

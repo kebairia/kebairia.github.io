@@ -1,0 +1,13 @@
+#+TITLE: Building a kubernetes cluster using kubeadm
+#+SUBTITLE:  Hello from the other side
+#+AUTHOR: Zakaria.K 
+#+EMAIL: nil 
+#+DATE: 24 Mar 2023 Fri 
+#+KEYWORDS: 
+#+OPTIONS: html5-fancy: t
+#+begin_date
+{{{date}}}
+#+end_date
+
+* Homelab
+Hello everyone, this is the first blog on how to build your own homelab for kubernetes with kubeadm, I will try to use ansible as well to automate the whole thing.
