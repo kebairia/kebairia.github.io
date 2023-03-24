@@ -11,3 +11,8 @@
 
 * Homelab
 Hello everyone, this is the first blog on how to build your own homelab for kubernetes with kubeadm, I will try to use ansible as well to automate the whole thing.
+| Name           | Config          |
+|----------------+-----------------|
+| Zakaria      \ | Kubernetes.conf |
+| kubernetes     | containerd.io   |
+|                |                 |
