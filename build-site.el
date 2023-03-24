@@ -65,8 +65,8 @@
 	     :auto-sitemap  t 
 	     :sitemap-filename "index.org"  
 	     :sitemap-title "Posts"         
-;; 	     :auto-preamble nil
-;; 	     :auto-postamble nil
+       :auto-preamble nil
+       :auto-postamble nil
 	     )))
        ;(list "blog-main"
 			 ;:author "Zakaria Kebairia"
@@ -139,5 +139,5 @@
 ;"
 ;)
 
-(org-publish-all t)
+;(org-publish-all t)
 (message "Build completed")
