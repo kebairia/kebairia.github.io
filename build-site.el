@@ -28,17 +28,6 @@
 
 ;; htmlize package for syntax highlighting for the code blocks
 (use-package htmlize)
-;;-------
-;; SITE
-;;-------
-;(defun file-contents (file)
-  ;(with-temp-buffer
-    ;(insert-file-contents file)
-    ;(buffer-string)))
-
-;; footer and header
-;; (setq html-preamble (file-contents "assets/header.html")
-;;       html-postamble (file-contents "assets/footer.html"))
 (require 'ox-publish)
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
@@ -46,28 +35,28 @@
       org-html-head "<link rel=\"stylesheet\"href=\"css/main.css\" type=\"text/css\" />"
       )
 
-;(setq org-publish-project-alist
-      ;(list
-       ;(list "my-org-site"
-             ;:recursive t
-             ;:base-directory "./content"
-             ;:publishing-directory "./public"
-             ;:publishing-function 'org-html-publish-to-html)))
-
 (setq org-publish-project-alist
       (list
+       (list "my-org-site"
+             :recursive t
+             :base-directory "./content"
+             :publishing-directory "./public"
+             :publishing-function 'org-html-publish-to-html)))
 
-       (list "blog-index"
-	     :recursive t
-	     :base-directory "./content/"
-	     :publishing-function 'org-html-publish-to-html
-	     :publishing-directory "./public"
-	     :auto-sitemap  t 
-	     :sitemap-filename "index.org"  
-	     :sitemap-title "Posts"         
-       :auto-preamble nil
-       :auto-postamble nil
-	     )))
+;(setq org-publish-project-alist
+      ;(list
+
+       ;(list "blog-index"
+			 ;:recursive t
+			 ;:base-directory "./content/"
+			 ;:publishing-function 'org-html-publish-to-html
+			 ;:publishing-directory "./public"
+			 ;:auto-sitemap  t 
+			 ;:sitemap-filename "index.org"  
+			 ;:sitemap-title "Posts"         
+;;; 	     :auto-preamble nil
+;;; 	     :auto-postamble nil
+			 ;)
        ;(list "blog-main"
 			 ;:author "Zakaria Kebairia"
 			 ;:email "4.kebairia@gmail.com"
