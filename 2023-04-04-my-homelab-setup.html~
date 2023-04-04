@@ -6,29 +6,34 @@
 <!-- 2023-04-04 Tue 16:31 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Posts</title>
+<title>My homelab setup</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="Zakaria Kebairia" />
+<meta name="author" content="Zakaria.K" />
+<meta name="keywords" content="blog,kubernetes,kvm,linux,haproxy,keepalived,nfs,k8s" />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
-<header> <h4> <a href="https://kebairia.github.io" title="Home" class="home">
-	          <img src="img/home.svg" width="50" alt="Home" />
-	          </a>
-	          <a href="files/feed.rss" title="RSS Feed" type="application/rss+xml" class="rss">
-	          <img src="img/rss.svg" alt="RSS icon" />
-	          </a>
-                      <a href="files/cv.pdf" title="My Resume" type="application/pdf" class="resume">
-                      <img src="img/cv.svg" width="25"  alt="My CV icon" /> </a>
-                      </h4>
-	          </header>
 </head>
 <body>
 <div id="content">
-<h1 class="title">Posts</h1>
-<ul class="org-ul">
-<li><a href="2021-11-06-hello-world.html">Hello World</a></li>
-<li><a href="2023-04-04-my-homelab-setup.html">My homelab setup</a></li>
-<li><a href="2021-11-07-entr.html">entr</a></li>
-</ul>
+<h1 class="title">My homelab setup
+<br />
+<span class="subtitle">An introduction to my homelab setup with Kubernetes</span>
+</h1>
+<div class="date">
+<p>
+04 Apr 2023 Tue
+</p>
+
+</div>
+
+<p>
+Alright, this is just a testing on how images may look on my blog
+and this is my initial setup for my homelab.
+<img src="img/blogs/homelab/arch.png" alt="arch.png" />
+</p>
+
+<p>
+As you can see, this is just a test.
+</p>
 </div>
 <div id="postamble" class="status">
 
