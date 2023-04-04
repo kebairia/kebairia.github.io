@@ -1,30 +1,48 @@
-name: Publish to GitHub Pages
+# Author: Zakaria Kebairia
+# Email: 4.kebairia@gmail.com
+#
+# This Github actions workflow publishes the generated site to Github pages.
+#
 
-on: 
+name: Publish site to GitHub Pages
+
+# Trigger the workflow on push events to the main branch
+on:
   push:
     branches:
       - main
+
 jobs:
   publish:
+    # Run the job on an Ubuntu 22.04 virtual machine
     runs-on: ubuntu-22.04
+    
     steps:
-      - name: Check out
-        uses: actions/checkout@v1
+      # Check out the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Install git
-        run: sudo apt install git
+      # Install git to commit and push changes
+      - name: Install Git
+        run: sudo apt install git -y
 
-      - name: Install Emacs
+      # Install Emacs to use with the build process
+      - name: Install Emacs text editor (nox version)
         run: sudo apt install emacs-nox --yes
 
-      - name: fix timestamps of files
-        run: bash ./change_timestamp.sh
+      # Update the file modification timestamps for org files
+      - name: Update Org file timestamps
+        run: bash ./update_org_file_timestamps.sh
 
-      - name: Build the site
+      # Build the site using the build script
+      - name: Build site using build script
         run: ./build.sh
 
-      - name: Publish generated content to GitHub Pages
+      # Deploy the generated site to Github Pages using JamesIves/github-pages-deploy-action
+      - name: Deploy site to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          # Deploy to the gh-pages branch
           branch: gh-pages
+          # Deploy the content from the public directory
           folder: public
