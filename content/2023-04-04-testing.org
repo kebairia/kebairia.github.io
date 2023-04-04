@@ -1,0 +1,12 @@
+#+TITLE: Testing
+#+SUBTITLE: -- 
+#+AUTHOR: Zakaria.K 
+#+EMAIL: 4.kebairia@gmail.com 
+#+DATE: 04 Apr 2023 Tue 
+#+KEYWORDS: blog,
+#+OPTIONS: html5-fancy:t tex:t
+#+begin_date
+{{{date}}}
+#+end_date
+
+hello
