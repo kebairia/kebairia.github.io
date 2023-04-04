@@ -35,68 +35,68 @@
       org-html-head "<link rel=\"stylesheet\"href=\"css/main.css\" type=\"text/css\" />"
       )
 
-;(setq org-publish-project-alist
-      ;(list
-       ;(list "my-org-site"
-             ;:recursive t
-             ;:base-directory "./content"
-             ;:publishing-directory "./public"
-             ;:publishing-function 'org-html-publish-to-html)))
-
 (setq org-publish-project-alist
       (list
+       (list "my-org-site"
+             :recursive t
+             :base-directory "./content"
+             :publishing-directory "./public"
+             :publishing-function 'org-html-publish-to-html)))
 
-       (list "blog-index"
-	     :recursive t
-	     :base-directory "./content/"
-	     :publishing-function 'org-html-publish-to-html
-	     :publishing-directory "./public"
-	     :auto-sitemap  t 
-	     :sitemap-filename "index.org"  
-	     :sitemap-title "Posts"         
+; (setq org-publish-project-alist
+;;       (list
+
+;;        (list "blog-index"
+;; 	     :recursive t
+;; 	     :base-directory "./content/"
+;; 	     :publishing-function 'org-html-publish-to-html
+;; 	     :publishing-directory "./public"
+;; 	     :auto-sitemap  t 
+;; 	     :sitemap-filename "index.org"  
+;; 	     :sitemap-title "Posts"         
+;; ;; 	     :auto-preamble nil
+;; ;; 	     :auto-postamble nil
+;; 	     )
+;;        (list "blog-main"
+;; 	     :author "Zakaria Kebairia"
+;; 	     :email "4.kebairia@gmail.com"
+;; 	     :recursive t
+;; 	     :base-directory "./content"
+;; 	     :publishing-function 'org-html-publish-to-html
+;; 	     :publishing-directory "./public/"
+;; 	     :with-author t
+;; 	     :with-creator t
+;; 	     :with-toc nil
+;; 	     :with-date t
+;; 	     :with-tags t
+;; 	     :with-latex t
+;; 	     :html-head-extra 
+;; 	     "<header> <h4> <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
+;; 	          <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
+;; 	          </a>
+;; 	          <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
+;; 	          <img src=\"img/rss.svg\" alt=\"RSS icon\" />
+;; 	          </a>
+;;                       <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
+;;                       <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" /> </a>
+;;                       </h4>
+;; 	          </header>"
+;; 	     :section-numbers t
+;; 	     :time-stamp-file t
 ;; 	     :auto-preamble nil
 ;; 	     :auto-postamble nil
-	     )
-       (list "blog-main"
-	     :author "Zakaria Kebairia"
-	     :email "4.kebairia@gmail.com"
-	     :recursive t
-	     :base-directory "./content"
-	     :publishing-function 'org-html-publish-to-html
-	     :publishing-directory "./public/"
-	     :with-author t
-	     :with-creator t
-	     :with-toc nil
-	     :with-date t
-	     :with-tags t
-	     :with-latex t
-	     :html-head-extra 
-	     "<header> <h4> <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
-	          <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
-	          </a>
-	          <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
-	          <img src=\"img/rss.svg\" alt=\"RSS icon\" />
-	          </a>
-                      <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
-                      <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" /> </a>
-                      </h4>
-	          </header>"
-	     :section-numbers t
-	     :time-stamp-file t
-	     :auto-preamble nil
-	     :auto-postamble nil
-	     )
-       (list "blog-static"
-	     :recursive t
-	     :base-directory "./content/"
-	     :publishing-function 'org-publish-attachment
-	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf\\|svg\\|rss\\|xml"
-	     :publishing-directory "./public/"
-	     )
+;; 	     )
+;;        (list "blog-static"
+;; 	     :recursive t
+;; 	     :base-directory "./content/"
+;; 	     :publishing-function 'org-publish-attachment
+;; 	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf\\|svg\\|rss\\|xml"
+;; 	     :publishing-directory "./public/"
+;; 	     )
 
-       ;; (list "org"
-       ;;       :components ("blog-index""blog-main" "blog-static"))
-       ))
+;;        ;; (list "org"
+;;        ;;       :components ("blog-index""blog-main" "blog-static"))
+;;        ))
 
 (setq org-html-postamble "
 <p class=\"postamble\"> 
