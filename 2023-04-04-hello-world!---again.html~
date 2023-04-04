@@ -6,19 +6,32 @@
 <!-- 2023-04-04 Tue 14:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Posts</title>
+<title>Hello world! - Again</title>
 <meta name="generator" content="Org mode" />
+<meta name="author" content="Zakaria.K" />
+<meta name="keywords" content="blog," />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
 </head>
 <body>
 <div id="content">
-<h1 class="title">Posts</h1>
-<ul class="org-ul">
-<li><a href="2023-04-04-final-test-i-hope.html">Final test I hope</a></li>
-<li><a href="2021-11-06-hello-world.html">Hello World</a></li>
-<li><a href="2023-04-04-hello-world!---again.html">Hello world! - Again</a></li>
-<li><a href="2021-11-07-entr.html">entr</a></li>
-</ul>
+<h1 class="title">Hello world! - Again
+<br />
+<span class="subtitle">--</span>
+</h1>
+<div class="date">
+<p>
+04 Apr 2023 Tue
+</p>
+
+</div>
+<p>
+Hello world again
+</p>
+<blockquote>
+<p>
+this is a quote
+</p>
+</blockquote>
 </div>
 <div id="postamble" class="status">
 
