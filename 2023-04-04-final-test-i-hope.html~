@@ -3,20 +3,20 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-04 Tue 14:00 -->
+<!-- 2023-04-04 Tue 14:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Another test</title>
+<title>Final test I hope</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="Zakaria.k" />
-<meta name="keywords" content="emacs,test" />
+<meta name="author" content="Zakaria.K" />
+<meta name="keywords" content="blog," />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
 </head>
 <body>
 <div id="content">
-<h1 class="title">Another test
+<h1 class="title">Final test I hope
 <br />
-<span class="subtitle">Run arbitrary commands when files change</span>
+<span class="subtitle">change this</span>
 </h1>
 <div class="date">
 <p>
@@ -26,8 +26,14 @@
 </div>
 
 <p>
-this is just a test
+this is the final test, I hope for this 
+and this is just a code block
 </p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">def</span> <span style="font-weight: bold;">fun</span>():
+    echo <span style="font-style: italic;">"Hello"</span>
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
 
