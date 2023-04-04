@@ -17,11 +17,11 @@ jobs:
       - name: Install Emacs
         run: sudo apt install emacs-nox --yes
 
-      - name: Build the site
-        run: ./build.sh
-
       - name: fix timestamps of files
         run: bash ./change_timestamp.sh
+
+      - name: Build the site
+        run: ./build.sh
 
       - name: Publish generated content to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
