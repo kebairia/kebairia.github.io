@@ -17,25 +17,104 @@
 ;; Load the publishing system
 (require 'ox-publish)
 
-;; Customize the HTML output
-(setq org-html-validation-link nil            ;; Don't show validation link
-      org-html-head-include-scripts nil       ;; Use our own scripts
-      org-html-head-include-default-style nil ;; Use our own styles
-      org-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
+(setq org-html-validation-link nil
+      org-html-head-include-scripts nil
+      org-html-head-include-default-style nil
+      org-html-head "<link rel=\"stylesheet\"href=\"css/main.css\" type=\"text/css\" />"
+      )
 
-;; Define the publishing project
+;(setq org-publish-project-alist
+      ;(list
+       ;(list "my-org-site"
+             ;:recursive t
+             ;:base-directory "./content"
+             ;:publishing-directory "./public"
+             ;:publishing-function 'org-html-publish-to-html)))
+
 (setq org-publish-project-alist
       (list
-       (list "org-site:main"
-             :recursive t
-             :base-directory "./content"
-             :publishing-function 'org-html-publish-to-html
-             :publishing-directory "./public"
-             :with-author nil           ;; Don't include author name
-             :with-creator t            ;; Include Emacs and Org versions in footer
-             :with-toc t                ;; Include a table of contents
-             :section-numbers nil       ;; Don't include section numbers
-             :time-stamp-file nil)))    ;; Don't include time stamp in file
+
+       (list "blog-index"
+	     :recursive t
+	     :base-directory "./content/"
+	     :publishing-function 'org-html-publish-to-html
+	     :publishing-directory "./public"
+	     :auto-sitemap  t 
+	     :sitemap-filename "index.org"  
+	     :sitemap-title "Posts"         
+;; 	     :auto-preamble nil
+;; 	     :auto-postamble nil
+	     )
+       (list "blog-main"
+	     :author "Zakaria Kebairia"
+	     :email "4.kebairia@gmail.com"
+	     :recursive t
+	     :base-directory "./content"
+	     :publishing-function 'org-html-publish-to-html
+	     :publishing-directory "./public/"
+	     :with-author t
+	     :with-creator t
+	     :with-toc nil
+	     :with-date t
+	     :with-tags t
+	     :with-latex t
+	     :html-head-extra 
+	     "<header> <h4> <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
+	          <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
+	          </a>
+	          <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
+	          <img src=\"img/rss.svg\" alt=\"RSS icon\" />
+	          </a>
+                      <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
+                      <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" /> </a>
+                      </h4>
+	          </header>"
+	     :section-numbers t
+	     :time-stamp-file t
+	     :auto-preamble nil
+	     :auto-postamble nil
+	     )
+       (list "blog-static"
+	     :recursive t
+	     :base-directory "./content/"
+	     :publishing-function 'org-publish-attachment
+	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|woff\\|otf\\|svg\\|rss\\|xml"
+	     :publishing-directory "./public/"
+	     )
+
+       ;; (list "org"
+       ;;       :components ("blog-index""blog-main" "blog-static"))
+       ))
+
+(setq org-html-postamble "
+<p class=\"postamble\"> 
+
+<a href=\"http://creativecommons.org/licenses/by-sa/4.0/\" class=\"crc\">
+<img src=\"img/crc.png\" alt=\"Creative Commons License\" title=\"Creative Commons License\" />
+
+<a href=\"https://www.linkedin.com/in/zakaria-kebairia/\" title=\"LinkedIn account\" class=\"social\">
+<img src=\"img/social/linkedin-icon-logo.svg\" width=\"45\" alt=\"LinkedIn Account\" />
+</a>
+
+<a href=\"https://twitter.com/z_kebairia\" title=\"Twitter Account\" class=\"social\">
+<img src=\"img/social/twitter-logo.svg\" width=\"40\" alt=\"Twitter Account\" /> </a>
+
+<a href=\"https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg\" title=\"Youtube Account\" class=\"social\">
+<img src=\"img/social/youtube-black-logo.svg\" width=\"40\" alt=\"Youtube Account\" /> </a>
+
+<a href=\"https://www.github.com/kebairia\" title=\"GitHub Account\" class=\"social\">
+<img src=\"img/social/github.svg\" width=\"43\" alt=\"GitHub Account\" /> </a>
+
+<br>
+
+<p class=\"credit\">
+Copyright &\copy  2021 Zakaria Kebairia
+<br>
+Content licensed <a href=\"http://creativecommons.org/licenses/by-sa/4.0/\">CC-BY-SA 4.0</a> unless otherwise noted.
+
+</p>
+"
+)
 
 ;; Generate the site output
 (org-publish-all t)
