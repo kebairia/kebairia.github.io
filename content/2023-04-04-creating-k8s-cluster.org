@@ -1,0 +1,14 @@
+#+TITLE: Creating k8s cluster
+#+SUBTITLE: what about this
+#+AUTHOR: Zakaria.K 
+#+EMAIL: 4.kebairia@gmail.com 
+#+DATE: 04 Apr 2023 Tue 
+#+KEYWORDS: k8s,test
+#+OPTIONS: html5-fancy:t tex:t
+#+begin_date
+{{{date}}}
+#+end_date
+
+
+ok, what about this
+
