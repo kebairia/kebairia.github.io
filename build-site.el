@@ -1,4 +1,5 @@
 (setq project-switch-commands t) 
+(setq org-export-with-broken-links t)
 
 (setq package-enable-at-startup nil)
 ;;-------------------------
