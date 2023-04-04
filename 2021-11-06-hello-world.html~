@@ -11,16 +11,6 @@
 <meta name="author" content="Zakaria.k" />
 <meta name="keywords" content="emacs,test" />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
-<header> <h4> <a href="https://kebairia.github.io" title="Home" class="home">
-	          <img src="img/home.svg" width="50" alt="Home" />
-	          </a>
-	          <a href="files/feed.rss" title="RSS Feed" type="application/rss+xml" class="rss">
-	          <img src="img/rss.svg" alt="RSS icon" />
-	          </a>
-                      <a href="files/cv.pdf" title="My Resume" type="application/pdf" class="resume">
-                      <img src="img/cv.svg" width="25"  alt="My CV icon" /> </a>
-                      </h4>
-	          </header>
 </head>
 <body>
 <div id="content">

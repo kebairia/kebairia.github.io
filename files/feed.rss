@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+    <title>kebairia.github.io</title>
+    <link>https://kebairia.github.io</link>
+    <language>en-us</language>
+    <description>Articles and tutorials about open source, BSD and GNU/Linux system administration, and programming - the pragmatic way.</description>
+<item>
+<pubDate>2021-11-06</pubDate>
+<title>Hello World</title>
+<link>2021-11-06-hello-world.html</link>
+</item>
+<item>
+<pubDate>2021-11-07</pubDate>
+<title> entr - Run arbitrary commands when files change</title>
+<link>2021-11-07-entr.html</link>
+</item>
+</channel></rss>
