@@ -6,19 +6,29 @@
 <!-- 2023-04-04 Tue 14:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Posts</title>
+<title>Creating k8s cluster</title>
 <meta name="generator" content="Org mode" />
+<meta name="author" content="Zakaria.K" />
+<meta name="keywords" content="k8s,test" />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
 </head>
 <body>
 <div id="content">
-<h1 class="title">Posts</h1>
-<ul class="org-ul">
-<li><a href="2023-04-04-another-test.html">Another test</a></li>
-<li><a href="2023-04-04-creating-k8s-cluster.html">Creating k8s cluster</a></li>
-<li><a href="2021-11-06-hello-world.html">Hello World</a></li>
-<li><a href="2021-11-07-entr.html">entr</a></li>
-</ul>
+<h1 class="title">Creating k8s cluster
+<br />
+<span class="subtitle">what about this</span>
+</h1>
+<div class="date">
+<p>
+04 Apr 2023 Tue
+</p>
+
+</div>
+
+
+<p>
+ok, what about this
+</p>
 </div>
 <div id="postamble" class="status">
 
