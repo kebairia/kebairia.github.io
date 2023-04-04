@@ -29,20 +29,25 @@
 
 ;; Load the publishing system
 (require 'ox-publish)
+;; ####################################
+(defun zk/org-publish-org-sitemap-format-entry (entry style project)
+  (cond ((not (directory-name-p entry))
+         (let* ((date (org-publish-find-date entry project)))
 
+           (format "%s - [[file:%s][%s]]"
+                   (format-time-string "%Y-%m-%d" date ) entry
+                   (org-publish-find-title entry project))))
+        ((eq style 'tree)
+         ;; Return only last subdir.
+         (file-name-nondirectory (directory-file-name entry)))
+        (t entry)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
       org-html-head "<link rel=\"stylesheet\"href=\"css/main.css\" type=\"text/css\" />"
       )
-
-;(setq org-publish-project-alist
-      ;(list
-       ;(list "my-org-site"
-             ;:recursive t
-             ;:base-directory "./content"
-             ;:publishing-directory "./public"
-             ;:publishing-function 'org-html-publish-to-html)))
 
 (setq org-publish-project-alist
       (list
@@ -55,8 +60,10 @@
 	     :auto-sitemap  t 
 	     :sitemap-filename "index.org"  
 	     :sitemap-title "Posts"         
-;; 	     :auto-preamble nil
-;; 	     :auto-postamble nil
+         :sitemap-sort-files   'anti-chronologically
+         :sitemap-format-entry 'zk/org-publish-org-sitemap-format-entry
+	     :auto-preamble nil
+	     :auto-postamble nil
 	     )
        (list "blog-main"
 	     :author "Zakaria Kebairia"

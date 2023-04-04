@@ -1,5 +1,4 @@
 #+TITLE: Posts
 
-- [[file:2023-04-04-building-a-homalab-with-kvm-and-kubernetes:-an-overview.org][Building a Homalab with KVM and Kubernetes: An Overview]]
-- [[file:2021-11-06-hello-world.org][Hello World]]
-- [[file:2021-11-07-entr.org][entr]]
+- 2021-11-07 - [[file:2021-11-07-entr.org][entr]]
+- 2021-11-06 - [[file:2021-11-06-hello-world.org][Hello World]]
