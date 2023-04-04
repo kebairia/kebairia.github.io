@@ -1,0 +1,17 @@
+#+TITLE: Final test I hope
+#+SUBTITLE: change this 
+#+AUTHOR: Zakaria.K 
+#+EMAIL: 4.kebairia@gmail.com 
+#+DATE: 04 Apr 2023 Tue 
+#+KEYWORDS: blog,
+#+OPTIONS: html5-fancy:t tex:t
+#+begin_date
+{{{date}}}
+#+end_date
+
+this is the final test, I hope for this 
+and this is just a code block
+#+begin_src python
+def fun():
+    echo "Hello"
+#+end_src
