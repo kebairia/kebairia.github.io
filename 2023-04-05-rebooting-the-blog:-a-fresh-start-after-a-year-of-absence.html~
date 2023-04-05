@@ -6,29 +6,45 @@
 <!-- 2023-04-05 Wed 00:02 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Posts</title>
+<title>Rebooting the Blog: A fresh start after a year of absence</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="Zakaria Kebairia" />
+<meta name="author" content="Zakaria.K" />
+<meta name="keywords" content="blog," />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
-<header> <h4> <a href="https://kebairia.github.io" title="Home" class="home">
-	          <img src="img/home.svg" width="50" alt="Home" />
-	          </a>
-	          <a href="files/feed.rss" title="RSS Feed" type="application/rss+xml" class="rss">
-	          <img src="img/rss.svg" alt="RSS icon" />
-	          </a>
-                      <a href="files/cv.pdf" title="My Resume" type="application/pdf" class="resume">
-                      <img src="img/cv.svg" width="25"  alt="My CV icon" /> </a>
-                      </h4>
-	          </header>
 </head>
 <body>
 <div id="content">
-<h1 class="title">Posts</h1>
-<ul class="org-ul">
-<li>2023-04-05 - <a href="2023-04-05-rebooting-the-blog:-a-fresh-start-after-a-year-of-absence.html">Rebooting the Blog: A fresh start after a year of absence</a></li>
-<li>2021-11-07 - <a href="2021-11-07-entr.html">entr</a></li>
-<li>2021-11-06 - <a href="2021-11-06-hello-world.html">Hello World</a></li>
-</ul>
+<h1 class="title">Rebooting the Blog: A fresh start after a year of absence
+<br />
+<span class="subtitle">--</span>
+</h1>
+<div class="date">
+<p>
+05 Apr 2023 Wed
+</p>
+
+</div>
+
+<p>
+Hello again, it's been over a year since my last <a href="2021-11-07-entr.html">blog post</a>, and a lot has changed since then.
+</p>
+
+<p>
+Unfortunately, I faced an issue with the script I was using to publish my blogs and I found myself procrastinating on resolving it for an entire year.
+However, I have finally rectified the issue and made improvements to the site.
+</p>
+
+<p>
+I have a lot of topics to write about this year, so please stay tuned.
+</p>
+
+<p>
+In my next post, I'll tell you about the updates to the site and the fixes I made.
+</p>
+
+<p>
+Thank you for reading and see you next time.
+</p>
 </div>
 <div id="postamble" class="status">
 
