@@ -1,0 +1,21 @@
+#+TITLE: Rebooting the Blog: A fresh start after a year of absence
+#+SUBTITLE: -- 
+#+AUTHOR: Zakaria.K 
+#+EMAIL: 4.kebairia@gmail.com 
+#+DATE: 05 Apr 2023 Wed 
+#+KEYWORDS: blog,
+#+OPTIONS: html5-fancy:t tex:t
+#+begin_date
+{{{date}}}
+#+end_date
+
+Hello again, it's been over a year since my last [[file:2021-11-07-entr.org][blog post]], and a lot has changed since then.
+
+Unfortunately, I faced an issue with the script I was using to publish my blogs and I found myself procrastinating on resolving it for an entire year.
+However, I have finally rectified the issue and made improvements to the site.
+
+I have a lot of topics to write about this year, so please stay tuned.
+
+In my next post, I'll tell you about the updates to the site and the fixes I made.
+
+Thank you for reading and see you next time.
