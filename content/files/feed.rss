@@ -10,9 +10,16 @@
 <title>Hello World</title>
 <link>2021-11-06-hello-world.html</link>
 </item>
+
 <item>
 <pubDate>2021-11-07</pubDate>
 <title> entr - Run arbitrary commands when files change</title>
 <link>2021-11-07-entr.html</link>
+</item>
+
+<item>
+<pubDate>2023-04-05</pubDate>
+<title>Rebooting the Blog: A fresh start after a year of absence</title>
+<link>2023-04-05-rebooting-the-blog:-a-fresh-start-after-a-year-of-absence.html</link>
 </item>
 </channel></rss>
