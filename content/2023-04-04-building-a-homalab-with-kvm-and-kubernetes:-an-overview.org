@@ -1,0 +1,18 @@
+#+TITLE: Building a Homalab with KVM and Kubernetes: An Overview
+#+SUBTITLE: -- 
+#+AUTHOR: Zakaria.K 
+#+EMAIL: 4.kebairia@gmail.com 
+#+DATE: 04 Apr 2023 Tue 
+#+KEYWORDS: blog,kvm,linux,kubernetes,haproxy,keepalived,homelab
+#+OPTIONS: html5-fancy:t tex:t
+#+begin_date
+{{{date}}}
+#+end_date
+#+begin_comment
+ =02:5A:41:4B:49:<IP>=
+#+end_comment
+* dlkjfs
+:PROPERTIES:
+:EXPORT_DATE: 2021-02-12
+:END:
+
