@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-06 Thu 13:29 -->
+<!-- 2023-04-06 Thu 13:41 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a Homalab with KVM and Kubernetes: An Overview</title>
@@ -22,9 +22,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgcbd5ca5">1. Introduction</a></li>
-<li><a href="#org84cf8ab">2. Tools and technologies</a></li>
-<li><a href="#orgb6f734c">3. Architecture</a></li>
+<li><a href="#org4bdd6db">1. Introduction</a></li>
+<li><a href="#org5624e27">2. Tools and technologies</a></li>
+<li><a href="#org23827c6">3. Architecture</a></li>
 </ul>
 </div>
 </div>
@@ -34,8 +34,8 @@
 </p>
 
 </div>
-<div id="outline-container-orgcbd5ca5" class="outline-2">
-<h2 id="orgcbd5ca5"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org4bdd6db" class="outline-2">
+<h2 id="org4bdd6db"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
@@ -52,8 +52,8 @@ To centralize the configuration as much as possible, I will be using Packer to c
 </div>
 </div>
 
-<div id="outline-container-org84cf8ab" class="outline-2">
-<h2 id="org84cf8ab"><span class="section-number-2">2</span> Tools and technologies</h2>
+<div id="outline-container-org5624e27" class="outline-2">
+<h2 id="org5624e27"><span class="section-number-2">2</span> Tools and technologies</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each node will have SELinux in enforcing mode.
@@ -77,8 +77,8 @@ To make the process of provisioning new nodes easier, I will create custom base 
 </div>
 </div>
 
-<div id="outline-container-orgb6f734c" class="outline-2">
-<h2 id="orgb6f734c"><span class="section-number-2">3</span> Architecture</h2>
+<div id="outline-container-org23827c6" class="outline-2">
+<h2 id="org23827c6"><span class="section-number-2">3</span> Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
@@ -205,6 +205,11 @@ Here's the homelab diagram for our setup.
 </p>
 <p><span class="figure-number">Figure 1: </span>Homelab diagram</p>
 </div>
+
+
+<p>
+This was an overview of my homelab plan. In the following blog posts I will provide detailed setup and configuration guides for each component of the homelab.
+</p>
 </div>
 </div>
 </div>
