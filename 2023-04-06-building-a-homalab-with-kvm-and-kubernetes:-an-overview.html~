@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-06 Thu 13:20 -->
+<!-- 2023-04-06 Thu 13:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a Homalab with KVM and Kubernetes: An Overview</title>
@@ -22,9 +22,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org448ede8">1. Introduction</a></li>
-<li><a href="#org7055591">2. Tools and technologies</a></li>
-<li><a href="#org70a79bc">3. Architecture</a></li>
+<li><a href="#org4708fdd">1. Introduction</a></li>
+<li><a href="#orgcc80ade">2. Tools and technologies</a></li>
+<li><a href="#org529af3b">3. Architecture</a></li>
 </ul>
 </div>
 </div>
@@ -34,8 +34,8 @@
 </p>
 
 </div>
-<div id="outline-container-org448ede8" class="outline-2">
-<h2 id="org448ede8"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org4708fdd" class="outline-2">
+<h2 id="org4708fdd"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
@@ -52,8 +52,8 @@ To centralize the configuration as much as possible, I will be using Packer to c
 </div>
 </div>
 
-<div id="outline-container-org7055591" class="outline-2">
-<h2 id="org7055591"><span class="section-number-2">2</span> Tools and technologies</h2>
+<div id="outline-container-orgcc80ade" class="outline-2">
+<h2 id="orgcc80ade"><span class="section-number-2">2</span> Tools and technologies</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each node will have SELinux in enforcing mode.
@@ -77,8 +77,8 @@ To make the process of provisioning new nodes easier, I will create custom base 
 </div>
 </div>
 
-<div id="outline-container-org70a79bc" class="outline-2">
-<h2 id="org70a79bc"><span class="section-number-2">3</span> Architecture</h2>
+<div id="outline-container-org529af3b" class="outline-2">
+<h2 id="org529af3b"><span class="section-number-2">3</span> Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
