@@ -62,6 +62,7 @@ Here's the homelab diagram for our setup.
 [[file:img/blogs/homelab/arch.png]]
 
 
+This was an overview of my homelab plan. In the following blog posts I will provide detailed setup and configuration guides for each component of the homelab.
 * COMMENT VM Setup Guides
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
 - Admins
