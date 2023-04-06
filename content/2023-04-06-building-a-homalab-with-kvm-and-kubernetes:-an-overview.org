@@ -43,7 +43,7 @@ For a quick summary of the cluster details, please refer to the table below.
 | admin1  | admin1.hl.test  |  10.10.0.2 | Master             | DNS/DHCP/HAProxy/Keepalived |
 | admin2  | admin2.hl.test  |  10.10.0.3 | Slave              | DNS/DHCP/HAProxy/Keepalived |
 |---------+-----------------+------------+--------------------+-----------------------------|
-| storage | storage.hl.test | 10.10.0.10 |  /                 | PXE boot / NFS / Log server |
+| storage | storage.hl.test | 10.10.0.10 | /                  | NFS / Log server            |
 |---------+-----------------+------------+--------------------+-----------------------------|
 | master1 | master1.hl.test | 10.10.0.21 | Control Plane Node |                             |
 | master2 | master2.hl.test | 10.10.0.22 | Control Plane Node | Kubernetes                  |
