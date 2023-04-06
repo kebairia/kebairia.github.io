@@ -278,6 +278,19 @@ p {
   text-align: right;
   float: right;
 }
+/*TABLES {{{1*/
+
+table, th, td {
+  border: 1px solid;
+
+}
+
+/*th {*/
+  /*background-color: #ccc;*/
+  /*color: white;*/
+/*}*/
+
+/* }}}*/
 
 /*footer {{{1*/
 
