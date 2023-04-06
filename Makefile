@@ -5,6 +5,7 @@
 #BUILD = build.sh
 # --- Targets ---
 publish:
+	./update_org_file_timestamps.sh
 	./build.sh
 
 cleanall:
@@ -15,6 +16,7 @@ cleancache:
 	rm -rf ./public/*~
 
 watch: ./build.sh ./content
-	@find . -type f | entr ./build.sh
+	./update_org_file_timestamps.sh
+	@find . -type f | entr  ./build.sh
 
 .PHONY: cleanall cleancache watch publish
