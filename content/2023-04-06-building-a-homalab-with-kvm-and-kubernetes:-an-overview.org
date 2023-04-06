@@ -1,0 +1,69 @@
+#+TITLE: Building a Homalab with KVM and Kubernetes: An Overview
+#+SUBTITLE: -- 
+#+AUTHOR: Zakaria.K 
+#+EMAIL: 4.kebairia@gmail.com 
+#+DATE: 06 Apr 2023 Tue 
+#+KEYWORDS: blog,kvm,linux,kubernetes,haproxy,keepalived,homelab
+#+OPTIONS: html5-fancy:t tex:t
+#+begin_date
+{{{date}}}
+#+end_date
+
+#+begin_comment
+ =02:5A:41:4B:49:<IP>=
+If you are new to Linux servers, it provides you a playground for learning and breaking things.
+#+end_comment
+* Introduction
+
+I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
+The control plane nodes will be responsible for managing the Kubernetes cluster, while the worker nodes will run the workloads.
+
+The main reason for building this homelab is to help me to test and learn new technologies that I'm interested in, as well as the ones that I need for work. In addition, I need it to be fully automated so that I can provision new VMs quickly if necessary.
+
+To centralize the configuration as much as possible, I will be using Packer to create my VMs and Ansible for configuration management. The ultimate goal is to create an ephemeral sandboxes that can be easily disposed of and replaced, allowing for experimentation.
+
+* Tools and technologies
+Each node will have SELinux in enforcing mode.
+
+Firewalld will also be enabled on all the nodes to provide an additional layer of network security.
+
+The two admin nodes will serve as the main DNS and DHCP servers for the entire homelab, and we will use HAProxy and Keepalived to provide high availability for the control plane nodes.
+
+To provide storage for the cluster, we will dedicate another node as an NFS server. This node will also be utilized as a log server, helping to centralize all the logs in one location for easier management and troubleshooting.
+
+To make the process of provisioning new nodes easier, I will create custom base images for Ubuntu server and RockyLinux using Packer. These images will include essential configurations like (SSH, network settings, users...etc) making it easier to provision new nodes in the future.
+
+* Architecture
+For a quick summary of the cluster details, please refer to the table below.
+
+
+| Name    | Hostname        | IP Address | Role               | Software                    |
+|---------+-----------------+------------+--------------------+-----------------------------|
+| /       | <               |          < | <                  | <                           |
+| admin1  | admin1.hl.test  |  10.10.0.2 | Master             | DNS/DHCP/HAProxy/Keepalived |
+| admin2  | admin2.hl.test  |  10.10.0.3 | Slave              | DNS/DHCP/HAProxy/Keepalived |
+|---------+-----------------+------------+--------------------+-----------------------------|
+| storage | storage.hl.test | 10.10.0.10 |  /                 | PXE boot / NFS / Log server |
+|---------+-----------------+------------+--------------------+-----------------------------|
+| master1 | master1.hl.test | 10.10.0.21 | Control Plane Node |                             |
+| master2 | master2.hl.test | 10.10.0.22 | Control Plane Node | Kubernetes                  |
+| master3 | master3.hl.test | 10.10.0.23 | Control Plane Node |                             |
+|---------+-----------------+------------+--------------------+-----------------------------|
+| worker1 | worker1.hl.test | 10.10.0.31 | Worker Node        |                             |
+| worker2 | worker2.hl.test | 10.10.0.32 | Worker Node        | Kubernetes                  |
+| worker3 | worker3.hl.test | 10.10.0.33 | Worker Node        |                             |
+|---------+-----------------+------------+--------------------+-----------------------------|
+
+
+Here's the homelab diagram for our setup.
+
+#+caption: Homelab diagram
+#+attr_html: :width 800 
+[[file:img/blogs/homelab/arch.png]]
+
+
+* COMMENT VM Setup Guides
+This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
+- Admins
+  - [[file:2023-04-07-configure-dns-servers-with-failover-using-bind.org][Configure DNS servers with failover using BIND]]
+- Kubernetes
