@@ -37,34 +37,47 @@ To make the process of provisioning new nodes easier, I will create custom base 
 For a quick summary of the cluster details, please refer to the table below.
 
 
-| Name    | Hostname        | IP Address | Role               | Software                    |
-|---------+-----------------+------------+--------------------+-----------------------------|
-| /       | <               |          < | <                  | <                           |
-| admin1  | admin1.hl.test  |  10.10.0.2 | Master             | DNS/DHCP/HAProxy/Keepalived |
-| admin2  | admin2.hl.test  |  10.10.0.3 | Slave              | DNS/DHCP/HAProxy/Keepalived |
-|---------+-----------------+------------+--------------------+-----------------------------|
-| storage | storage.hl.test | 10.10.0.10 | /                  | NFS / Log server            |
-|---------+-----------------+------------+--------------------+-----------------------------|
-| master1 | master1.hl.test | 10.10.0.21 | Control Plane Node |                             |
-| master2 | master2.hl.test | 10.10.0.22 | Control Plane Node | Kubernetes                  |
-| master3 | master3.hl.test | 10.10.0.23 | Control Plane Node |                             |
-|---------+-----------------+------------+--------------------+-----------------------------|
-| worker1 | worker1.hl.test | 10.10.0.31 | Worker Node        |                             |
-| worker2 | worker2.hl.test | 10.10.0.32 | Worker Node        | Kubernetes                  |
-| worker3 | worker3.hl.test | 10.10.0.33 | Worker Node        |                             |
-|---------+-----------------+------------+--------------------+-----------------------------|
+| Name    | Hostname        | IP Address | RAM (MB) | CPUs | Software                    |
+|---------+-----------------+------------+----------+------+-----------------------------|
+| admin1  | admin1.hl.test  |  10.10.0.2 |     1024 |    1 | DNS/DHCP/HAProxy/Keepalived |
+| admin2  | admin2.hl.test  |  10.10.0.3 |     1024 |    1 | DNS/DHCP/HAProxy/Keepalived |
+|---------+-----------------+------------+----------+------+-----------------------------|
+| storage | storage.hl.test | 10.10.0.10 |     1024 |    1 | NFS / Log server            |
+|---------+-----------------+------------+----------+------+-----------------------------|
+| master1 | master1.hl.test | 10.10.0.21 |     2048 |    2 |                             |
+| master2 | master2.hl.test | 10.10.0.22 |     2048 |    2 | Kubernetes                  |
+| master3 | master3.hl.test | 10.10.0.23 |     2048 |    2 |                             |
+|---------+-----------------+------------+----------+------+-----------------------------|
+| worker1 | worker1.hl.test | 10.10.0.31 |     2048 |    2 |                             |
+| worker2 | worker2.hl.test | 10.10.0.32 |     2048 |    2 | Kubernetes                  |
+| worker3 | worker3.hl.test | 10.10.0.33 |     2048 |    2 |                             |
+|---------+-----------------+------------+----------+------+-----------------------------|
 
 
 Here's the homelab diagram for our setup.
 
+#+begin_note 
+These are the *admin nodes*, one serving as the master node =IP: 10.10.0.2= and the other as the slave node =IP: 10.10.0.3=.\\
+Both nodes are equipped with *DNS*, *DHCP*, *HAProxy* and *Keepalived* services installed and configured, which ensures continuous service availability and failover capabilities.\\
+The nodes are configured with a =virtual IP: 10.10.0.20=, which provides a single IP address to contact with.\\
+\\
+\\
+My *Kubernetes cluster* will consist of 6 Nodes in total 3 of these nodes will act as Master nodes =10.10.0.21-23=.\\
+While the other 3 as worker nodes =10.10.0.31-33=.
+#+end_note
+
 #+caption: Homelab diagram
-#+attr_html: :width 800 
+#+attr_html: :width 700 
 [[file:img/blogs/homelab/arch.png]]
+#+begin_note 
+#+end_note
 
 
 This was an overview of my homelab plan. In the following blog posts I will provide detailed setup and configuration guides for each component of the homelab.
-* COMMENT VM Setup Guides
+* VM Setup Guides
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
 - Admins
-  - [[file:2023-04-07-configure-dns-servers-with-failover-using-bind.org][Configure DNS servers with failover using BIND]]
+  - [[file:2023-04-08-building-qemu-kvm-images-with-packer-(part-I).org][Building Qemu-Kvm Images With Packer (Part I) -- RockyLinux9]]
+  # - [[file:2023-04-07-configure-dns-servers-with-failover-using-bind.org][Configure DNS servers with failover using BIND]]
 - Kubernetes
+  
