@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-11 Tue 20:27 -->
+<!-- 2023-04-11 Tue 20:30 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -34,8 +34,8 @@
 </p>
 
 </div>
-<div id="outline-container-org8538420" class="outline-2">
-<h2 id="org8538420"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org911c5f8" class="outline-2">
+<h2 id="org911c5f8"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to create a RockyLinux image using Packer.
@@ -55,8 +55,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-orge1ba7dc" class="outline-2">
-<h2 id="orge1ba7dc"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-orgdffdc76" class="outline-2">
+<h2 id="orgdffdc76"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
@@ -66,8 +66,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org44f216e" class="outline-2">
-<h2 id="org44f216e"><span class="section-number-2">3</span> Installing Packer</h2>
+<div id="outline-container-org3400e13" class="outline-2">
+<h2 id="org3400e13"><span class="section-number-2">3</span> Installing Packer</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.
@@ -87,8 +87,8 @@ We will install <code>qemu-ui-gtk</code> as well, this will enable us to easily 
 </div>
 </div>
 </div>
-<div id="outline-container-org0ee7e78" class="outline-2">
-<h2 id="org0ee7e78"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
+<div id="outline-container-org33f0504" class="outline-2">
+<h2 id="org33f0504"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.
@@ -111,7 +111,7 @@ We will create a file named <code>main.pkr.hcl</code>, it will serve as our prim
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org672fd2e">touch main.pkr.hcl
+<pre class="src src-bash" id="org4117d5e">touch main.pkr.hcl
 </pre>
 </div>
 
@@ -144,8 +144,8 @@ This command is used to initiate our Packer template, which is basically downloa
 </p>
 </div>
 </div>
-<div id="outline-container-orgace9cf6" class="outline-2">
-<h2 id="orgace9cf6"><span class="section-number-2">5</span> Building RockyLinux image</h2>
+<div id="outline-container-orgd81d78b" class="outline-2">
+<h2 id="orgd81d78b"><span class="section-number-2">5</span> Building RockyLinux image</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
@@ -169,7 +169,7 @@ Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X 
 
 </div>
 <div class="org-src-container">
-<pre class="src src-hcl" id="org5d3a0ae"># Define QEMU source for rocky
+<pre class="src src-hcl" id="orgb458d4c"># Define QEMU source for rocky
 source "qemu" "rocky" {
   vm_name                 = "rocky-base-image.qcow2"
   http_directory          = "./http"
@@ -220,15 +220,15 @@ In the <code>build</code> block, we can reference our source block by it's name 
 In the <code>provisioner</code> block, we used a shell script called <code>configs.sh</code>.
 </p>
 </div>
-<div id="outline-container-orgf204430" class="outline-3">
-<h3 id="orgf204430"><span class="section-number-3">5.1</span> Kickstart file</h3>
+<div id="outline-container-orgd229003" class="outline-3">
+<h3 id="orgd229003"><span class="section-number-3">5.1</span> Kickstart file</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named <code>http</code> and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the <a href="#coderef-Bootstrapping with a Kickstart Config File" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-Bootstrapping with a Kickstart Config File');" onmouseout="CodeHighlightOff(this, 'coderef-Bootstrapping with a Kickstart Config File');">boot command</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org6ba0417">mkdir http
+<pre class="src src-bash" id="org311cc71">mkdir http
 </pre>
 </div>
 
@@ -307,8 +307,8 @@ systemctl restart sshd
 </details>
 </div>
 </div>
-<div id="outline-container-orga69daa5" class="outline-3">
-<h3 id="orga69daa5"><span class="section-number-3">5.2</span> Building the image</h3>
+<div id="outline-container-org731a055" class="outline-3">
+<h3 id="org731a055"><span class="section-number-3">5.2</span> Building the image</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Let's first validate our template.
