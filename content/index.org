@@ -2,6 +2,7 @@
 
 - 2023-04-11 - [[file:2023-04-08-building-qemu-kvm-images-with-packer-(part-I).org][Building Qemu-Kvm Images With Packer (Part I)]]
 - 2023-04-11 - [[file:2023-04-06-building-a-homalab-with-kvm-and-kubernetes:-an-overview.org][Building a Homalab with KVM and Kubernetes: An Overview]]
+- 2023-04-11 - [[file:2023-04-11-building-qemu-kvm-images-with-packer-(part-I).org][Building Qemu-Kvm Images With Packer (Part I)]]
 - 2023-04-05 - [[file:2023-04-05-rebooting-the-blog:-a-fresh-start-after-a-year-of-absence.org][Rebooting the Blog: A fresh start after a year of absence]]
 - 2021-11-07 - [[file:2021-11-07-entr.org][entr]]
 - 2021-11-06 - [[file:2021-11-06-hello-world.org][Hello World]]

@@ -1,0 +1,403 @@
+#+TITLE: Building Qemu-Kvm Images With Packer (Part I)
+#+SUBTITLE: Building Rocky Linux 9 VM Images with Packer
+#+AUTHOR: Zakaria.K
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 11 Apr 2023 Sat
+#+KEYWORDS: packer,linux
+#+OPTIONS: html5-fancy:t tex:t
+#+PROPERTY: header-args:sh :results output :exports both 
+#+begin_date
+{{{date}}}
+#+end_date
+* Introduction
+We are going to create a RockyLinux image using Packer.
+
+Creating your own VM image can significantly speed up the provisioning of new VMs whenever you need them.
+
+Instead of repeatedly installing the operating system, we'll build VM images for Rocky Linux 9 and Ubuntu 22.04, with our own configuration, this will ensure consistency across our infrastructure.
+
+Part 1 covers building a *Rocky Linux 9* image with Packer, while Part 2 focuses on *Ubuntu 22.04*
+
+* Prerequisites
+- We need a server with KVM installed on it
+- Packer installed on you system
+- ISO file for the image you want to build ( in our case, we are using *[[https://rockylinux.org/download][RockyLinux9.1]]*)
+
+* Installing Packer
+
+Installing Packer is a straightforward process. Simply visit the [[https://developer.hashicorp.com/packer/downloads][official documentation]], where you can find the appropriate version of Packer for your operating system.
+
+I'm using Arch Linux, and Packer is already available in the Arch repos.
+
+We will install =qemu-ui-gtk= as well, this will enable us to easily monitor Packer's installation of the operating system through a graphical user interface.
+
+#+begin_src sh
+$ sudo pacman -S packer qemu-ui-gtk --noconfirm
+#+end_src
+* Write Packer Templates with HCL2
+HashiCorp has developed its own configuration language, known as the *HashiCorp Configuration Language (HCL)*, which is utilized in its suite of tools.
+
+HCL is in version 2, and we are going to use it to create our own VM image template.
+
+Each virtualization platform has it's own plugin which is called a *builder* in Packer's term.
+
+For our Qemu platform, we'll need to use the *QEMU* builder plugin, which you can find on [[https://github.com/hashicorp/packer-plugin-qemu][this page]].
+
+We will create a file named =main.pkr.hcl=, it will serve as our primary template.
+
+# Additionally, we will create another file for variable definitions, we'll call =variables.pkr.hcl=.
+
+#+name: qemu-plugin
+#+begin_src sh
+touch main.pkr.hcl
+#+end_src
+
+#+RESULTS: qemu-plugin
+
+Let's install qemu's plugin. Add this to =main.pkr.hcl=
+
+#+begin_src hcl :session main :tangle /tmp/packer-blog/main.pkr.hcl
+packer {
+  required_plugins {
+    qemu = {
+      version = " >= 1.0.9"
+      source  = "github.com/hashicorp/qemu"
+    }
+  }
+}
+#+end_src
+
+Run this command
+#+begin_src sh
+packer init main.pkr.hcl
+#+end_src
+
+This command is used to initiate our Packer template, which is basically downloading the necessary builder binaries.
+* Building RockyLinux image
+#+begin_comment
+First we need to define our variables first. After the plugin definition section, add the variables that you need
+#+begin_note
+For more information about Built-in block for Packer, check out the [[https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks][official documentation]]
+#+end_note
+
+
+#+name: variables.pkrs.hcl
+#+begin_src hcl
+variable "http_directory" {
+  type    = string
+  default = "./http"
+}
+variable "output_directory" {
+  type    = string
+  default = "./artifacts"
+}
+variable "vm_name" {
+  type    = string
+  default = "qemu_base-image.qcow2"
+}
+variable "format" {
+    type = string
+    default = "qcow2"
+}
+variable "accelerator" {
+    type = string
+    default = "kvm"
+}
+variable "headless" {
+    type = string
+    default = "false"
+}
+variable "net_device" {
+    type = string
+    default = "virtio-net"
+}
+variable "disk_interface" {
+    type = string
+    default = "virtio"
+}
+variable "disk_size" {
+    type = string
+    default = "25G"
+}
+variable "memory" {
+    type = string
+    default = "1024"
+}
+variable "cpus" {
+    type = string
+    default = "2"
+}
+variable "ssh_username" {
+    type = string
+    default = "admin"
+}
+variable "ssh_password" {
+    type = string
+    default = "admin"
+}
+variable "ssh_timeout" {
+    type = string
+    default = "60m"
+}
+
+variable "ssh_handshake_attempts" {
+    type = string
+    default = "1000"
+}
+variable "iso_url" {
+    type = string
+    default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso"
+}
+variable "iso_checksum" {
+    type = string
+    default = "sha256:750c373c3206ae79784e436cc94fffc122296cf1bf8129a427dcd6ba7fac5888"
+}
+variable "boot_wait" {
+    type = string
+    default = "5s"
+}
+variable "shutdown_command" {
+    type = string
+    default = "echo admin | sudo -S -E shutdown -P now"
+}
+variable "shell_scripts" {
+    type = string
+    default = "../scripts/configs.sh"
+}
+#+end_src
+
+To make use of these variables in our =main.pkr.hcl= file, we simply reference them using the syntax =var.<name of the variable>=.
+# Every Packer template is compose of three main components:
+# - The source section 
+# - The builder section 
+
+#+end_comment
+
+Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
+The most important blocks that we are going to use here are the following:
+
+- =build= blocks contain configuration for a specific combination of builders, provisioners, and post-processors used to create a specific image artifact.
+
+- =source= blocks contain configuration for builder plugins, including hardware and resource allocation settings such as type of hardware, RAM and CPU requirements.
+  Each source block has a unique name that can be referenced in the =build= block.
+
+- =provisioner= blocks contain your provisionners, like shell scripts, Ansible playbook..etc.
+  These blocks are nested inside of a =build= block.
+
+#+begin_note
+Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X image.\\
+As noted in [[https://github.com/hashicorp/packer-plugin-qemu/issues/76
+][this issue]], adding the =-cpu host= flag to the =qemuargs= section can resolve this issue.
+ #+end_note
+#+name: main.pkr.hcl
+#+begin_src hcl :session main :tangle /tmp/packer-blog/main.pkr.hcl
+# Define QEMU source for rocky
+source "qemu" "rocky" {
+  vm_name                 = "rocky-base-image.qcow2"
+  http_directory          = "./http"
+  output_directory        = "./artifacts"
+  iso_url                 = "<Put your ISO URL Here"
+  iso_checksum            = "sha256:Put ISO checksum Here"
+  format                  = "qcow2"
+  accelerator             = "kvm"
+  net_device              = "virtio-net"
+  disk_interface          = "virtio"
+  disk_size               = "25G"
+  memory                  = 1024
+  cpus                    = 2
+  headless                = false
+  boot_wait               = "5s"
+  shutdown_command        = "echo admin | sudo -S -E shutdown -P now"
+  ssh_username            = "admin"
+  ssh_password            = "admin"
+  ssh_timeout             = "60m"
+  ssh_handshake_attempts  = 2000
+  # (ref:Bootstrapping with a Kickstart Config File)
+  boot_command = [
+    "<up><wait><tab><wait> net.ifnames=0 biosdevname=0 inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"] 
+  qemuargs = [
+    [ "-m", "1024M" ],
+    [ "-smp", "2" ],
+    [ "-cpu", "host" ]
+  ]
+}
+
+# Define build process
+build {
+  sources = ["source.qemu.rocky"]
+  # Execute shell scripts
+  provisioner "shell" {
+    scripts               = ["../scripts/configs.sh"]
+    expect_disconnect     = true
+  }
+}
+#+end_src
+
+In the =build= block, we can reference our source block by it's name =source.qemu.rocky=.
+
+In the =provisioner= block, we used a shell script called =configs.sh=.
+** Kickstart file
+
+Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named =http= and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the [[(Bootstrapping with a Kickstart Config File)][boot command]].
+
+#+name: ks.cfg
+#+begin_src sh
+mkdir http
+#+end_src
+
+#+RESULTS: ks.cfg
+
+Create a kickstart file with the following content, (or any content you want).
+#+html: <details><summary>Kickstart file content</summary>
+#+begin_src conf
+#Global 
+cdrom
+lang en_US.UTF-8
+keyboard us
+
+# Network
+network --bootproto=dhcp --device=eth0 --noipv6 --onboot=on
+
+# Users
+rootpw --plaintext admin
+user --name=admin --plaintext --password=admin
+
+timezone UTC
+bootloader --location=mbr --timeout=1 --append="net.ifnames=0 biosdevname=0"
+text
+skipx
+zerombr
+clearpart --all --initlabel
+autopart --nohome --noboot --nolvm
+
+# System settings
+firewall --enabled
+selinux --enforcing
+firstboot --disabled
+reboot --eject
+services --enabled="NetworkManager,sshd,chronyd"
+
+# Packages
+%packages --ignoremissing --excludedocs
+openssh-clients
+sudo
+vim
+bash-completion
+selinux-policy-devel
+wget
+nfs-utils
+net-tools
+tar
+bzip2
+deltarpm
+rsync
+dnf-utils
+redhat-lsb-core
+elfutils-libelf-devel
+-fprintd-pam
+-intltool
+-iwl*-firmware
+-microcode_ctl
+%end
+
+# Post-installation
+%post --interpreter=/bin/bash
+# Sudo configuration
+echo 'Defaults:admin !requiretty' > /etc/sudoers.d/admin
+echo '%admin ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/admin
+chmod 440 /etc/sudoers.d/admin
+
+# SSH configuration
+sed -i 's/^#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
+systemctl enable sshd
+systemctl restart sshd
+%end
+
+#+end_src
+#+html: </details>
+** Building the image
+Let's first validate our template.
+#+begin_src sh
+packer validate .
+#+end_src
+
+#+RESULTS:
+: The configuration is valid.
+
+And then build.
+#+begin_src sh :results none
+export PACKER_LOG=1 && packer build .
+#+end_src
+
+#+html: <details><summary>Packer building process -- output </summary>
+#+begin_example
+2023/04/11 20:13:04 [INFO] Packer version: 1.8.6 [go1.20.1 linux amd64]
+2023/04/11 20:13:04 Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:04 [TRACE] discovering plugins in /usr/bin
+2023/04/11 20:13:04 Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:04 [TRACE] discovering plugins in /home/zakaria/.config/packer/plugins
+2023/04/11 20:13:04 [DEBUG] Discovered plugin: qemu = /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64
+2023/04/11 20:13:04 [INFO] found external [-packer-default-plugin-name-] builders from qemu plugin
+2023/04/11 20:13:04 [TRACE] discovering plugins in .
+2023/04/11 20:13:04 [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/04/11 20:13:04 [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/zakaria/.packerconfig
+2023/04/11 20:13:04 [WARN] Config file doesn't exist: /home/zakaria/.packerconfig
+2023/04/11 20:13:04 Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:04 [INFO] Setting cache directory: /home/zakaria/.cache/packer
+2023/04/11 20:13:04 Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:04 [TRACE] listing potential installations for "github.com/hashicorp/qemu" that match " >= 1.0.9". plugingetter.ListInstallationsOptions{FromFolders:[]string{"/usr/bin/packer", ".", "/home/zakaria/.config/packer/plugins"}, BinaryInstallationOptions:plugingetter.BinaryInstallationOptions{APIVersionMajor:"5", APIVersionMinor:"0", OS:"linux", ARCH:"amd64", Ext:"", Checksummers:[]plugingetter.Checksummer{plugingetter.Checksummer{Type:"sha256", Hash:(*sha256.digest)(0xc000a92200)}}}}
+2023/04/11 20:13:04 [TRACE] Found the following "github.com/hashicorp/qemu" installations: [{/home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 v1.0.9}]
+2023/04/11 20:13:04 [INFO] found external [-packer-default-plugin-name-] builders from qemu plugin
+2023/04/11 20:13:04 [TRACE] Starting external plugin /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 start builder -packer-default-plugin-name-
+2023/04/11 20:13:04 Starting plugin: /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 []string{"/home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64", "start", "builder", "-packer-default-plugin-name-"}
+2023/04/11 20:13:04 Waiting for RPC address for: /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 Plugin address: unix /tmp/packer-plugin309220793
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 Waiting for connection...
+2023/04/11 20:13:04 Received unix RPC address for /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64: addr is /tmp/packer-plugin309220793
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 Serving a plugin connection...
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 [TRACE] starting builder -packer-default-plugin-name-
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 use specified accelerator: kvm
+2023/04/11 20:13:04 [TRACE] Starting internal plugin packer-provisioner-shell
+2023/04/11 20:13:04 Starting plugin: /usr/bin/packer []string{"/usr/bin/packer", "plugin", "packer-provisioner-shell"}
+2023/04/11 20:13:04 Waiting for RPC address for: /usr/bin/packer
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [INFO] Packer version: 1.8.6 [go1.20.1 linux amd64]
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/zakaria/.packerconfig
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [WARN] Config file doesn't exist: /home/zakaria/.packerconfig
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [INFO] Setting cache directory: /home/zakaria/.cache/packer
+2023/04/11 20:13:05 packer-provisioner-shell plugin: args: []string{"packer-provisioner-shell"}
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Plugin address: unix /tmp/packer-plugin771583659
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Waiting for connection...
+2023/04/11 20:13:05 Received unix RPC address for /usr/bin/packer: addr is /tmp/packer-plugin771583659
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Serving a plugin connection...
+2023/04/11 20:13:05 Build debug mode: false
+2023/04/11 20:13:05 Force build: false
+2023/04/11 20:13:05 On error: 
+2023/04/11 20:13:05 Waiting on builds to complete...
+2023/04/11 20:13:05 Starting build run: qemu.rocky
+2023/04/11 20:13:05 Running builder: 
+2023/04/11 20:13:05 [INFO] (telemetry) Starting builder qemu.rocky
+qemu.rocky: output will be in this color.
+
+2023/04/11 20:13:05 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:05 Qemu path: /usr/bin/qemu-system-x86_64, Qemu Image path: /usr/bin/qemu-img
+qemu.rocky: Retrieving ISO
+qemu.rocky: Trying https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso
+2023/04/11 20:13:05 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:05 Acquiring lock for: https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso?checksum=sha256%3A750c373c3206ae79784e436cc94fffc122296cf1bf8129a427dcd6ba7fac5888 (/home/zakaria/.cache/packer/8f4d630bc056b35e6243168c126713b9dad68ffd.iso.lock)
+==> qemu.rocky: Trying https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso?checksum=sha256%3A750c373c3206ae79784e436cc94fffc122296cf1bf8129a427dcd6ba7fac5888
+qemu.rocky: Rocky-9.1-x86_64-minimal.iso 412.40 KiB / 1.48 GiB [>-----------------------------------------------------------------------------------------------------------------------]   0.03% 5h25m58s
+...
+...
+#+end_example
+#+html: </details>
+
+After the ISO file is downloded, an interface will pop up from which you can follow the automated installation.
+
+---
+
+Congratulations, you have built your first image using Packer!
+
