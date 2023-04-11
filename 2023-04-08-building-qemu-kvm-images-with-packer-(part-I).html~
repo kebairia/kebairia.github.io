@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-11 Tue 20:14 -->
+<!-- 2023-04-11 Tue 20:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -18,16 +18,52 @@
 <br />
 <span class="subtitle">Building Rocky Linux 9 VM Images with Packer</span>
 </h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org685b8c9">1. Introduction</a></li>
+<li><a href="#org50b2ea0">2. Prerequisites</a></li>
+</ul>
+</div>
+</div>
 <div class="date">
 <p>
 11 Apr 2023 Sat
 </p>
 
 </div>
+<div id="outline-container-org685b8c9" class="outline-2">
+<h2 id="org685b8c9"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We are going to create a RockyLinux image using Packer.
+</p>
 
 <p>
-&#x2014;
+Creating your own VM image can significantly speed up the provisioning of new VMs whenever you need them.
 </p>
+
+<p>
+Instead of repeatedly installing the operating system, we'll build VM images for Rocky Linux 9 and Ubuntu 22.04, with our own configuration, this will ensure consistency across our infrastructure.
+</p>
+
+<p>
+Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 focuses on <b>Ubuntu 22.04</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org50b2ea0" class="outline-2">
+<h2 id="org50b2ea0"><span class="section-number-2">2</span> Prerequisites</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>We need a server with KVM installed on it</li>
+<li>Packer installed on you system</li>
+<li>ISO file for the image you want to build ( in our case, we are using <b><a href="https://rockylinux.org/download">RockyLinux9.1</a></b>)</li>
+</ul>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 
