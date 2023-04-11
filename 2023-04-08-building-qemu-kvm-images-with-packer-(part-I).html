@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-11 Tue 20:24 -->
+<!-- 2023-04-11 Tue 20:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -34,8 +34,8 @@
 </p>
 
 </div>
-<div id="outline-container-orge6547e2" class="outline-2">
-<h2 id="orge6547e2"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org8538420" class="outline-2">
+<h2 id="org8538420"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to create a RockyLinux image using Packer.
@@ -55,8 +55,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-orgcb16e58" class="outline-2">
-<h2 id="orgcb16e58"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-orge1ba7dc" class="outline-2">
+<h2 id="orge1ba7dc"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
@@ -66,8 +66,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org077d379" class="outline-2">
-<h2 id="org077d379"><span class="section-number-2">3</span> Installing Packer</h2>
+<div id="outline-container-org44f216e" class="outline-2">
+<h2 id="org44f216e"><span class="section-number-2">3</span> Installing Packer</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.
@@ -87,8 +87,8 @@ We will install <code>qemu-ui-gtk</code> as well, this will enable us to easily 
 </div>
 </div>
 </div>
-<div id="outline-container-org559538a" class="outline-2">
-<h2 id="org559538a"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
+<div id="outline-container-org0ee7e78" class="outline-2">
+<h2 id="org0ee7e78"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.
@@ -111,7 +111,7 @@ We will create a file named <code>main.pkr.hcl</code>, it will serve as our prim
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org3264802">touch main.pkr.hcl
+<pre class="src src-bash" id="org672fd2e">touch main.pkr.hcl
 </pre>
 </div>
 
@@ -144,8 +144,8 @@ This command is used to initiate our Packer template, which is basically downloa
 </p>
 </div>
 </div>
-<div id="outline-container-org8523e74" class="outline-2">
-<h2 id="org8523e74"><span class="section-number-2">5</span> Building RockyLinux image</h2>
+<div id="outline-container-orgace9cf6" class="outline-2">
+<h2 id="orgace9cf6"><span class="section-number-2">5</span> Building RockyLinux image</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
@@ -169,7 +169,7 @@ Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X 
 
 </div>
 <div class="org-src-container">
-<pre class="src src-hcl" id="org9ed3fb8"># Define QEMU source for rocky
+<pre class="src src-hcl" id="org5d3a0ae"># Define QEMU source for rocky
 source "qemu" "rocky" {
   vm_name                 = "rocky-base-image.qcow2"
   http_directory          = "./http"
@@ -220,15 +220,15 @@ In the <code>build</code> block, we can reference our source block by it's name 
 In the <code>provisioner</code> block, we used a shell script called <code>configs.sh</code>.
 </p>
 </div>
-<div id="outline-container-org24ed831" class="outline-3">
-<h3 id="org24ed831"><span class="section-number-3">5.1</span> Kickstart file</h3>
+<div id="outline-container-orgf204430" class="outline-3">
+<h3 id="orgf204430"><span class="section-number-3">5.1</span> Kickstart file</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named <code>http</code> and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the <a href="#coderef-Bootstrapping with a Kickstart Config File" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-Bootstrapping with a Kickstart Config File');" onmouseout="CodeHighlightOff(this, 'coderef-Bootstrapping with a Kickstart Config File');">boot command</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org5eac4b5">mkdir http
+<pre class="src src-bash" id="org6ba0417">mkdir http
 </pre>
 </div>
 
@@ -307,8 +307,8 @@ systemctl restart sshd
 </details>
 </div>
 </div>
-<div id="outline-container-orgd9a2f35" class="outline-3">
-<h3 id="orgd9a2f35"><span class="section-number-3">5.2</span> Building the image</h3>
+<div id="outline-container-orga69daa5" class="outline-3">
+<h3 id="orga69daa5"><span class="section-number-3">5.2</span> Building the image</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Let's first validate our template.
@@ -325,6 +325,81 @@ And then build.
 <pre class="src src-bash"><span style="font-weight: bold;">export</span> <span style="font-weight: bold; font-style: italic;">PACKER_LOG</span>=1 &amp;&amp; packer build .
 </pre>
 </div>
+<details><summary>Packer building process -- output </summary>
+<pre class="example">
+2023/04/11 20:13:04 [INFO] Packer version: 1.8.6 [go1.20.1 linux amd64]
+2023/04/11 20:13:04 Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:04 [TRACE] discovering plugins in /usr/bin
+2023/04/11 20:13:04 Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:04 [TRACE] discovering plugins in /home/zakaria/.config/packer/plugins
+2023/04/11 20:13:04 [DEBUG] Discovered plugin: qemu = /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64
+2023/04/11 20:13:04 [INFO] found external [-packer-default-plugin-name-] builders from qemu plugin
+2023/04/11 20:13:04 [TRACE] discovering plugins in .
+2023/04/11 20:13:04 [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/04/11 20:13:04 [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/zakaria/.packerconfig
+2023/04/11 20:13:04 [WARN] Config file doesn't exist: /home/zakaria/.packerconfig
+2023/04/11 20:13:04 Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:04 [INFO] Setting cache directory: /home/zakaria/.cache/packer
+2023/04/11 20:13:04 Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:04 [TRACE] listing potential installations for "github.com/hashicorp/qemu" that match " &gt;= 1.0.9". plugingetter.ListInstallationsOptions{FromFolders:[]string{"/usr/bin/packer", ".", "/home/zakaria/.config/packer/plugins"}, BinaryInstallationOptions:plugingetter.BinaryInstallationOptions{APIVersionMajor:"5", APIVersionMinor:"0", OS:"linux", ARCH:"amd64", Ext:"", Checksummers:[]plugingetter.Checksummer{plugingetter.Checksummer{Type:"sha256", Hash:(*sha256.digest)(0xc000a92200)}}}}
+2023/04/11 20:13:04 [TRACE] Found the following "github.com/hashicorp/qemu" installations: [{/home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 v1.0.9}]
+2023/04/11 20:13:04 [INFO] found external [-packer-default-plugin-name-] builders from qemu plugin
+2023/04/11 20:13:04 [TRACE] Starting external plugin /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 start builder -packer-default-plugin-name-
+2023/04/11 20:13:04 Starting plugin: /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 []string{"/home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64", "start", "builder", "-packer-default-plugin-name-"}
+2023/04/11 20:13:04 Waiting for RPC address for: /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 Plugin address: unix /tmp/packer-plugin309220793
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 Waiting for connection...
+2023/04/11 20:13:04 Received unix RPC address for /home/zakaria/.config/packer/plugins/github.com/hashicorp/qemu/packer-plugin-qemu_v1.0.9_x5.0_linux_amd64: addr is /tmp/packer-plugin309220793
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 Serving a plugin connection...
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 [TRACE] starting builder -packer-default-plugin-name-
+2023/04/11 20:13:04 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:04 use specified accelerator: kvm
+2023/04/11 20:13:04 [TRACE] Starting internal plugin packer-provisioner-shell
+2023/04/11 20:13:04 Starting plugin: /usr/bin/packer []string{"/usr/bin/packer", "plugin", "packer-provisioner-shell"}
+2023/04/11 20:13:04 Waiting for RPC address for: /usr/bin/packer
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [INFO] Packer version: 1.8.6 [go1.20.1 linux amd64]
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/zakaria/.packerconfig
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [WARN] Config file doesn't exist: /home/zakaria/.packerconfig
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:05 packer-provisioner-shell plugin: [INFO] Setting cache directory: /home/zakaria/.cache/packer
+2023/04/11 20:13:05 packer-provisioner-shell plugin: args: []string{"packer-provisioner-shell"}
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Detected xdg config directory from env var: /home/zakaria/.config
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Plugin address: unix /tmp/packer-plugin771583659
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Waiting for connection...
+2023/04/11 20:13:05 Received unix RPC address for /usr/bin/packer: addr is /tmp/packer-plugin771583659
+2023/04/11 20:13:05 packer-provisioner-shell plugin: Serving a plugin connection...
+2023/04/11 20:13:05 Build debug mode: false
+2023/04/11 20:13:05 Force build: false
+2023/04/11 20:13:05 On error: 
+2023/04/11 20:13:05 Waiting on builds to complete...
+2023/04/11 20:13:05 Starting build run: qemu.rocky
+2023/04/11 20:13:05 Running builder: 
+2023/04/11 20:13:05 [INFO] (telemetry) Starting builder qemu.rocky
+qemu.rocky: output will be in this color.
+
+2023/04/11 20:13:05 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:05 Qemu path: /usr/bin/qemu-system-x86_64, Qemu Image path: /usr/bin/qemu-img
+qemu.rocky: Retrieving ISO
+qemu.rocky: Trying https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso
+2023/04/11 20:13:05 packer-plugin-qemu_v1.0.9_x5.0_linux_amd64 plugin: 2023/04/11 20:13:05 Acquiring lock for: https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso?checksum=sha256%3A750c373c3206ae79784e436cc94fffc122296cf1bf8129a427dcd6ba7fac5888 (/home/zakaria/.cache/packer/8f4d630bc056b35e6243168c126713b9dad68ffd.iso.lock)
+==&gt; qemu.rocky: Trying https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso?checksum=sha256%3A750c373c3206ae79784e436cc94fffc122296cf1bf8129a427dcd6ba7fac5888
+qemu.rocky: Rocky-9.1-x86_64-minimal.iso 412.40 KiB / 1.48 GiB [&gt;-----------------------------------------------------------------------------------------------------------------------]   0.03% 5h25m58s
+...
+...
+</pre>
+</details>
+
+<p>
+After the ISO file is downloded, an interface will pop up from which you can follow the automated installation.
+</p>
+
+<p>
+&#x2014;
+</p>
+
+<p>
+Congratulations, you have built your first image using Packer!
+</p>
 </div>
 </div>
 </div>
