@@ -14,7 +14,8 @@ html, body {
 }
 
 body {
-  background-color: #f0eeed;
+  /*background-color: #f0eeed;*/
+  background-color: #fff;
   font-family: 'Source Serif Pro', serif;
   line-height: 1.6;
   max-width: 800px;
@@ -23,6 +24,7 @@ body {
   padding: 0 10px;
   color: rgb(38, 27, 13);
 }
+
 /*}}}*/
 /*Header {{{1*/
 
@@ -137,9 +139,20 @@ article {
   line-height: 1.45;
 }
 
-p, a :not(.uncoloured-link) {
-  color: inherit;
-  hyphens: auto;
+/*p, a :not(.uncoloured-link) {*/
+  /*color: inherit;*/
+  /*hyphens: auto;*/
+/*}*/
+a {
+  /* color: #1481b8; */
+    text-decoration: none;
+    border-bottom: solid 1px rgba(222, 233, 237, 0);
+    transition: color 0.2s ease, border-color 0.4s ease;
+}
+
+a:hover {
+    /* color: #1481b8; */
+    border-bottom: solid 1px #dee9ed;
 }
 /*}}}*/
 /*Tables {{{1*/
@@ -358,12 +371,12 @@ pre.src {
 }
 pre.code,pre.src {
 
-    background:     #fcfcfc;
+    background:     #faf8f5;
     border-top:     .5px solid #ccc;
     border-bottom:  .5px solid #ccc;
 }
 pre.output {
-    background:     #fff;
+    background:     #faf8f5;
     border:         none;
 
 }
@@ -610,7 +623,7 @@ pre.src-conf::before {
 /*}}}*/
 /*NOTES {{{1*/
 .note::before{
-      content: "Note:";
+      /*content: "Note:";*/
       font-weight: bold;
   }
 .note {
@@ -628,7 +641,8 @@ p.note-title {
     padding-bottom: .25em;
 }
 .note p {
-    border-top:  .5px solid #aaa;
+    /*border-top:  .5px solid #aaa;*/
+    border-top: solid 1px #dee9ed;
     text-align: left;
     padding: 0;
     margin:0;
@@ -638,7 +652,7 @@ p.note-title {
     padding: 0;
     padding-bottom: .5em;
     font-weight: 400;
-    border-bottom: 1px solid #000;
+    border-bottom: solid 1px #dee9ed;
 }
 
 
@@ -670,9 +684,12 @@ p.note-title {
         width: 80%;
         margin: 10px auto;
         float: none;
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        border-radius: 5px;
-        padding: 10px;
+        /*box-shadow: 0 0 10px rgba(0,0,0,0.5);*/
+        /*border-radius: 5px;*/
+        padding-top: 20px;
+        border-bottom: solid 1px #dee9ed;
+        /*padding-bottom: 20px;*/
+        /*border-bottom: 1px solid #000;*/
     }
 }
 
