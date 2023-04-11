@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-06 Thu 14:28 -->
+<!-- 2023-04-11 Tue 19:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a Homalab with KVM and Kubernetes: An Overview</title>
@@ -22,9 +22,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org7c01e45">1. Introduction</a></li>
-<li><a href="#org19f9345">2. Tools and technologies</a></li>
-<li><a href="#orgf11c64b">3. Architecture</a></li>
+<li><a href="#org56be62b">1. Introduction</a></li>
+<li><a href="#org26dd519">2. Tools and technologies</a></li>
+<li><a href="#org06eb36c">3. Architecture</a></li>
+<li><a href="#org65ae142">4. VM Setup Guides</a></li>
 </ul>
 </div>
 </div>
@@ -34,8 +35,8 @@
 </p>
 
 </div>
-<div id="outline-container-org7c01e45" class="outline-2">
-<h2 id="org7c01e45"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org56be62b" class="outline-2">
+<h2 id="org56be62b"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
@@ -52,8 +53,8 @@ To centralize the configuration as much as possible, I will be using Packer to c
 </div>
 </div>
 
-<div id="outline-container-org19f9345" class="outline-2">
-<h2 id="org19f9345"><span class="section-number-2">2</span> Tools and technologies</h2>
+<div id="outline-container-org26dd519" class="outline-2">
+<h2 id="org26dd519"><span class="section-number-2">2</span> Tools and technologies</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each node will have SELinux in enforcing mode.
@@ -77,8 +78,8 @@ To make the process of provisioning new nodes easier, I will create custom base 
 </div>
 </div>
 
-<div id="outline-container-orgf11c64b" class="outline-2">
-<h2 id="orgf11c64b"><span class="section-number-2">3</span> Architecture</h2>
+<div id="outline-container-org06eb36c" class="outline-2">
+<h2 id="org06eb36c"><span class="section-number-2">3</span> Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
@@ -90,21 +91,15 @@ For a quick summary of the cluster details, please refer to the table below.
 
 <colgroup>
 <col  class="org-left" />
-</colgroup>
 
-<colgroup>
 <col  class="org-left" />
-</colgroup>
 
-<colgroup>
 <col  class="org-right" />
-</colgroup>
 
-<colgroup>
-<col  class="org-left" />
-</colgroup>
+<col  class="org-right" />
 
-<colgroup>
+<col  class="org-right" />
+
 <col  class="org-left" />
 </colgroup>
 <thead>
@@ -112,7 +107,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <th scope="col" class="org-left">Name</th>
 <th scope="col" class="org-left">Hostname</th>
 <th scope="col" class="org-right">IP Address</th>
-<th scope="col" class="org-left">Role</th>
+<th scope="col" class="org-right">RAM (MB)</th>
+<th scope="col" class="org-right">CPUs</th>
 <th scope="col" class="org-left">Software</th>
 </tr>
 </thead>
@@ -121,7 +117,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">admin1</td>
 <td class="org-left">admin1.hl.test</td>
 <td class="org-right">10.10.0.2</td>
-<td class="org-left">Master</td>
+<td class="org-right">1024</td>
+<td class="org-right">1</td>
 <td class="org-left">DNS/DHCP/HAProxy/Keepalived</td>
 </tr>
 
@@ -129,7 +126,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">admin2</td>
 <td class="org-left">admin2.hl.test</td>
 <td class="org-right">10.10.0.3</td>
-<td class="org-left">Slave</td>
+<td class="org-right">1024</td>
+<td class="org-right">1</td>
 <td class="org-left">DNS/DHCP/HAProxy/Keepalived</td>
 </tr>
 </tbody>
@@ -138,7 +136,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">storage</td>
 <td class="org-left">storage.hl.test</td>
 <td class="org-right">10.10.0.10</td>
-<td class="org-left">/</td>
+<td class="org-right">1024</td>
+<td class="org-right">1</td>
 <td class="org-left">NFS / Log server</td>
 </tr>
 </tbody>
@@ -147,7 +146,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">master1</td>
 <td class="org-left">master1.hl.test</td>
 <td class="org-right">10.10.0.21</td>
-<td class="org-left">Control Plane Node</td>
+<td class="org-right">2048</td>
+<td class="org-right">2</td>
 <td class="org-left">&#xa0;</td>
 </tr>
 
@@ -155,7 +155,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">master2</td>
 <td class="org-left">master2.hl.test</td>
 <td class="org-right">10.10.0.22</td>
-<td class="org-left">Control Plane Node</td>
+<td class="org-right">2048</td>
+<td class="org-right">2</td>
 <td class="org-left">Kubernetes</td>
 </tr>
 
@@ -163,7 +164,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">master3</td>
 <td class="org-left">master3.hl.test</td>
 <td class="org-right">10.10.0.23</td>
-<td class="org-left">Control Plane Node</td>
+<td class="org-right">2048</td>
+<td class="org-right">2</td>
 <td class="org-left">&#xa0;</td>
 </tr>
 </tbody>
@@ -172,7 +174,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">worker1</td>
 <td class="org-left">worker1.hl.test</td>
 <td class="org-right">10.10.0.31</td>
-<td class="org-left">Worker Node</td>
+<td class="org-right">2048</td>
+<td class="org-right">2</td>
 <td class="org-left">&#xa0;</td>
 </tr>
 
@@ -180,7 +183,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">worker2</td>
 <td class="org-left">worker2.hl.test</td>
 <td class="org-right">10.10.0.32</td>
-<td class="org-left">Worker Node</td>
+<td class="org-right">2048</td>
+<td class="org-right">2</td>
 <td class="org-left">Kubernetes</td>
 </tr>
 
@@ -188,7 +192,8 @@ For a quick summary of the cluster details, please refer to the table below.
 <td class="org-left">worker3</td>
 <td class="org-left">worker3.hl.test</td>
 <td class="org-right">10.10.0.33</td>
-<td class="org-left">Worker Node</td>
+<td class="org-right">2048</td>
+<td class="org-right">2</td>
 <td class="org-left">&#xa0;</td>
 </tr>
 </tbody>
@@ -199,17 +204,48 @@ For a quick summary of the cluster details, please refer to the table below.
 Here's the homelab diagram for our setup.
 </p>
 
+<div class="note">
+<p>
+These are the <b>admin nodes</b>, one serving as the master node <code>IP: 10.10.0.2</code> and the other as the slave node <code>IP: 10.10.0.3</code>.<br />
+Both nodes are equipped with <b>DNS</b>, <b>DHCP</b>, <b>HAProxy</b> and <b>Keepalived</b> services installed and configured, which ensures continuous service availability and failover capabilities.<br />
+The nodes are configured with a <code>virtual IP: 10.10.0.20</code>, which provides a single IP address to contact with.<br />
+<br />
+<br />
+My <b>Kubernetes cluster</b> will consist of 6 Nodes in total 3 of these nodes will act as Master nodes <code>10.10.0.21-23</code>.<br />
+While the other 3 as worker nodes <code>10.10.0.31-33</code>.
+</p>
+
+</div>
+
 
 <div class="figure">
-<p><img src="img/blogs/homelab/arch.png" alt="arch.png" width="800" />
+<p><img src="img/blogs/homelab/arch.png" alt="arch.png" width="700" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Homelab diagram</p>
+</div>
+<div class="note">
+
 </div>
 
 
 <p>
 This was an overview of my homelab plan. In the following blog posts I will provide detailed setup and configuration guides for each component of the homelab.
 </p>
+</div>
+</div>
+<div id="outline-container-org65ae142" class="outline-2">
+<h2 id="org65ae142"><span class="section-number-2">4</span> VM Setup Guides</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
+</p>
+<ul class="org-ul">
+<li>Admins
+<ul class="org-ul">
+<li><a href="2023-04-08-building-qemu-kvm-images-with-packer-(part-I).html">Building Qemu-Kvm Images With Packer (Part I) &#x2013; RockyLinux9</a></li>
+</ul></li>
+<li>Kubernetes</li>
+</ul>
 </div>
 </div>
 </div>
