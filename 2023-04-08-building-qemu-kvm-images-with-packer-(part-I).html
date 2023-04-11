@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-11 Tue 20:23 -->
+<!-- 2023-04-11 Tue 20:24 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -34,8 +34,8 @@
 </p>
 
 </div>
-<div id="outline-container-org83600cd" class="outline-2">
-<h2 id="org83600cd"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orge6547e2" class="outline-2">
+<h2 id="orge6547e2"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to create a RockyLinux image using Packer.
@@ -55,8 +55,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org6a51551" class="outline-2">
-<h2 id="org6a51551"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-orgcb16e58" class="outline-2">
+<h2 id="orgcb16e58"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
@@ -66,8 +66,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org8ad95aa" class="outline-2">
-<h2 id="org8ad95aa"><span class="section-number-2">3</span> Installing Packer</h2>
+<div id="outline-container-org077d379" class="outline-2">
+<h2 id="org077d379"><span class="section-number-2">3</span> Installing Packer</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.
@@ -87,8 +87,8 @@ We will install <code>qemu-ui-gtk</code> as well, this will enable us to easily 
 </div>
 </div>
 </div>
-<div id="outline-container-org2fa4850" class="outline-2">
-<h2 id="org2fa4850"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
+<div id="outline-container-org559538a" class="outline-2">
+<h2 id="org559538a"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.
@@ -111,7 +111,7 @@ We will create a file named <code>main.pkr.hcl</code>, it will serve as our prim
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org9bf6f23">touch main.pkr.hcl
+<pre class="src src-bash" id="org3264802">touch main.pkr.hcl
 </pre>
 </div>
 
@@ -142,6 +142,190 @@ Run this command
 <p>
 This command is used to initiate our Packer template, which is basically downloading the necessary builder binaries.
 </p>
+</div>
+</div>
+<div id="outline-container-org8523e74" class="outline-2">
+<h2 id="org8523e74"><span class="section-number-2">5</span> Building RockyLinux image</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
+The most important blocks that we are going to use here are the following:
+</p>
+
+<ul class="org-ul">
+<li><code>build</code> blocks contain configuration for a specific combination of builders, provisioners, and post-processors used to create a specific image artifact.</li>
+
+<li><code>source</code> blocks contain configuration for builder plugins, including hardware and resource allocation settings such as type of hardware, RAM and CPU requirements.
+Each source block has a unique name that can be referenced in the <code>build</code> block.</li>
+
+<li><code>provisioner</code> blocks contain your provisionners, like shell scripts, Ansible playbook..etc.
+These blocks are nested inside of a <code>build</code> block.</li>
+</ul>
+
+<div class="note">
+<p>
+Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X image. As noted in <a href="https://github.com/hashicorp/packer-plugin-qemu/issues/76%20">this issue</a>, adding the <code>-cpu host</code> flag to the <code>qemuargs</code> section can resolve this issue.
+</p>
+
+</div>
+<div class="org-src-container">
+<pre class="src src-hcl" id="org9ed3fb8"># Define QEMU source for rocky
+source "qemu" "rocky" {
+  vm_name                 = "rocky-base-image.qcow2"
+  http_directory          = "./http"
+  output_directory        = "./artifacts"
+  iso_url                 = "&lt;Put your ISO URL Here"
+  iso_checksum            = "sha256:Put ISO checksum Here"
+  format                  = "qcow2"
+  accelerator             = "kvm"
+  net_device              = "virtio-net"
+  disk_interface          = "virtio"
+  disk_size               = "25G"
+  memory                  = 1024
+  cpus                    = 2
+  headless                = false
+  boot_wait               = "5s"
+  shutdown_command        = "echo admin | sudo -S -E shutdown -P now"
+  ssh_username            = "admin"
+  ssh_password            = "admin"
+  ssh_timeout             = "60m"
+  ssh_handshake_attempts  = 2000
+<span id="coderef-Bootstrapping with a Kickstart Config File" class="coderef-off">  # (Bootstrapping with a Kickstart Config File)</span>
+  boot_command = [
+    "&lt;up&gt;&lt;wait&gt;&lt;tab&gt;&lt;wait&gt; net.ifnames=0 biosdevname=0 inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg&lt;enter&gt;&lt;wait&gt;"] 
+  qemuargs = [
+    [ "-m", "1024M" ],
+    [ "-smp", "2" ],
+    [ "-cpu", "host" ]
+  ]
+}
+
+# Define build process
+build {
+  sources = ["source.qemu.rocky"]
+  # Execute shell scripts
+  provisioner "shell" {
+    scripts               = ["../scripts/configs.sh"]
+    expect_disconnect     = true
+  }
+}
+</pre>
+</div>
+
+<p>
+In the <code>build</code> block, we can reference our source block by it's name <code>source.qemu.rocky</code>.
+</p>
+
+<p>
+In the <code>provisioner</code> block, we used a shell script called <code>configs.sh</code>.
+</p>
+</div>
+<div id="outline-container-org24ed831" class="outline-3">
+<h3 id="org24ed831"><span class="section-number-3">5.1</span> Kickstart file</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named <code>http</code> and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the <a href="#coderef-Bootstrapping with a Kickstart Config File" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-Bootstrapping with a Kickstart Config File');" onmouseout="CodeHighlightOff(this, 'coderef-Bootstrapping with a Kickstart Config File');">boot command</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash" id="org5eac4b5">mkdir http
+</pre>
+</div>
+
+<p>
+Create a kickstart file with the following content, (or any content you want).
+</p>
+<details><summary>Kickstart file content</summary>
+<div class="org-src-container">
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">Global </span>
+cdrom
+lang en_US.UTF-8
+keyboard us
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Network</span>
+<span style="font-weight: bold; font-style: italic;">network --bootproto</span>=dhcp --device=eth0 --noipv6 --onboot=on
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Users</span>
+rootpw --plaintext admin
+<span style="font-weight: bold; font-style: italic;">user --name</span>=admin --plaintext --password=admin
+
+timezone UTC
+<span style="font-weight: bold; font-style: italic;">bootloader --location</span>=mbr --timeout=1 --append=<span style="font-style: italic;">"net.ifnames=0 biosdevname=0"</span>
+text
+skipx
+zerombr
+clearpart --all --initlabel
+autopart --nohome --noboot --nolvm
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">System settings</span>
+firewall --enabled
+selinux --enforcing
+firstboot --disabled
+reboot --eject
+<span style="font-weight: bold; font-style: italic;">services --enabled</span>=<span style="font-style: italic;">"NetworkManager,sshd,chronyd"</span>
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Packages</span>
+%packages --ignoremissing --excludedocs
+openssh-clients
+sudo
+vim
+bash-completion
+selinux-policy-devel
+wget
+nfs-utils
+net-tools
+tar
+bzip2
+deltarpm
+rsync
+dnf-utils
+redhat-lsb-core
+elfutils-libelf-devel
+-fprintd-pam
+-intltool
+-iwl*-firmware
+-microcode_ctl
+%end
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Post-installation</span>
+<span style="font-weight: bold; font-style: italic;">%post --interpreter</span>=/bin/bash
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Sudo configuration</span>
+echo <span style="font-style: italic;">'Defaults:admin !requiretty'</span> &gt; /etc/sudoers.d/admin
+echo <span style="font-style: italic;">'%admin ALL=(ALL) NOPASSWD: ALL'</span> &gt;&gt; /etc/sudoers.d/admin
+chmod 440 /etc/sudoers.d/admin
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">SSH configuration</span>
+sed -i <span style="font-style: italic;">'s/^#PubkeyAuthentication yes/PubkeyAuthentication yes/'</span> /etc/ssh/sshd_config
+sed -i <span style="font-style: italic;">'s/^#PermitRootLogin prohibit-password/PermitRootLogin yes/'</span> /etc/ssh/sshd_config
+echo <span style="font-style: italic;">"PubkeyAcceptedKeyTypes=+ssh-rsa"</span> &gt;&gt; /etc/ssh/sshd_config
+systemctl enable sshd
+systemctl restart sshd
+%end
+
+</pre>
+</div>
+</details>
+</div>
+</div>
+<div id="outline-container-orgd9a2f35" class="outline-3">
+<h3 id="orgd9a2f35"><span class="section-number-3">5.2</span> Building the image</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Let's first validate our template.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">packer validate .
+</pre>
+</div>
+
+<p>
+And then build.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span style="font-weight: bold;">export</span> <span style="font-weight: bold; font-style: italic;">PACKER_LOG</span>=1 &amp;&amp; packer build .
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
