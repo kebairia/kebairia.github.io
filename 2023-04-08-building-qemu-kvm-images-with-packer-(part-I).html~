@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-11 Tue 20:21 -->
+<!-- 2023-04-11 Tue 20:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -22,10 +22,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgc732805">1. Introduction</a></li>
-<li><a href="#org679f788">2. Prerequisites</a></li>
-<li><a href="#org07d77e4">3. Installing Packer</a></li>
-<li><a href="#org4bdb899">4. Write Packer Templates with HCL2</a></li>
+<li><a href="#orga99e8a2">1. Introduction</a></li>
+<li><a href="#orgbb384c7">2. Prerequisites</a></li>
+<li><a href="#orge30f3e5">3. Installing Packer</a></li>
+<li><a href="#org80e9d5f">4. Write Packer Templates with HCL2</a></li>
 </ul>
 </div>
 </div>
@@ -35,8 +35,8 @@
 </p>
 
 </div>
-<div id="outline-container-orgc732805" class="outline-2">
-<h2 id="orgc732805"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orga99e8a2" class="outline-2">
+<h2 id="orga99e8a2"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to create a RockyLinux image using Packer.
@@ -56,8 +56,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org679f788" class="outline-2">
-<h2 id="org679f788"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-orgbb384c7" class="outline-2">
+<h2 id="orgbb384c7"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
@@ -67,8 +67,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org07d77e4" class="outline-2">
-<h2 id="org07d77e4"><span class="section-number-2">3</span> Installing Packer</h2>
+<div id="outline-container-orge30f3e5" class="outline-2">
+<h2 id="orge30f3e5"><span class="section-number-2">3</span> Installing Packer</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.
@@ -88,8 +88,8 @@ We will install <code>qemu-ui-gtk</code> as well, this will enable us to easily 
 </div>
 </div>
 </div>
-<div id="outline-container-org4bdb899" class="outline-2">
-<h2 id="org4bdb899"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
+<div id="outline-container-org80e9d5f" class="outline-2">
+<h2 id="org80e9d5f"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.
@@ -112,7 +112,7 @@ We will create a file named <code>main.pkr.hcl</code>, it will serve as our prim
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org25554b2">touch main.pkr.hcl
+<pre class="src src-bash" id="org1442625">touch main.pkr.hcl
 </pre>
 </div>
 
