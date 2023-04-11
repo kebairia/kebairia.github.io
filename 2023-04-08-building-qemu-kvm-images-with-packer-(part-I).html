@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-11 Tue 20:18 -->
+<!-- 2023-04-11 Tue 20:21 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -34,8 +34,8 @@
 </p>
 
 </div>
-<div id="outline-container-org579abe8" class="outline-2">
-<h2 id="org579abe8"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org6ef749e" class="outline-2">
+<h2 id="org6ef749e"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to create a RockyLinux image using Packer.
@@ -55,14 +55,93 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org02b0e55" class="outline-2">
-<h2 id="org02b0e55"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-org3bc8a84" class="outline-2">
+<h2 id="org3bc8a84"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
 <li>Packer installed on you system</li>
 <li>ISO file for the image you want to build ( in our case, we are using <b><a href="https://rockylinux.org/download">RockyLinux9.1</a></b>)</li>
 </ul>
+</div>
+</div>
+
+<div id="outline-container-org0d8c8fd" class="outline-2">
+<h2 id="org0d8c8fd"><span class="section-number-2">3</span> Installing Packer</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.
+</p>
+
+<p>
+I'm using Arch Linux, and Packer is already available in the Arch repos.
+</p>
+
+<p>
+We will install <code>qemu-ui-gtk</code> as well, this will enable us to easily monitor Packer's installation of the operating system through a graphical user interface.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">$ sudo pacman -S packer qemu-ui-gtk --noconfirm
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge0b3bc4" class="outline-2">
+<h2 id="orge0b3bc4"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.
+</p>
+
+<p>
+HCL is in version 2, and we are going to use it to create our own VM image template.
+</p>
+
+<p>
+Each virtualization platform has it's own plugin which is called a <b>builder</b> in Packer's term.
+</p>
+
+<p>
+For our Qemu platform, we'll need to use the <b>QEMU</b> builder plugin, which you can find on <a href="https://github.com/hashicorp/packer-plugin-qemu">this page</a>.
+</p>
+
+<p>
+We will create a file named <code>main.pkr.hcl</code>, it will serve as our primary template.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash" id="orgb94d1dd">touch main.pkr.hcl
+</pre>
+</div>
+
+<p>
+Let's install qemu's plugin. Add this to <code>main.pkr.hcl</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-hcl">packer {
+  required_plugins {
+    qemu = {
+      version = " &gt;= 1.0.9"
+      source  = "github.com/hashicorp/qemu"
+    }
+  }
+}
+</pre>
+</div>
+
+<p>
+Run this command
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">packer init main.pkr.hcl
+</pre>
+</div>
+
+<p>
+This command is used to initiate our Packer template, which is basically downloading the necessary builder binaries.
+</p>
 </div>
 </div>
 </div>
