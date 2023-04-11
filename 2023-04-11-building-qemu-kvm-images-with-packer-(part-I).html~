@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-11 Tue 20:34 -->
+<!-- 2023-04-11 Tue 20:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -11,16 +11,6 @@
 <meta name="author" content="Zakaria.K" />
 <meta name="keywords" content="packer,linux" />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
-<header> <h4> <a href="https://kebairia.github.io" title="Home" class="home">
-	          <img src="img/home.svg" width="50" alt="Home" />
-	          </a>
-	          <a href="files/feed.rss" title="RSS Feed" type="application/rss+xml" class="rss">
-	          <img src="img/rss.svg" alt="RSS icon" />
-	          </a>
-                      <a href="files/cv.pdf" title="My Resume" type="application/pdf" class="resume">
-                      <img src="img/cv.svg" width="25"  alt="My CV icon" /> </a>
-                      </h4>
-	          </header>
 </head>
 <body>
 <div id="content">
@@ -28,14 +18,31 @@
 <br />
 <span class="subtitle">Building Rocky Linux 9 VM Images with Packer</span>
 </h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org93eb63b">1. Introduction</a></li>
+<li><a href="#orgd22ea01">2. Prerequisites</a></li>
+<li><a href="#org9eeea3a">3. Installing Packer</a></li>
+<li><a href="#org812cad8">4. Write Packer Templates with HCL2</a></li>
+<li><a href="#orgfa6bdf0">5. Building RockyLinux image</a>
+<ul>
+<li><a href="#org702011b">5.1. Kickstart file</a></li>
+<li><a href="#orgf3b2078">5.2. Building the image</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <div class="date">
 <p>
 11 Apr 2023 Sat
 </p>
 
 </div>
-<div id="outline-container-org1d733e5" class="outline-2">
-<h2 id="org1d733e5"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org93eb63b" class="outline-2">
+<h2 id="org93eb63b"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to create a RockyLinux image using Packer.
@@ -55,8 +62,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org4bc952e" class="outline-2">
-<h2 id="org4bc952e"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-orgd22ea01" class="outline-2">
+<h2 id="orgd22ea01"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
@@ -66,8 +73,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org6289199" class="outline-2">
-<h2 id="org6289199"><span class="section-number-2">3</span> Installing Packer</h2>
+<div id="outline-container-org9eeea3a" class="outline-2">
+<h2 id="org9eeea3a"><span class="section-number-2">3</span> Installing Packer</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.
@@ -87,8 +94,8 @@ We will install <code>qemu-ui-gtk</code> as well, this will enable us to easily 
 </div>
 </div>
 </div>
-<div id="outline-container-org4c1f350" class="outline-2">
-<h2 id="org4c1f350"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
+<div id="outline-container-org812cad8" class="outline-2">
+<h2 id="org812cad8"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.
@@ -111,7 +118,7 @@ We will create a file named <code>main.pkr.hcl</code>, it will serve as our prim
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh" id="org8fafbd1">touch main.pkr.hcl
+<pre class="src src-sh" id="org43b2f9f">touch main.pkr.hcl
 </pre>
 </div>
 
@@ -144,8 +151,8 @@ This command is used to initiate our Packer template, which is basically downloa
 </p>
 </div>
 </div>
-<div id="outline-container-org4f7fda3" class="outline-2">
-<h2 id="org4f7fda3"><span class="section-number-2">5</span> Building RockyLinux image</h2>
+<div id="outline-container-orgfa6bdf0" class="outline-2">
+<h2 id="orgfa6bdf0"><span class="section-number-2">5</span> Building RockyLinux image</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
@@ -169,7 +176,7 @@ Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X 
 
 </div>
 <div class="org-src-container">
-<pre class="src src-hcl" id="org1efacf3"># Define QEMU source for rocky
+<pre class="src src-hcl" id="orgc1b94f3"># Define QEMU source for rocky
 source "qemu" "rocky" {
   vm_name                 = "rocky-base-image.qcow2"
   http_directory          = "./http"
@@ -220,15 +227,15 @@ In the <code>build</code> block, we can reference our source block by it's name 
 In the <code>provisioner</code> block, we used a shell script called <code>configs.sh</code>.
 </p>
 </div>
-<div id="outline-container-org86db479" class="outline-3">
-<h3 id="org86db479"><span class="section-number-3">5.1</span> Kickstart file</h3>
+<div id="outline-container-org702011b" class="outline-3">
+<h3 id="org702011b"><span class="section-number-3">5.1</span> Kickstart file</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named <code>http</code> and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the <a href="#coderef-Bootstrapping with a Kickstart Config File" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-Bootstrapping with a Kickstart Config File');" onmouseout="CodeHighlightOff(this, 'coderef-Bootstrapping with a Kickstart Config File');">boot command</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh" id="org84ed84d">mkdir http
+<pre class="src src-sh" id="orgb204156">mkdir http
 </pre>
 </div>
 
@@ -307,8 +314,8 @@ systemctl restart sshd
 </details>
 </div>
 </div>
-<div id="outline-container-org7cc521e" class="outline-3">
-<h3 id="org7cc521e"><span class="section-number-3">5.2</span> Building the image</h3>
+<div id="outline-container-orgf3b2078" class="outline-3">
+<h3 id="orgf3b2078"><span class="section-number-3">5.2</span> Building the image</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Let's first validate our template.

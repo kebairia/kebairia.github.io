@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-11 Tue 20:34 -->
+<!-- 2023-04-11 Tue 20:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a Homalab with KVM and Kubernetes: An Overview</title>
@@ -22,10 +22,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org37fddd7">1. Introduction</a></li>
-<li><a href="#org1c1417d">2. Tools and technologies</a></li>
-<li><a href="#orgf44bdb0">3. Architecture</a></li>
-<li><a href="#org29b968b">4. VM Setup Guides</a></li>
+<li><a href="#org36ea55a">1. Introduction</a></li>
+<li><a href="#org8752d02">2. Tools and technologies</a></li>
+<li><a href="#org7417ec7">3. Architecture</a></li>
+<li><a href="#orgbff7446">4. VM Setup Guides</a></li>
 </ul>
 </div>
 </div>
@@ -35,8 +35,8 @@
 </p>
 
 </div>
-<div id="outline-container-org37fddd7" class="outline-2">
-<h2 id="org37fddd7"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org36ea55a" class="outline-2">
+<h2 id="org36ea55a"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
@@ -53,8 +53,8 @@ To centralize the configuration as much as possible, I will be using Packer to c
 </div>
 </div>
 
-<div id="outline-container-org1c1417d" class="outline-2">
-<h2 id="org1c1417d"><span class="section-number-2">2</span> Tools and technologies</h2>
+<div id="outline-container-org8752d02" class="outline-2">
+<h2 id="org8752d02"><span class="section-number-2">2</span> Tools and technologies</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each node will have SELinux in enforcing mode.
@@ -78,8 +78,8 @@ To make the process of provisioning new nodes easier, I will create custom base 
 </div>
 </div>
 
-<div id="outline-container-orgf44bdb0" class="outline-2">
-<h2 id="orgf44bdb0"><span class="section-number-2">3</span> Architecture</h2>
+<div id="outline-container-org7417ec7" class="outline-2">
+<h2 id="org7417ec7"><span class="section-number-2">3</span> Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
@@ -233,8 +233,8 @@ This was an overview of my homelab plan. In the following blog posts I will prov
 </p>
 </div>
 </div>
-<div id="outline-container-org29b968b" class="outline-2">
-<h2 id="org29b968b"><span class="section-number-2">4</span> VM Setup Guides</h2>
+<div id="outline-container-orgbff7446" class="outline-2">
+<h2 id="orgbff7446"><span class="section-number-2">4</span> VM Setup Guides</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
@@ -242,7 +242,7 @@ This was an overview of my homelab plan. The links below provide detailed setup 
 <ul class="org-ul">
 <li>Admins
 <ul class="org-ul">
-<li><a href="2023-04-08-building-qemu-kvm-images-with-packer-(part-I).html">Building Qemu-Kvm Images With Packer (Part I) &#x2013; RockyLinux9</a></li>
+<li><a href="2023-04-11-building-qemu-kvm-images-with-packer-(part-I).html">Building Qemu-Kvm Images With Packer (Part I) &#x2013; RockyLinux9</a></li>
 </ul></li>
 <li>Kubernetes</li>
 </ul>
