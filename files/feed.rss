@@ -29,4 +29,10 @@
 <link>2023-04-06-building-a-homalab-with-kvm-and-kubernetes:-an-overview.html</link>
 </item>
 
+<item>
+<pubDate>2023-04-11</pubDate>
+<title>Building Qemu-Kvm Images With Packer (Part I)</title>
+<link>2023-04-11-building-qemu-kvm-images-with-packer-(part-I).html</link>
+</item>
+
 </channel></rss>
