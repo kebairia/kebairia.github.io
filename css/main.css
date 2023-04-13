@@ -276,7 +276,6 @@ h1, h2, h3 {
 }
 
 h2:hover:after {
-    content: " #";
     font-size: 25px;
     color: #ccc;
 }
@@ -617,6 +616,8 @@ pre.src-nxml::before {
 pre.src-conf::before {
   content: 'Configuration File'; }
   
+pre.src-hcl::before {
+    content: 'HCL2'; }
 /*}}}*/
 
 
