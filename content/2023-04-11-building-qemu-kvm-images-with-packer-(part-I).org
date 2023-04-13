@@ -10,37 +10,46 @@
 {{{date}}}
 #+end_date
 * Introduction
-We are going to create a RockyLinux image using Packer.
-
-Creating your own VM image can significantly speed up the provisioning of new VMs whenever you need them.
-
+We are going to create a RockyLinux image using Packer.\\
+Creating your own VM image can significantly speed up the provisioning of new VMs whenever you need them.\\
 Instead of repeatedly installing the operating system, we'll build VM images for Rocky Linux 9 and Ubuntu 22.04, with our own configuration, this will ensure consistency across our infrastructure.
 
 Part 1 covers building a *Rocky Linux 9* image with Packer, while Part 2 focuses on *Ubuntu 22.04*
 
 * Prerequisites
 - We need a server with KVM installed on it
-- Packer installed on you system
 - ISO file for the image you want to build ( in our case, we are using *[[https://rockylinux.org/download][RockyLinux9.1]]*)
+
+* The Plan
+1. We are going to install Packer.
+2. Write a Packer template using HCL2.
+3. Write a kickstart configuration file for our RockyLinux system.
+4. Write a Basic shell script to automate basic configuration for our image.
+5. Build the final image
 
 * Installing Packer
 
-Installing Packer is a straightforward process. Simply visit the [[https://developer.hashicorp.com/packer/downloads][official documentation]], where you can find the appropriate version of Packer for your operating system.
-
-I'm using Arch Linux, and Packer is already available in the Arch repos.
+Installing Packer is a straightforward process. Simply visit the [[https://developer.hashicorp.com/packer/downloads][official documentation]], where you can find the appropriate version of Packer for your operating system.\\
+I'm using Arch Linux, and Packer is already available in the Arch repos.\\
 
 We will install =qemu-ui-gtk= as well, this will enable us to easily monitor Packer's installation of the operating system through a graphical user interface.
 
 #+begin_src sh
-$ sudo pacman -S packer qemu-ui-gtk --noconfirm
+sudo pacman -S packer qemu-ui-gtk --noconfirm
+packer --version
 #+end_src
-* Write Packer Templates with HCL2
-HashiCorp has developed its own configuration language, known as the *HashiCorp Configuration Language (HCL)*, which is utilized in its suite of tools.
 
+#+RESULTS:
+#+begin_example
+1.8.6
+#+end_example
+
+* Write Packer Templates with HCL2
+
+HashiCorp has developed its own configuration language, known as the *HashiCorp Configuration Language (HCL)*, which is utilized in its suite of tools.\\
 HCL is in version 2, and we are going to use it to create our own VM image template.
 
-Each virtualization platform has it's own plugin which is called a *builder* in Packer's term.
-
+Each virtualization platform has it's own plugin which is called a *builder* in Packer's term.\\
 For our Qemu platform, we'll need to use the *QEMU* builder plugin, which you can find on [[https://github.com/hashicorp/packer-plugin-qemu][this page]].
 
 We will create a file named =main.pkr.hcl=, it will serve as our primary template.
@@ -54,7 +63,7 @@ touch main.pkr.hcl
 
 #+RESULTS: qemu-plugin
 
-Let's install qemu's plugin. Add this to =main.pkr.hcl=
+Add this to =main.pkr.hcl=
 
 #+begin_src hcl :session main :tangle /tmp/packer-blog/main.pkr.hcl
 packer {
@@ -73,122 +82,39 @@ packer init main.pkr.hcl
 #+end_src
 
 This command is used to initiate our Packer template, which is basically downloading the necessary builder binaries.
-* Building RockyLinux image
-#+begin_comment
-First we need to define our variables first. After the plugin definition section, add the variables that you need
-#+begin_note
-For more information about Built-in block for Packer, check out the [[https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks][official documentation]]
-#+end_note
 
+\\
+-----
+\\
 
-#+name: variables.pkrs.hcl
-#+begin_src hcl
-variable "http_directory" {
-  type    = string
-  default = "./http"
-}
-variable "output_directory" {
-  type    = string
-  default = "./artifacts"
-}
-variable "vm_name" {
-  type    = string
-  default = "qemu_base-image.qcow2"
-}
-variable "format" {
-    type = string
-    default = "qcow2"
-}
-variable "accelerator" {
-    type = string
-    default = "kvm"
-}
-variable "headless" {
-    type = string
-    default = "false"
-}
-variable "net_device" {
-    type = string
-    default = "virtio-net"
-}
-variable "disk_interface" {
-    type = string
-    default = "virtio"
-}
-variable "disk_size" {
-    type = string
-    default = "25G"
-}
-variable "memory" {
-    type = string
-    default = "1024"
-}
-variable "cpus" {
-    type = string
-    default = "2"
-}
-variable "ssh_username" {
-    type = string
-    default = "admin"
-}
-variable "ssh_password" {
-    type = string
-    default = "admin"
-}
-variable "ssh_timeout" {
-    type = string
-    default = "60m"
-}
-
-variable "ssh_handshake_attempts" {
-    type = string
-    default = "1000"
-}
-variable "iso_url" {
-    type = string
-    default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso"
-}
-variable "iso_checksum" {
-    type = string
-    default = "sha256:750c373c3206ae79784e436cc94fffc122296cf1bf8129a427dcd6ba7fac5888"
-}
-variable "boot_wait" {
-    type = string
-    default = "5s"
-}
-variable "shutdown_command" {
-    type = string
-    default = "echo admin | sudo -S -E shutdown -P now"
-}
-variable "shell_scripts" {
-    type = string
-    default = "../scripts/configs.sh"
-}
-#+end_src
-
-To make use of these variables in our =main.pkr.hcl= file, we simply reference them using the syntax =var.<name of the variable>=.
-# Every Packer template is compose of three main components:
-# - The source section 
-# - The builder section 
-
-#+end_comment
 
 Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
-The most important blocks that we are going to use here are the following:
+The most important blocks that we are going to use here are the following:\\
 
-- =build= blocks contain configuration for a specific combination of builders, provisioners, and post-processors used to create a specific image artifact.
+#+ATTR_HTML: :alt Packer blocks :title Action! :align right
+#+ATTR_HTML: :width 290
+[[file:img/blogs/packer-rocky/packer_blocks.png]] 
 
-- =source= blocks contain configuration for builder plugins, including hardware and resource allocation settings such as type of hardware, RAM and CPU requirements.
-  Each source block has a unique name that can be referenced in the =build= block.
+1. =source= blocks contain configuration for builder plugins, including hardware and resource allocation settings such as type of hardware, RAM and CPU requirements.
+   Each source block has a unique name that can be referenced in the =build= block.
 
-- =provisioner= blocks contain your provisionners, like shell scripts, Ansible playbook..etc.
-  These blocks are nested inside of a =build= block.
+2. =build= blocks can reference one or more source blocks, each of which may have its own provisioners and post-processors blocks.
+
+3. =provisioner= blocks contain your provisionners, like shell scripts, Ansible playbook..etc.
+   These blocks are nested inside of a =build= block.
+
+\\
 
 #+begin_note
 Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X image.\\
 As noted in [[https://github.com/hashicorp/packer-plugin-qemu/issues/76
 ][this issue]], adding the =-cpu host= flag to the =qemuargs= section can resolve this issue.
- #+end_note
+#+end_note
+
+
+
+Alright, add the following to your =main.pkr.hcl= file.
+
 #+name: main.pkr.hcl
 #+begin_src hcl :session main :tangle /tmp/packer-blog/main.pkr.hcl
 # Define QEMU source for rocky
@@ -235,7 +161,8 @@ build {
 
 In the =build= block, we can reference our source block by it's name =source.qemu.rocky=.
 
-In the =provisioner= block, we used a shell script called =configs.sh=.
+We also used a =provisioner= block where we called our =configs.sh= script.
+
 ** Kickstart file
 
 Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named =http= and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the [[(Bootstrapping with a Kickstart Config File)][boot command]].
@@ -248,6 +175,7 @@ mkdir http
 #+RESULTS: ks.cfg
 
 Create a kickstart file with the following content, (or any content you want).
+
 #+html: <details><summary>Kickstart file content</summary>
 #+begin_src conf
 #Global 
@@ -401,3 +329,104 @@ After the ISO file is downloded, an interface will pop up from which you can fol
 
 Congratulations, you have built your first image using Packer!
 
+
+* COMMENT Building RockyLinux image
+* Archived :ARCHIVE:
+#+begin_comment
+First we need to define our variables first. After the plugin definition section, add the variables that you need
+#+begin_note
+For more information about Built-in block for Packer, check out the [[https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks][official documentation]]
+#+end_note
+
+
+#+name: variables.pkrs.hcl
+#+begin_src hcl
+variable "http_directory" {
+  type    = string
+  default = "./http"
+}
+variable "output_directory" {
+  type    = string
+  default = "./artifacts"
+}
+variable "vm_name" {
+  type    = string
+  default = "qemu_base-image.qcow2"
+}
+variable "format" {
+    type = string
+    default = "qcow2"
+}
+variable "accelerator" {
+    type = string
+    default = "kvm"
+}
+variable "headless" {
+    type = string
+    default = "false"
+}
+variable "net_device" {
+    type = string
+    default = "virtio-net"
+}
+variable "disk_interface" {
+    type = string
+    default = "virtio"
+}
+variable "disk_size" {
+    type = string
+    default = "25G"
+}
+variable "memory" {
+    type = string
+    default = "1024"
+}
+variable "cpus" {
+    type = string
+    default = "2"
+}
+variable "ssh_username" {
+    type = string
+    default = "admin"
+}
+variable "ssh_password" {
+    type = string
+    default = "admin"
+}
+variable "ssh_timeout" {
+    type = string
+    default = "60m"
+}
+
+variable "ssh_handshake_attempts" {
+    type = string
+    default = "1000"
+}
+variable "iso_url" {
+    type = string
+    default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso"
+}
+variable "iso_checksum" {
+    type = string
+    default = "sha256:750c373c3206ae79784e436cc94fffc122296cf1bf8129a427dcd6ba7fac5888"
+}
+variable "boot_wait" {
+    type = string
+    default = "5s"
+}
+variable "shutdown_command" {
+    type = string
+    default = "echo admin | sudo -S -E shutdown -P now"
+}
+variable "shell_scripts" {
+    type = string
+    default = "../scripts/configs.sh"
+}
+#+end_src
+
+To make use of these variables in our =main.pkr.hcl= file, we simply reference them using the syntax =var.<name of the variable>=.
+# Every Packer template is compose of three main components:
+# - The source section 
+# - The builder section 
+
+#+end_comment
