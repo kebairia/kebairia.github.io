@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-12 Wed 01:09 -->
+<!-- 2023-04-13 Thu 12:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -34,18 +34,12 @@
 </p>
 
 </div>
-<div id="outline-container-org2fe9760" class="outline-2">
-<h2 id="org2fe9760"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org9ab1b5d" class="outline-2">
+<h2 id="org9ab1b5d"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-We are going to create a RockyLinux image using Packer.
-</p>
-
-<p>
-Creating your own VM image can significantly speed up the provisioning of new VMs whenever you need them.
-</p>
-
-<p>
+We are going to create a RockyLinux image using Packer.<br />
+Creating your own VM image can significantly speed up the provisioning of new VMs whenever you need them.<br />
 Instead of repeatedly installing the operating system, we'll build VM images for Rocky Linux 9 and Ubuntu 22.04, with our own configuration, this will ensure consistency across our infrastructure.
 </p>
 
@@ -55,26 +49,35 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-orgb78adb3" class="outline-2">
-<h2 id="orgb78adb3"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-org446c76e" class="outline-2">
+<h2 id="org446c76e"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
-<li>Packer installed on you system</li>
 <li>ISO file for the image you want to build ( in our case, we are using <b><a href="https://rockylinux.org/download">RockyLinux9.1</a></b>)</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org203e14d" class="outline-2">
-<h2 id="org203e14d"><span class="section-number-2">3</span> Installing Packer</h2>
+<div id="outline-container-orgd18a334" class="outline-2">
+<h2 id="orgd18a334"><span class="section-number-2">3</span> The Plan</h2>
 <div class="outline-text-2" id="text-3">
-<p>
-Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.
-</p>
+<ol class="org-ol">
+<li>We are going to install Packer.</li>
+<li>Write a Packer template using HCL2.</li>
+<li>Write a kickstart configuration file for our RockyLinux system.</li>
+<li>Write a Basic shell script to automate basic configuration for our image.</li>
+<li>Build the final image</li>
+</ol>
+</div>
+</div>
 
+<div id="outline-container-org024d74b" class="outline-2">
+<h2 id="org024d74b"><span class="section-number-2">4</span> Installing Packer</h2>
+<div class="outline-text-2" id="text-4">
 <p>
-I'm using Arch Linux, and Packer is already available in the Arch repos.
+Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.<br />
+I'm using Arch Linux, and Packer is already available in the Arch repos.<br />
 </p>
 
 <p>
@@ -82,27 +85,27 @@ We will install <code>qemu-ui-gtk</code> as well, this will enable us to easily 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">$ sudo pacman -S packer qemu-ui-gtk --noconfirm
+<pre class="src src-sh">sudo pacman -S packer qemu-ui-gtk --noconfirm
+packer --version
+</pre>
+</div>
+
+<pre class="example">
+1.8.6
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org68bbf47" class="outline-2">
-<h2 id="org68bbf47"><span class="section-number-2">4</span> Write Packer Templates with HCL2</h2>
-<div class="outline-text-2" id="text-4">
-<p>
-HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.
-</p>
 
+<div id="outline-container-org40c2c40" class="outline-2">
+<h2 id="org40c2c40"><span class="section-number-2">5</span> Write Packer Templates with HCL2</h2>
+<div class="outline-text-2" id="text-5">
 <p>
+HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.<br />
 HCL is in version 2, and we are going to use it to create our own VM image template.
 </p>
 
 <p>
-Each virtualization platform has it's own plugin which is called a <b>builder</b> in Packer's term.
-</p>
-
-<p>
+Each virtualization platform has it's own plugin which is called a <b>builder</b> in Packer's term.<br />
 For our Qemu platform, we'll need to use the <b>QEMU</b> builder plugin, which you can find on <a href="https://github.com/hashicorp/packer-plugin-qemu">this page</a>.
 </p>
 
@@ -111,12 +114,12 @@ We will create a file named <code>main.pkr.hcl</code>, it will serve as our prim
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh" id="org464a35a">touch main.pkr.hcl
+<pre class="src src-sh" id="org704f241">touch main.pkr.hcl
 </pre>
 </div>
 
 <p>
-Let's install qemu's plugin. Add this to <code>main.pkr.hcl</code>
+Add this to <code>main.pkr.hcl</code>
 </p>
 
 <div class="org-src-container">
@@ -142,25 +145,40 @@ Run this command
 <p>
 This command is used to initiate our Packer template, which is basically downloading the necessary builder binaries.
 </p>
-</div>
-</div>
-<div id="outline-container-org186d0b1" class="outline-2">
-<h2 id="org186d0b1"><span class="section-number-2">5</span> Building RockyLinux image</h2>
-<div class="outline-text-2" id="text-5">
+
 <p>
-Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
-The most important blocks that we are going to use here are the following:
+<br />
+</p>
+<hr />
+<p>
+<br />
 </p>
 
-<ul class="org-ul">
-<li><code>build</code> blocks contain configuration for a specific combination of builders, provisioners, and post-processors used to create a specific image artifact.</li>
 
+<p>
+Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
+The most important blocks that we are going to use here are the following:<br />
+</p>
+
+
+<div class="figure">
+<p><img src="img/blogs/packer-rocky/packer_blocks.png" alt="Packer blocks" width="290" title="Action!" align="right" /> 
+</p>
+</div>
+
+<ol class="org-ol">
 <li><code>source</code> blocks contain configuration for builder plugins, including hardware and resource allocation settings such as type of hardware, RAM and CPU requirements.
 Each source block has a unique name that can be referenced in the <code>build</code> block.</li>
 
+<li><code>build</code> blocks can reference one or more source blocks, each of which may have its own provisioners and post-processors blocks.</li>
+
 <li><code>provisioner</code> blocks contain your provisionners, like shell scripts, Ansible playbook..etc.
 These blocks are nested inside of a <code>build</code> block.</li>
-</ul>
+</ol>
+
+<p>
+<br />
+</p>
 
 <div class="note">
 <p>
@@ -169,8 +187,15 @@ As noted in <a href="https://github.com/hashicorp/packer-plugin-qemu/issues/76%2
 </p>
 
 </div>
+
+
+
+<p>
+Alright, add the following to your <code>main.pkr.hcl</code> file.
+</p>
+
 <div class="org-src-container">
-<pre class="src src-hcl" id="org962bead"># Define QEMU source for rocky
+<pre class="src src-hcl" id="orgb28c6c7"># Define QEMU source for rocky
 source "qemu" "rocky" {
   vm_name                 = "rocky-base-image.qcow2"
   http_directory          = "./http"
@@ -218,24 +243,26 @@ In the <code>build</code> block, we can reference our source block by it's name 
 </p>
 
 <p>
-In the <code>provisioner</code> block, we used a shell script called <code>configs.sh</code>.
+We also used a <code>provisioner</code> block where we called our <code>configs.sh</code> script.
 </p>
 </div>
-<div id="outline-container-orge49ba81" class="outline-3">
-<h3 id="orge49ba81"><span class="section-number-3">5.1</span> Kickstart file</h3>
+
+<div id="outline-container-org072f8b1" class="outline-3">
+<h3 id="org072f8b1"><span class="section-number-3">5.1</span> Kickstart file</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named <code>http</code> and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the <a href="#coderef-Bootstrapping with a Kickstart Config File" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-Bootstrapping with a Kickstart Config File');" onmouseout="CodeHighlightOff(this, 'coderef-Bootstrapping with a Kickstart Config File');">boot command</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh" id="org175a18a">mkdir http
+<pre class="src src-sh" id="orgc65900f">mkdir http
 </pre>
 </div>
 
 <p>
 Create a kickstart file with the following content, (or any content you want).
 </p>
+
 <details><summary>Kickstart file content</summary>
 <div class="org-src-container">
 <pre class="src src-conf"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">Global </span>
@@ -308,8 +335,8 @@ systemctl restart sshd
 </details>
 </div>
 </div>
-<div id="outline-container-org3d0fb45" class="outline-3">
-<h3 id="org3d0fb45"><span class="section-number-3">5.2</span> Building the image</h3>
+<div id="outline-container-orgfbaad3a" class="outline-3">
+<h3 id="orgfbaad3a"><span class="section-number-3">5.2</span> Building the image</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Let's first validate our template.
@@ -409,6 +436,11 @@ Congratulations, you have built your first image using Packer!
 </p>
 </div>
 </div>
+</div>
+
+
+<div id="outline-container-org58e9151" class="outline-2">
+<h2 id="org58e9151"><span class="section-number-2">6</span> Archived&#xa0;&#xa0;&#xa0;<span class="tag"><span class="ARCHIVE">ARCHIVE</span></span></h2>
 </div>
 </div>
 <div id="postamble" class="status">
