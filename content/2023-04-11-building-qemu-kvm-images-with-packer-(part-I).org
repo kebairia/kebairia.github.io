@@ -3,12 +3,17 @@
 #+AUTHOR: Zakaria.K
 #+EMAIL: 4.kebairia@gmail.com
 #+DATE: 11 Apr 2023 Sat
-#+KEYWORDS: packer,linux
+#+TAGS: packer,linux
 #+OPTIONS: html5-fancy:t tex:t
 #+PROPERTY: header-args:sh :results output :exports both 
 #+begin_date
 {{{date}}}
 #+end_date
+* COMMENT :PACKER:LINUX:ROCKYLINUX:QEMU:
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
 * Introduction
 We are going to create a RockyLinux image using Packer.\\
 Creating your own VM image can significantly speed up the provisioning of new VMs whenever you need them.\\
@@ -76,7 +81,7 @@ packer {
 }
 #+end_src
 
-Run this command
+And then, run this command
 #+begin_src sh
 packer init main.pkr.hcl
 #+end_src
@@ -332,7 +337,7 @@ Congratulations, you have built your first image using Packer!
 
 
 * COMMENT Building RockyLinux image
-* Archived :ARCHIVE:
+* COMMENT Archived
 #+begin_comment
 First we need to define our variables first. After the plugin definition section, add the variables that you need
 #+begin_note
