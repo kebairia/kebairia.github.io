@@ -66,10 +66,9 @@ We will create a file named =main.pkr.hcl=, it will serve as our primary templat
 touch main.pkr.hcl
 #+end_src
 
-#+RESULTS: qemu-plugin
+** Installing Packer's builder for QEMU
 
 Add this to =main.pkr.hcl=
-
 #+begin_src hcl :session main :tangle /tmp/packer-blog/main.pkr.hcl
 packer {
   required_plugins {
@@ -88,15 +87,12 @@ packer init main.pkr.hcl
 
 This command is used to initiate our Packer template, which is basically downloading the necessary builder binaries.
 
-\\
------
-\\
-
+** Packer's main blocks
 
 Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
 The most important blocks that we are going to use here are the following:\\
 
-#+ATTR_HTML: :alt Packer blocks :title Action! :align right
+#+ATTR_HTML: :alt Packer blocks :title Packer's blocks :align right
 #+ATTR_HTML: :width 250
 [[file:img/blogs/packer-rocky/packer_blocks.png]] 
 \\
@@ -157,7 +153,7 @@ source "qemu" "rocky" {
 # Define build process
 build {
   sources = ["source.qemu.rocky"]
-  # Execute shell scripts
+  # (ref:Execute shell scripts)
   provisioner "shell" {
     scripts               = ["../scripts/configs.sh"]
     expect_disconnect     = true
@@ -167,9 +163,9 @@ build {
 
 In the =build= block, we can reference our source block by it's name =source.qemu.rocky=.
 
-We also used a =provisioner= block where we called our =configs.sh= script.
+We also used a =provisioner= block calling the =configs.sh= shell script.
 
-** Kickstart file
+* Kickstart file
 
 Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named =http= and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the [[(Bootstrapping with a Kickstart Config File)][boot command]].
 
@@ -182,36 +178,36 @@ mkdir http
 
 Create a kickstart file with the following content, (or any content you want).
 
-#+html: <details><summary>Kickstart file content</summary>
+# #+html: <details><summary>Kickstart file content</summary>
 #+begin_src conf
-#Global 
-cdrom
-lang en_US.UTF-8
-keyboard us
+# Global settings
+cdrom                              # Specify installation media type
+lang en_US.UTF-8                   # Set language and character encoding
+keyboard us                        # Set keyboard layout
 
-# Network
-network --bootproto=dhcp --device=eth0 --noipv6 --onboot=on
+# Network settings
+network --bootproto=dhcp --device=eth0 --nameserver=10.10.0.2,10.10.0.3 --noipv6 --activate --onboot=on
 
-# Users
-rootpw --plaintext admin
-user --name=admin --plaintext --password=admin
+# User settings
+rootpw --plaintext admin           # Set root password
+user --name=admin --plaintext --password admin   # Create a user account
 
-timezone UTC
-bootloader --location=mbr --timeout=1 --append="net.ifnames=0 biosdevname=0"
-text
-skipx
-zerombr
-clearpart --all --initlabel
-autopart --nohome --noboot --nolvm
+timezone Africa/Algeria            # Set timezone
+bootloader --timeout=1 --location=mbr --append="net.ifnames=0 biosdevname=0"   # Configure bootloader
+text                               # Use text mode install
+skipx                              # Do not configure X Window System
+zerombr                            # Clear master boot record
+clearpart --all --initlabel        # Clear all existing partitions
+autopart --nohome --nolvm --noboot # Automatically partition disk
 
-# System settings
-firewall --enabled
-selinux --enforcing
-firstboot --disabled
-reboot --eject
-services --enabled="NetworkManager,sshd,chronyd"
+# System service settings
+firewall --enabled                 # Enable firewall
+selinux --enforcing                # Enable SELinux in enforcing mode
+firstboot --disabled               # Disable Initial Setup on first boot
+reboot --eject                     # Reboot system after installation
+services --enabled="NetworkManager,sshd,chronyd"   # Enable specified services
 
-# Packages
+# Package installation settings
 %packages --ignoremissing --excludedocs
 openssh-clients
 sudo
@@ -234,24 +230,49 @@ elfutils-libelf-devel
 -microcode_ctl
 %end
 
-# Post-installation
-%post --interpreter=/bin/bash
+# Post installation settings
+%post
+#
 # Sudo configuration
 echo 'Defaults:admin !requiretty' > /etc/sudoers.d/admin
 echo '%admin ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/admin
 chmod 440 /etc/sudoers.d/admin
 
 # SSH configuration
-sed -i 's/^#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
-systemctl enable sshd
-systemctl restart sshd
+/usr/bin/systemctl enable sshd
+
+# Update all packages
+/usr/bin/yum -y update
+
 %end
 
 #+end_src
-#+html: </details>
-** Building the image
+# #+html: </details>
+
+* Shell script for Provisionning
+#+begin_note
+The path of the shell script is =../scripts/configs.sh=
+#+end_note
+This is a basic [[(Execute shell scripts)][shell script]] that creates a file called =/etc/banner= with a greeting message, enable the =Banner= option and restarts the =sshd= service to apply the new configuration. \\
+Feel free to add any additional configuration you see fit.
+
+#+begin_src sh
+#!/bin/bash
+# We need to use `tee` command, because redirection ">" doesn't pass sudo privileges 
+cat << EOF | sudo tee /etc/banner
+    ┌────────────────────────┐
+    │!! Welcome to Homelab !!│
+    └────────────────────────┘
+EOF
+# Enable `Banner` option
+sudo sed -i 's/^#Banner none/Banner \/etc\/banner/' /etc/ssh/sshd_config
+# Restart sshd service
+sudo systemctl restart sshd
+
+
+#+end_src
+* Building the image
 Let's first validate our template.
 #+begin_src sh
 packer validate .
