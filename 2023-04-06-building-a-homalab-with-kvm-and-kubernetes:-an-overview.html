@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-14 Fri 12:32 -->
+<!-- 2023-04-14 Fri 13:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a Homalab with KVM and Kubernetes: An Overview</title>
@@ -34,8 +34,8 @@
 </p>
 
 </div>
-<div id="outline-container-orga16a8eb" class="outline-2">
-<h2 id="orga16a8eb"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org178bf10" class="outline-2">
+<h2 id="org178bf10"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
@@ -52,8 +52,8 @@ To centralize the configuration as much as possible, I will be using Packer to c
 </div>
 </div>
 
-<div id="outline-container-orgc909402" class="outline-2">
-<h2 id="orgc909402"><span class="section-number-2">2</span> Tools and technologies</h2>
+<div id="outline-container-orge94594c" class="outline-2">
+<h2 id="orge94594c"><span class="section-number-2">2</span> Tools and technologies</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each node will have SELinux in enforcing mode.
@@ -77,8 +77,8 @@ To make the process of provisioning new nodes easier, I will create custom base 
 </div>
 </div>
 
-<div id="outline-container-org9d5a056" class="outline-2">
-<h2 id="org9d5a056"><span class="section-number-2">3</span> Architecture</h2>
+<div id="outline-container-org23204d0" class="outline-2">
+<h2 id="org23204d0"><span class="section-number-2">3</span> Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
@@ -218,7 +218,7 @@ While the other 3 as worker nodes <code>10.10.0.31-33</code>.
 
 
 <div class="figure">
-<p><img src="img/blogs/homelab/arch.png" alt="arch.png" width="630" />
+<p><img src="img/blogs/homelab/overview/arch.png" alt="arch.png" width="630" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Homelab diagram</p>
 </div>
@@ -232,8 +232,8 @@ This was an overview of my homelab plan. In the following blog posts I will prov
 </p>
 </div>
 </div>
-<div id="outline-container-org1251534" class="outline-2">
-<h2 id="org1251534"><span class="section-number-2">4</span> VM Setup Guides</h2>
+<div id="outline-container-org32d6a67" class="outline-2">
+<h2 id="org32d6a67"><span class="section-number-2">4</span> VM Setup Guides</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
