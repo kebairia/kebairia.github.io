@@ -94,7 +94,7 @@ The most important blocks that we are going to use here are the following:\\
 
 #+ATTR_HTML: :alt Packer blocks :title Packer's blocks :align right
 #+ATTR_HTML: :width 250
-[[file:img/blogs/packer-rocky/packer_blocks.png]] 
+[[file:img/blogs/homelab-packer-rocky/packer_blocks.png]] 
 \\
 
 1. =source= blocks contain configuration for builder plugins, including hardware and resource allocation settings such as type of hardware, RAM and CPU requirements.
@@ -109,8 +109,7 @@ The most important blocks that we are going to use here are the following:\\
 
 #+begin_note
 Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X image.\\
-As noted in [[https://github.com/hashicorp/packer-plugin-qemu/issues/76
-][this issue]], adding the =-cpu host= flag to the =qemuargs= section can resolve this issue.
+As noted in [[https://github.com/hashicorp/packer-plugin-qemu/issues/76][this issue]], adding the =-cpu host= flag to the =qemuargs= section can resolve this issue.\\
 #+end_note
 
 
