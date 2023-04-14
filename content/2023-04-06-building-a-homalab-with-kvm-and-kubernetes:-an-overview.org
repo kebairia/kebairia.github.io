@@ -68,7 +68,7 @@ While the other 3 as worker nodes =10.10.0.31-33=.
 
 #+caption: Homelab diagram
 #+attr_html: :width 630 
-[[file:img/blogs/homelab/arch.png]]
+[[file:img/blogs/homelab/overview/arch.png]]
 #+begin_note 
 #+end_note
 
