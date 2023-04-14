@@ -15,14 +15,15 @@ html, body {
 
 body {
   /*background-color: #f0eeed;*/
-  background-color: #fff;
-  font-family: 'Source Serif Pro', serif;
-  line-height: 1.6;
-  max-width: 800px;
-  margin: 40px auto;
-  font-size: 0.93rem;
-  padding: 0 10px;
-  color: rgb(38, 27, 13);
+    /* background-color: #fffff9; */
+    background-color: #fff;
+    font-family: 'Source Serif Pro', serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 40px auto;
+    font-size: 0.93rem;
+    padding: 0 10px;
+    color: rgb(38, 27, 13);
 }
 
 /*}}}*/
