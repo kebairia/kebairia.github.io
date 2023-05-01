@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-01 Mon 18:22 -->
+<!-- 2023-05-01 Mon 18:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kvmcli V0.9</title>
@@ -39,16 +39,16 @@
 In this blog post, we will discuss the latest release of <b>kvmcli</b>, version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, <b>kvmcli 1.0</b>.
 </p>
 
-<div id="outline-container-org718549c" class="outline-2">
-<h2 id="org718549c"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
+<div id="outline-container-org01f44a7" class="outline-2">
+<h2 id="org01f44a7"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b>kvmcli v0.9</b> introduces the following features and improvements:
 </p>
 </div>
 
-<div id="outline-container-org1569177" class="outline-3">
-<h3 id="org1569177"><span class="section-number-3">1.1</span> Multiprocessing</h3>
+<div id="outline-container-org4b7c6b3" class="outline-3">
+<h3 id="org4b7c6b3"><span class="section-number-3">1.1</span> Multiprocessing</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="note">
 <p>
@@ -72,7 +72,7 @@ Here's an example of how to set the <code>fork</code> value in the configuration
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml" id="orgf29306b">
+<pre class="src src-toml" id="orga9d0b47">
 [misc]
 fork = 5
 </pre>
@@ -84,12 +84,14 @@ In the example above, we instruct <b>kvmcli</b> to launch five independent proce
 </div>
 </div>
 
-<div id="outline-container-org3395b18" class="outline-3">
-<h3 id="org3395b18"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
+<div id="outline-container-org9a2e762" class="outline-3">
+<h3 id="org9a2e762"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
 <div class="outline-text-3" id="text-1-2">
-<div class="org-src-container">
-<pre class="src src-note">or =kvmcli -I=
-</pre>
+<div class="note">
+<p>
+or <code>kvmcli -I</code>
+</p>
+
 </div>
 <p>
 A new option, <code>kvmcli --init</code>, has being added to the command client.
@@ -98,7 +100,14 @@ This option enables users to create a cluster template. The contents of the temp
 
 <p>
 A new configuration key allows for the specification of the template's name.
+</p>
+
+<p>
 The example below demonstrates the new option usage.
+</p>
+
+<p>
+Specify the name of the template file in the configuration file.
 </p>
 
 <div class="org-src-container">
@@ -109,6 +118,9 @@ template = "servers.yml"
 </pre>
 </div>
 
+<p>
+Then use <code>--init</code> to create this template.
+</p>
 <div class="org-src-container">
 <pre class="src src-sh">kvmcli --init
 </pre>
@@ -150,8 +162,8 @@ vms:
 </div>
 </div>
 
-<div id="outline-container-org7ab50dd" class="outline-2">
-<h2 id="org7ab50dd"><span class="section-number-2">2</span> Other improvements</h2>
+<div id="outline-container-org84e20ca" class="outline-2">
+<h2 id="org84e20ca"><span class="section-number-2">2</span> Other improvements</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Other changes in this release include improvements in project structure, code cleaning&#x2026;etc.
