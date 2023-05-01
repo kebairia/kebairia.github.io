@@ -1,0 +1,97 @@
+#+TITLE: Kvmcli V0.9
+#+SUBTITLE: Introducing New Features in kvmcli v0.9
+#+AUTHOR: Zakaria.K
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 01 May 2023 Mon
+#+KEYWORDS: 
+#+OPTIONS: html5-fancy:t tex:t
+#+PROPERTY: header-args:sh :results output :exports both :dir /tmp/kvmcli-test
+#+begin_date
+{{{date}}}
+#+end_date
+
+
+In this blog post, I will present the latest release of *kvmcli*, kvmcli version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, *kvmcli 1.0*.
+
+* Improvements and Features in v0.9
+*kvmcli v0.9* introduces the following features and improvements:
+
+** Multiprocessing
+#+begin_note
+As you can already guessed, sequential provisioning is not efficient for this use case.
+#+end_note
+To enhance the performance of the provisioning process, *kvmcli* now utilizes multiprocessing.
+This is particularly useful for provisioning a large number of virtual machines across several clusters (each containing 10 to 20 virtual machines for example).
+
+
+With v0.9, you can now specify the number of processes *kvmcli* can launch during the provisioning process.
+This is done through a new section in the configuration file called =misc= with a key called =fork=,  specifying the number of parallel processes that *kvmcli* can launch.
+
+Here's an example of how to set the =fork= value in the configuration file:
+
+#+name: fork feature
+#+begin_src toml
+
+[misc]
+fork = 5
+#+end_src
+
+In the example above, I instructed *kvmcli* to launch five independent processes to provision my cluster. If I set =fork = 0=, *kvmcli* will use a number of processes equal to the number of cores in my computer.
+
+** New option =kvmcli --init=
+#+begin_note
+or =kvmcli -I=
+#+end_note
+A new option, =kvmcli --init=, has being added. This option enables users to create a cluster template. The contents of the template is stored in a YAML file.
+
+A new configuration key allows for the specification of the template's name.
+
+The example below demonstrates the new option usage.
+
+Specify the name of the template file in the configuration file.
+
+#+begin_src toml
+[yaml]
+path = "servers.yml"
+template = "servers.yml"
+
+#+end_src
+
+Then use =--init= to create this template.
+#+begin_src sh 
+kvmcli --init
+#+end_src
+
+#+RESULTS:
+: Template file with the name `servers.yml` is created !
+
+A template file will be created with the name specified in the configuration, containing the basic configuration for a node.
+#+begin_src sh
+cat servers.yml
+#+end_src
+
+#+RESULTS:
+#+begin_example
+version: 1.0
+vms:
+- info:
+    name: node1
+    image: rocky9.1
+    ram: 1536
+    cpus: 1
+    os: rocky9
+  network:
+    interface:
+      bridge: virbr1
+      mac_address: 02:A3:10:00:00:XX
+  storage:
+    disk:
+      format: qcow2
+      size: 30
+      type: SSD
+#+end_example
+
+* Other improvements
+Other changes in this release include improvements in project structure, code cleaning...etc.
+
+Until the next release, feel free check the [[https://www.github.com/kebairia/kvmcli][project's repository on GitHub]] for more information.
