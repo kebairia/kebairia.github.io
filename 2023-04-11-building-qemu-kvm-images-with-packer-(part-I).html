@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-14 Fri 13:01 -->
+<!-- 2023-05-01 Mon 18:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -33,8 +33,8 @@
 </p>
 
 </div>
-<div id="outline-container-org679af03" class="outline-2">
-<h2 id="org679af03"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org25a985b" class="outline-2">
+<h2 id="org25a985b"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to create a RockyLinux image using Packer.<br />
@@ -48,8 +48,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-orgc9b58a1" class="outline-2">
-<h2 id="orgc9b58a1"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-org188b2f2" class="outline-2">
+<h2 id="org188b2f2"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
@@ -58,8 +58,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-orgd8dfcd2" class="outline-2">
-<h2 id="orgd8dfcd2"><span class="section-number-2">3</span> The Plan</h2>
+<div id="outline-container-org1115a0f" class="outline-2">
+<h2 id="org1115a0f"><span class="section-number-2">3</span> The Plan</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>We are going to install Packer.</li>
@@ -71,8 +71,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-org4a04512" class="outline-2">
-<h2 id="org4a04512"><span class="section-number-2">4</span> Installing Packer</h2>
+<div id="outline-container-orgf4b5efe" class="outline-2">
+<h2 id="orgf4b5efe"><span class="section-number-2">4</span> Installing Packer</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.<br />
@@ -95,8 +95,8 @@ packer --version
 </div>
 </div>
 
-<div id="outline-container-orgf10714b" class="outline-2">
-<h2 id="orgf10714b"><span class="section-number-2">5</span> Write Packer Templates with HCL2</h2>
+<div id="outline-container-org38ec38f" class="outline-2">
+<h2 id="org38ec38f"><span class="section-number-2">5</span> Write Packer Templates with HCL2</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.<br />
@@ -113,13 +113,13 @@ We will create a file named <code>main.pkr.hcl</code>, it will serve as our prim
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh" id="org7c086ad">touch main.pkr.hcl
+<pre class="src src-sh" id="orgce41aa8">touch main.pkr.hcl
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org336a58a" class="outline-3">
-<h3 id="org336a58a"><span class="section-number-3">5.1</span> Installing Packer's builder for QEMU</h3>
+<div id="outline-container-orgabde06b" class="outline-3">
+<h3 id="orgabde06b"><span class="section-number-3">5.1</span> Installing Packer's builder for QEMU</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Add this to <code>main.pkr.hcl</code>
@@ -150,8 +150,8 @@ This command is used to initiate our Packer template, which is basically downloa
 </div>
 </div>
 
-<div id="outline-container-orga56925c" class="outline-3">
-<h3 id="orga56925c"><span class="section-number-3">5.2</span> Packer's main blocks</h3>
+<div id="outline-container-orgd3f50b4" class="outline-3">
+<h3 id="orgd3f50b4"><span class="section-number-3">5.2</span> Packer's main blocks</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
@@ -192,7 +192,7 @@ Alright, add the following to your <code>main.pkr.hcl</code> file.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-hcl" id="orgfc47b6c"># Define QEMU source for rocky
+<pre class="src src-hcl" id="org70cf3a9"># Define QEMU source for rocky
 source "qemu" "rocky" {
   vm_name                 = "rocky-base-image.qcow2"
   http_directory          = "./http"
@@ -246,15 +246,15 @@ We also used a <code>provisioner</code> block calling the <code>configs.sh</code
 </div>
 </div>
 
-<div id="outline-container-org5014644" class="outline-2">
-<h2 id="org5014644"><span class="section-number-2">6</span> Kickstart file</h2>
+<div id="outline-container-orgf78e020" class="outline-2">
+<h2 id="orgf78e020"><span class="section-number-2">6</span> Kickstart file</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named <code>http</code> and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the <a href="#coderef-Bootstrapping with a Kickstart Config File" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-Bootstrapping with a Kickstart Config File');" onmouseout="CodeHighlightOff(this, 'coderef-Bootstrapping with a Kickstart Config File');">boot command</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh" id="orgd2628a6">mkdir http
+<pre class="src src-sh" id="org6cec2af">mkdir http
 </pre>
 </div>
 
@@ -335,8 +335,8 @@ echo <span style="font-style: italic;">"PubkeyAcceptedKeyTypes=+ssh-rsa"</span> 
 </div>
 </div>
 
-<div id="outline-container-orgc06a539" class="outline-2">
-<h2 id="orgc06a539"><span class="section-number-2">7</span> Shell script for Provisionning</h2>
+<div id="outline-container-orgddae5e2" class="outline-2">
+<h2 id="orgddae5e2"><span class="section-number-2">7</span> Shell script for Provisionning</h2>
 <div class="outline-text-2" id="text-7">
 <div class="note">
 <p>
@@ -367,8 +367,8 @@ sudo systemctl restart sshd
 </div>
 </div>
 </div>
-<div id="outline-container-orgfd36c78" class="outline-2">
-<h2 id="orgfd36c78"><span class="section-number-2">8</span> Building the image</h2>
+<div id="outline-container-org4cf0743" class="outline-2">
+<h2 id="org4cf0743"><span class="section-number-2">8</span> Building the image</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 Let's first validate our template.

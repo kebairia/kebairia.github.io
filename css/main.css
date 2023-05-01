@@ -159,7 +159,7 @@ a:hover {
 /*Tables {{{1*/
 
 table, th, td {
-  border: 1px solid;
+  /*border: 1px solid;*/
 }
 
 /*th {*/

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-01 Mon 18:16 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kvmcli V0.9</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Zakaria.K" />
+<link rel="stylesheet"href="css/main.css" type="text/css" />
+</head>
+<body>
+<div id="content">
+<h1 class="title">Kvmcli V0.9
+<br />
+<span class="subtitle">Introducing New Features in kvmcli v0.9</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb65c219">1. Improvements and Features in v0.9</a>
+<ul>
+<li><a href="#org0630fb8">1.1. Multiprocessing</a></li>
+<li><a href="#orge7360e1">1.2. New option <code>kvmcli --init</code></a></li>
+</ul>
+</li>
+<li><a href="#org5753f07">2. Other improvements</a></li>
+</ul>
+</div>
+</div>
+<div class="date">
+<p>
+01 May 2023 Mon
+</p>
+
+</div>
+
+
+<p>
+In this blog post, we will discuss the latest release of <b>kvmcli</b>, version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, <b>kvmcli 1.0</b>.
+</p>
+
+<div id="outline-container-orgb65c219" class="outline-2">
+<h2 id="orgb65c219"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<b>kvmcli v0.9</b> introduces the following features and improvements:
+</p>
+</div>
+
+<div id="outline-container-org0630fb8" class="outline-3">
+<h3 id="org0630fb8"><span class="section-number-3">1.1</span> Multiprocessing</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="note">
+<p>
+As you can already guessed, sequential provisioning is not efficient for this use case.
+</p>
+
+</div>
+<p>
+To enhance the performance of the provisioning process, <b>kvmcli</b> now utilizes multiprocessing.
+This is particularly useful for provisioning a large number of virtual machines across several clusters, each containing 10 to 20 virtual machines for example.
+</p>
+
+
+<p>
+With v0.9, you can now specify the number of processes <b>kvmcli</b> can launch during the provisioning process.
+This is done through a new section in the configuration file, config.cfg by default, called misc with a fork key specifying the number of parallel processes that <b>kvmcli</b> can launch.
+</p>
+
+<p>
+Here's an example of how to set the fork value in the config.cfg file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-toml" id="org8a9a9c9">
+[misc]
+fork = 5
+</pre>
+</div>
+
+<p>
+In the example above, we instruct <b>kvmcli</b> to launch five independent processes to provision your clusters. If you set <code>fork = 0</code>, <b>kvmcli</b> will use a number of processes equal to the number of cores in your computer.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge7360e1" class="outline-3">
+<h3 id="orge7360e1"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+In addition , a new option to the command client is being added.
+<code>kvmcli --init</code> or <code>kvmcli -I</code> helps you create a cluster template.
+The template's content is stored as a YAML file, and a new configuration key allows you to specify the name of the created template. 
+</p>
+
+
+<p>
+A new option, <code>kvmcli --init</code>, is being added to the command client.
+This option enables users to create a cluster template. The contents of the template is stored in a YAML file.
+</p>
+
+<p>
+A new configuration key allows for the specification of the template's name.
+The example below demonstrates the new option usage.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-toml">[yaml]
+path = "servers.yml"
+template = "servers.yml"
+
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sh">kvmcli --init
+</pre>
+</div>
+
+<pre class="example">
+Template file with the name `servers.yml` is created !
+</pre>
+
+
+<p>
+A template file will be created with the name specified in the configuration, containing the basic configuration for a node.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">cat servers.yml
+</pre>
+</div>
+
+<pre class="example">
+version: 1.0
+vms:
+- info:
+    name: node1
+    image: rocky9.1
+    ram: 1536
+    cpus: 1
+    os: rocky9
+  network:
+    interface:
+      bridge: virbr1
+      mac_address: 02:A3:10:00:00:XX
+  storage:
+    disk:
+      format: qcow2
+      size: 30
+      type: SSD
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5753f07" class="outline-2">
+<h2 id="org5753f07"><span class="section-number-2">2</span> Other improvements</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Other changes in this release include improvements in project structure, code cleaning&#x2026;etc.
+</p>
+
+<p>
+Until the next release, feel free check the <a href="https://www.github.com/kebairia/kvmcli">project's repository on GitHub</a> for more information.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+<p class="postamble"> 
+
+<a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+<img src="img/crc.png" alt="Creative Commons License" title="Creative Commons License" />
+
+<a href="https://www.linkedin.com/in/zakaria-kebairia/" title="LinkedIn account" class="social">
+<img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn Account" />
+</a>
+
+<a href="https://twitter.com/z_kebairia" title="Twitter Account" class="social">
+<img src="img/social/twitter-logo.svg" width="40" alt="Twitter Account" /> </a>
+
+<a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" title="Youtube Account" class="social">
+<img src="img/social/youtube-black-logo.svg" width="40" alt="Youtube Account" /> </a>
+
+<a href="https://www.github.com/kebairia" title="GitHub Account" class="social">
+<img src="img/social/github.svg" width="43" alt="GitHub Account" /> </a>
+
+<br>
+
+<p class="credit">
+Copyright &copy  2021 Zakaria Kebairia
+<br>
+Content licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+
+</p>
+</div>
+</body>
+</html>
