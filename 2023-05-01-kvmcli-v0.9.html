@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-01 Mon 18:16 -->
+<!-- 2023-05-01 Mon 18:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kvmcli V0.9</title>
@@ -39,16 +39,16 @@
 In this blog post, we will discuss the latest release of <b>kvmcli</b>, version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, <b>kvmcli 1.0</b>.
 </p>
 
-<div id="outline-container-orgc2a4d10" class="outline-2">
-<h2 id="orgc2a4d10"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
+<div id="outline-container-org718549c" class="outline-2">
+<h2 id="org718549c"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b>kvmcli v0.9</b> introduces the following features and improvements:
 </p>
 </div>
 
-<div id="outline-container-org08205b5" class="outline-3">
-<h3 id="org08205b5"><span class="section-number-3">1.1</span> Multiprocessing</h3>
+<div id="outline-container-org1569177" class="outline-3">
+<h3 id="org1569177"><span class="section-number-3">1.1</span> Multiprocessing</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="note">
 <p>
@@ -64,15 +64,15 @@ This is particularly useful for provisioning a large number of virtual machines 
 
 <p>
 With v0.9, you can now specify the number of processes <b>kvmcli</b> can launch during the provisioning process.
-This is done through a new section in the configuration file, config.cfg by default, called misc with a fork key specifying the number of parallel processes that <b>kvmcli</b> can launch.
+This is done through a new section in the configuration file called <code>misc</code> with a key called <code>fork</code>,  specifying the number of parallel processes that <b>kvmcli</b> can launch.
 </p>
 
 <p>
-Here's an example of how to set the fork value in the config.cfg file:
+Here's an example of how to set the <code>fork</code> value in the configuration file:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml" id="org0c8af02">
+<pre class="src src-toml" id="orgf29306b">
 [misc]
 fork = 5
 </pre>
@@ -84,18 +84,15 @@ In the example above, we instruct <b>kvmcli</b> to launch five independent proce
 </div>
 </div>
 
-<div id="outline-container-orgef288a4" class="outline-3">
-<h3 id="orgef288a4"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
+<div id="outline-container-org3395b18" class="outline-3">
+<h3 id="org3395b18"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
 <div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-note">or =kvmcli -I=
+</pre>
+</div>
 <p>
-In addition , a new option to the command client is being added.
-<code>kvmcli --init</code> or <code>kvmcli -I</code> helps you create a cluster template.
-The template's content is stored as a YAML file, and a new configuration key allows you to specify the name of the created template. 
-</p>
-
-
-<p>
-A new option, <code>kvmcli --init</code>, is being added to the command client.
+A new option, <code>kvmcli --init</code>, has being added to the command client.
 This option enables users to create a cluster template. The contents of the template is stored in a YAML file.
 </p>
 
@@ -153,8 +150,8 @@ vms:
 </div>
 </div>
 
-<div id="outline-container-orgde498f7" class="outline-2">
-<h2 id="orgde498f7"><span class="section-number-2">2</span> Other improvements</h2>
+<div id="outline-container-org7ab50dd" class="outline-2">
+<h2 id="org7ab50dd"><span class="section-number-2">2</span> Other improvements</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Other changes in this release include improvements in project structure, code cleaning&#x2026;etc.
