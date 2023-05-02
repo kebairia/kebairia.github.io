@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-02 Tue 10:28 -->
+<!-- 2023-05-02 Tue 11:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kvmcli V0.9</title>
@@ -21,13 +21,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org279e582">1. Improvements and Features in v0.9</a>
+<li><a href="#orga195531">1. Improvements and Features in v0.9</a>
 <ul>
-<li><a href="#org299bb6f">1.1. Multiprocessing</a></li>
-<li><a href="#org4a6f3e0">1.2. New option <code>kvmcli --init</code></a></li>
+<li><a href="#org2fbbb0f">1.1. Multiprocessing</a></li>
+<li><a href="#org5f776f2">1.2. New option <code>kvmcli --init</code></a></li>
 </ul>
 </li>
-<li><a href="#orga3d30b3">2. Other improvements</a></li>
+<li><a href="#orgd540ea4">2. Other improvements</a></li>
 </ul>
 </div>
 </div>
@@ -43,16 +43,16 @@
 In this blog post, I will present the latest release of <b>kvmcli</b>, version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, <b>kvmcli 1.0</b>.
 </p>
 
-<div id="outline-container-org279e582" class="outline-2">
-<h2 id="org279e582"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
+<div id="outline-container-orga195531" class="outline-2">
+<h2 id="orga195531"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b>kvmcli v0.9</b> introduces the following features and improvements:
 </p>
 </div>
 
-<div id="outline-container-org299bb6f" class="outline-3">
-<h3 id="org299bb6f"><span class="section-number-3">1.1</span> Multiprocessing</h3>
+<div id="outline-container-org2fbbb0f" class="outline-3">
+<h3 id="org2fbbb0f"><span class="section-number-3">1.1</span> Multiprocessing</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="note">
 <p>
@@ -62,7 +62,7 @@ As you can already guessed, sequential provisioning is not efficient for this us
 </div>
 <p>
 To enhance the performance of the provisioning process, <b>kvmcli</b> now utilizes multiprocessing.
-This is particularly useful for provisioning a large number of virtual machines across several clusters, each containing 10 to 20 virtual machines for example.
+This is particularly useful for provisioning a large number of virtual machines across several clusters (each containing 10 to 20 virtual machines for example).
 </p>
 
 
@@ -76,7 +76,7 @@ Here's an example of how to set the <code>fork</code> value in the configuration
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml" id="org26d2980">
+<pre class="src src-toml" id="orgf61f3e8">
 [misc]
 fork = 5
 </pre>
@@ -88,8 +88,8 @@ In the example above, I instructed <b>kvmcli</b> to launch five independent proc
 </div>
 </div>
 
-<div id="outline-container-org4a6f3e0" class="outline-3">
-<h3 id="org4a6f3e0"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
+<div id="outline-container-org5f776f2" class="outline-3">
+<h3 id="org5f776f2"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="note">
 <p>
@@ -165,8 +165,8 @@ vms:
 </div>
 </div>
 
-<div id="outline-container-orga3d30b3" class="outline-2">
-<h2 id="orga3d30b3"><span class="section-number-2">2</span> Other improvements</h2>
+<div id="outline-container-orgd540ea4" class="outline-2">
+<h2 id="orgd540ea4"><span class="section-number-2">2</span> Other improvements</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Other changes in this release include improvements in project structure, code cleaning&#x2026;etc.
