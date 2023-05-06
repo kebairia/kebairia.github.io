@@ -1,0 +1,392 @@
+#+TITLE: Configure Dns Servers With Failover Using Bind
+#+SUBTITLE:  --
+#+AUTHOR: Zakaria.K
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 14 Apr 2023 Fri
+#+KEYWORDS: :DNS:
+#+OPTIONS: html5-fancy:t tex:t
+#+PROPERTY: header-args:sh :dir /ssh:admin1: :results output :exports both 
+#+begin_date
+Published on {{{date}}}
+#+end_date
+
+* Introduction
+We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.\\
+#+begin_note
+=named= stands for NAMEserver Daemon
+#+end_note
+The Bind packages is called =named= in the RedHat-like distrobution like RockyLinux.
+Because DNS server are called nameserver in Linux terminology.
+
+
+* Prerequisites
+Two VMs with RockyLinux with the following configurations
+
+  | Hostname       | IP address   | Roles      | SELinux   | FirewallD |
+  |----------------+--------------+------------+-----------+-----------|
+  | admin1.hl.test | 10.10.0.2/24 | Master DNS | Enforcing | Enabled   |
+  | admin2.hl.test | 10.10.0.3/24 | Backup DNS | Enforcing | Enabled   |
+  |----------------+--------------+------------+-----------+-----------|
+
+* The Plan
+
+1. Install the required packages on both servers
+2. RNDC Setup
+3. Configure Master DNS
+4. Configure Backup DNS
+5. Configure a client server for testing 
+6. Edit dynamic DNS
+
+* Install required packages and other primary configuration
+On both server, install the following packages
+#+name: bind_installation
+#+begin_src sh :results none
+sudo dnf install bind bind-utils -y
+#+end_src
+
+Let's make sure that the service in enabled at startup.
+#+begin_src sh :results none
+sudo systemctl enable named
+#+end_src
+
+Allow DNS traffic
+#+begin_src sh
+sudo firewall-cmd --add-service=dns --permanent
+sudo firewall-cmd --reload
+#+end_src
+
+#+RESULTS:
+: success
+: success
+Setup the log directory for named 
+#+begin_src sh
+sudo mkdir -p -m 0700 /var/log/named
+sudo chown named:named /var/log/named
+sudo ls -ldh /var/log/named
+#+end_src
+
+#+RESULTS:
+: drwx------. 2 named named 6 Apr 14 14:40 /var/log/named
+
+* RNDC Setup
+#+begin_note
+Check out [[https://a.co/d/j0DxqZS][this great book]] for more information about DNS and other System Administration stuff
+\\
+[[file:img/blogs/homelab/dns/unix_linux_handbook_5th_edition.png]]
+#+end_note
+RNDC or "Remote Name Daemon Control Utility". It's a command that allows you to control you Domain Name System (DNS) without altering or modifying you DNS configuration files.
+
+#+begin_src sh :results none
+sudo rndc-confgen -a -b 512
+#+end_src
+
+#+RESULTS:
+: wrote key file "/etc/rndc.key"
+
+#+begin_src sh
+chown root:named /etc/rndc.key
+chmod 0640 /etc/rndc.key
+#+end_src
+* Master DNS configuration
+
+
+We will seperate our configuration into multiple files and use =include= statement to embed these files into =/etc/named.conf= file.
+This will help us seperate the the parts of the configuraton that are somehow static from those that can be changed overtime.\\
+
+#+begin_src sh
+sudo tree /etc/named --noreport
+#+end_src
+
+#+RESULTS:
+: /etc/named
+: ├── logging.conf
+: └── zones.conf
+
+the main configuration file for =named= is =/etc/named.conf=, open this file and add the following content
+
+#+begin_src conf
+# vim: syntax=named
+
+# Include RFC 1912 compliant zone files
+include "/etc/named.rfc1912.zones";
+
+# Include root DNSSEC trust anchor key
+include "/etc/named.root.key";
+
+# Include rndc key for remote control of named
+include "/etc/rndc.key";
+
+# Include zones configuration file
+include "/etc/named/zones.conf";
+
+# Include logging configuration file
+include "/etc/named/logging.conf";
+
+# Allow rndc management on localhost using rndc-key
+controls {
+  inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { "rndc-key"; };
+};
+
+# Limit access to trusted networks
+acl "trusted" {
+  # Allow loopback addresses
+  127.0.0.0/8;
+  # Add local LAN subnet(s)
+  10.10.0.0/24;
+};
+
+# Set global options
+options {
+  # Listen on port 53 for requests from localhost and 10.10.0.2 (MASTER)
+  listen-on port 53 { 127.0.0.1; 10.10.0.2; };
+  
+  # Disable IPv6
+  listen-on-v6 port 53 { none; };
+
+  # Set directory for zone files, cache dump, stats, and root DNSSEC trust anchors
+  directory "/var/named";
+  dump-file "/var/named/data/cache_dump.db";
+  statistics-file "/var/named/data/named_stats.txt";
+  memstatistics-file "/var/named/data/named_mem_stats.txt";
+  secroots-file "/var/named/data/named.secroots";
+  recursing-file "/var/named/data/named.recursing";
+
+  # Disable built-in server information zones
+  version none;
+  hostname none;
+  server-id none;
+
+  # Enable recursion and allow queries from trusted networks only
+  recursion yes;
+  allow-recursion { trusted; };
+  allow-query { trusted; };
+
+  # Allow zone transfers from localhost and 10.10.0.3 (SLAVE)
+  allow-transfer { localhost; 10.10.0.3; };
+
+  # Enable DNSSEC validation
+  dnssec-validation yes;
+
+  # Set directory for managed keys
+  managed-keys-directory "/var/named/dynamic";
+
+  # Set directory for GeoIP data
+  geoip-directory "/usr/share/GeoIP";
+
+  # Set PID file and session key file
+  pid-file "/run/named/named.pid";
+  session-keyfile "/run/named/session.key";
+
+  # Include bind crypto policies configuration
+  include "/etc/crypto-policies/back-ends/bind.config";
+};
+#+end_src
+
+The zones configuration file
+#+begin_src conf
+# vim: syntax=named
+# Use the root hints file for "." zone
+zone "." IN {
+    type hint;
+    file "named.ca";
+};
+
+# Internal zone definitions
+zone "hl.test" {
+    type master;
+    file "data/db.hl.test";
+    # Allow updates with rndc key
+    allow-update { key rndc-key; }; 
+    # Notify slave servers when zone changes
+    notify yes; 
+};
+
+# Reverse DNS zone for 10.10.0.0/16 subnet
+zone "0.10.10.in-addr.arpa" {
+    type master;
+    file "data/db.0.10.10";
+    # Allow updates with rndc key
+    allow-update { key rndc-key; };
+    # Notify slave servers when zone changes
+    notify yes; 
+};
+#+end_src
+
+And the logging configuration file
+#+begin_src conf
+# vim: syntax=named
+# Logging configuration
+logging {
+    # Default debug channel
+    channel default_debug {
+        file "data/named.run";
+        severity dynamic;
+    };
+
+    # Common log channel
+    channel "common_log" {
+        file "/var/log/named/named.log" versions 10 size 5m;
+        severity dynamic;
+        print-category yes;
+        print-severity yes;
+        print-time yes;
+    };
+
+    # Categories for logging
+    category default { "common_log"; };
+    category general { "common_log"; };
+    category queries { "common_log"; };
+    category client { "common_log"; };
+    category security { "common_log"; };
+    category query-errors { "common_log"; };
+    category lame-servers { null; };
+};
+
+#+end_src
+* Backup DNS configuration
+For the backup DNS server, it's basicaly the same configuration, with just some modifications that indicate that this server is related to the idea that this server must behave as 
+a secondary DNS server.
+The main configuration for the secondary DNS server
+
+#+begin_src conf
+# vim: syntax=named
+
+# Include RFC 1912 compliant zone files
+include "/etc/named.rfc1912.zones";
+
+# Include root DNSSEC trust anchor key
+include "/etc/named.root.key";
+
+# Include zones configuration file
+include "/etc/named/zones.conf";
+
+# Include logging configuration file
+include "/etc/named/logging.conf";
+
+# Limit access to trusted networks
+acl "trusted" {
+  # Allow loopback addresses
+  127.0.0.0/8;
+  # Add local LAN subnet(s)
+  10.10.0.0/24;
+};
+
+# Set global options
+options {
+  # Listen on port 53 for requests from localhost and 10.10.0.3 (SLAVE)
+  listen-on port 53 { 127.0.0.1; 10.10.0.3; };
+  
+  # Disable IPv6
+  listen-on-v6 port 53 { none; };
+
+  # Set directory for zone files, cache dump, stats, and root DNSSEC trust anchors
+  directory "/var/named";
+  dump-file "/var/named/data/cache_dump.db";
+  statistics-file "/var/named/data/named_stats.txt";
+  memstatistics-file "/var/named/data/named_mem_stats.txt";
+  secroots-file "/var/named/data/named.secroots";
+  recursing-file "/var/named/data/named.recursing";
+
+  # Disable built-in server information zones
+  version none;
+  hostname none;
+  server-id none;
+
+  # Enable recursion and allow queries from trusted networks only
+  recursion yes;
+  allow-recursion { trusted; };
+  allow-query { trusted; };
+
+  allow-transfer { none };
+
+  # Enable DNSSEC validation
+  dnssec-validation yes;
+
+  # Set directory for managed keys
+  managed-keys-directory "/var/named/dynamic";
+
+  # Set directory for GeoIP data
+  geoip-directory "/usr/share/GeoIP";
+
+  # Set PID file and session key file
+  pid-file "/run/named/named.pid";
+  session-keyfile "/run/named/session.key";
+
+  # Include bind crypto policies configuration
+  include "/etc/crypto-policies/back-ends/bind.config";
+};
+#+end_src
+
+The zones configuration file
+#+begin_src conf
+# vim: syntax=named
+# Use the root hints file for "." zone
+zone "." IN {
+    type hint;
+    file "named.ca";
+};
+
+# Internal zone definitions
+zone "hl.test" {
+    type slave;
+	  file "data/db.hl.test";
+    masters { 10.10.0.2; };
+    allow-notify { 10.10.0.2; };
+};
+
+zone "0.10.10.in-addr.arpa" {
+	  type slave;
+	  file "data/db.0.10.10";
+    masters { 10.10.0.2; };
+    allow-notify { 10.10.0.2; };
+};
+#+end_src
+
+And then the logging configuration file.
+
+#+begin_src conf
+# vim: syntax=named
+# Logging configuration
+logging {
+    # Default debug channel
+    channel default_debug {
+        file "data/named.run";
+        severity dynamic;
+    };
+
+    # Common log channel
+    channel "common_log" {
+        file "/var/log/named/named.log" versions 10 size 5m;
+        severity dynamic;
+        print-category yes;
+        print-severity yes;
+        print-time yes;
+    };
+
+    # Categories for logging
+    category default { "common_log"; };
+    category general { "common_log"; };
+    category queries { "common_log"; };
+    category client { "common_log"; };
+    category security { "common_log"; };
+    category query-errors { "common_log"; };
+    category lame-servers { null; };
+};
+
+#+end_src
+
+* Configure a client server 
+For client, we just need to change our main DNS server to the IP addresses of our new local DNS server.
+
+#+begin_src sh
+sudo nmcli c mod eth0 ipv4.dns '10.10.0.2 10.10.0.3'
+#+end_src
+
+#+begin_src sh
+cat /etc/resolv.conf 
+#+end_src
+
+#+RESULTS:
+: # Generated by NetworkManager
+: nameserver 10.10.0.2
+: nameserver 10.10.0.3
