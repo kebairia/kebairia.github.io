@@ -15,7 +15,7 @@ We are going to setup and confgure a DNS server with a failover and dynamic upda
 #+begin_note
 =named= stands for NAMEserver Daemon
 #+end_note
-The Bind packages is called =named= in the RedHat-like distrobution like RockyLinux.
+The Bind packages is called =named= in the RedHat-like distribution like RockyLinux.
 
 * Prerequisites
 Two VMs with RockyLinux with the following configurations
@@ -189,7 +189,7 @@ Here we define our zones; each zone must have its corresponding reverse zone
 
 In our case, we need to setup a forward zone and a reverse zone for our local domain =hl.test=. All data related to this zones is saved on =/data/db.hl.test= and =/data=db.0.10.10= respectively.
 #+begin_note
-reverse zone is indentified as following:\\
+reverse zone is indentified as follow:\\
 =<subnet ip in reverse>.in-addr.arpa=
 #+end_note
 #+begin_src conf
