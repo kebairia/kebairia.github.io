@@ -21,13 +21,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org23f53ee">1. Improvements and Features in v0.9</a>
+<li><a href="#orgb149066">1. Improvements and Features in v0.9</a>
 <ul>
-<li><a href="#org499ad38">1.1. Multiprocessing</a></li>
-<li><a href="#org27f4126">1.2. New option <code>kvmcli --init</code></a></li>
+<li><a href="#orgce925dc">1.1. Multiprocessing</a></li>
+<li><a href="#org2155067">1.2. New option <code>kvmcli --init</code></a></li>
 </ul>
 </li>
-<li><a href="#org5090195">2. Other improvements</a></li>
+<li><a href="#orgd371cc0">2. Other improvements</a></li>
 </ul>
 </div>
 </div>
@@ -43,16 +43,16 @@
 In this blog post, I will present the latest release of <b>kvmcli</b>, kvmcli version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, <b>kvmcli 1.0</b>.
 </p>
 
-<div id="outline-container-org23f53ee" class="outline-2">
-<h2 id="org23f53ee"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
+<div id="outline-container-orgb149066" class="outline-2">
+<h2 id="orgb149066"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b>kvmcli v0.9</b> introduces the following features and improvements:
 </p>
 </div>
 
-<div id="outline-container-org499ad38" class="outline-3">
-<h3 id="org499ad38"><span class="section-number-3">1.1</span> Multiprocessing</h3>
+<div id="outline-container-orgce925dc" class="outline-3">
+<h3 id="orgce925dc"><span class="section-number-3">1.1</span> Multiprocessing</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="note">
 <p>
@@ -76,7 +76,7 @@ Here's an example of how to set the <code>fork</code> value in the configuration
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml" id="orgb29e86d">
+<pre class="src src-toml" id="org12836b5">
 [misc]
 fork = 5
 </pre>
@@ -88,8 +88,8 @@ In the example above, I instructed <b>kvmcli</b> to launch five independent proc
 </div>
 </div>
 
-<div id="outline-container-org27f4126" class="outline-3">
-<h3 id="org27f4126"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
+<div id="outline-container-org2155067" class="outline-3">
+<h3 id="org2155067"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="note">
 <p>
@@ -165,8 +165,8 @@ vms:
 </div>
 </div>
 
-<div id="outline-container-org5090195" class="outline-2">
-<h2 id="org5090195"><span class="section-number-2">2</span> Other improvements</h2>
+<div id="outline-container-orgd371cc0" class="outline-2">
+<h2 id="orgd371cc0"><span class="section-number-2">2</span> Other improvements</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Other changes in this release include improvements in project structure, code cleaning&#x2026;etc.
