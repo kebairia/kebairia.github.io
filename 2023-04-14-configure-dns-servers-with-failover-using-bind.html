@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-07 Sun 15:52 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Configure Dns Servers With Failover Using Bind</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Zakaria.K" />
+<meta name="keywords" content=":DNS:" />
+<link rel="stylesheet"href="css/main.css" type="text/css" />
+<header> <h4> <a href="https://kebairia.github.io" title="Home" class="home">
+	          <img src="img/home.svg" width="50" alt="Home" />
+	          </a>
+	          <a href="files/feed.rss" title="RSS Feed" type="application/rss+xml" class="rss">
+	          <img src="img/rss.svg" alt="RSS icon" />
+	          </a>
+                      <a href="files/cv.pdf" title="My Resume" type="application/pdf" class="resume">
+                      <img src="img/cv.svg" width="25"  alt="My CV icon" /> </a>
+                      </h4>
+	          </header>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Configure Dns Servers With Failover Using Bind
+<br />
+<span class="subtitle">--</span>
+</h1>
+<div class="date">
+<p>
+Published on 14 Apr 2023 Fri
+</p>
+
+</div>
+
+<div id="outline-container-orge1f3c8e" class="outline-2">
+<h2 id="orge1f3c8e"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.<br />
+</p>
+<div class="note">
+<p>
+<code>named</code> stands for NAMEserver Daemon
+</p>
+
+</div>
+<p>
+The Bind packages is called <code>named</code> in the RedHat-like distrobution like RockyLinux.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0c673ba" class="outline-2">
+<h2 id="org0c673ba"><span class="section-number-2">2</span> Prerequisites</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Two VMs with RockyLinux with the following configurations
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Hostname</th>
+<th scope="col" class="org-left">IP address</th>
+<th scope="col" class="org-left">Roles</th>
+<th scope="col" class="org-left">SELinux</th>
+<th scope="col" class="org-left">FirewallD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">admin1.hl.test</td>
+<td class="org-left">10.10.0.2/24</td>
+<td class="org-left">Master DNS</td>
+<td class="org-left">Enforcing</td>
+<td class="org-left">Enabled</td>
+</tr>
+
+<tr>
+<td class="org-left">admin2.hl.test</td>
+<td class="org-left">10.10.0.3/24</td>
+<td class="org-left">Backup DNS</td>
+<td class="org-left">Enforcing</td>
+<td class="org-left">Enabled</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org2dddcc1" class="outline-2">
+<h2 id="org2dddcc1"><span class="section-number-2">3</span> The Plan</h2>
+<div class="outline-text-2" id="text-3">
+<ol class="org-ol">
+<li>Install the required packages on both servers</li>
+<li>RNDC Setup</li>
+<li>Configure Master DNS</li>
+<li>Configure Backup DNS</li>
+<li>Configure a client server for testing</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org0739a33" class="outline-2">
+<h2 id="org0739a33"><span class="section-number-2">4</span> Install required packages and other primary configuration</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+On both server, install the following packages
+</p>
+<div class="org-src-container">
+<pre class="src src-sh" id="org23b6e72">sudo dnf install bind bind-utils -y
+</pre>
+</div>
+
+<p>
+Let's make sure that the service is enabled at startup.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">sudo systemctl enable named
+</pre>
+</div>
+
+<p>
+Allow DNS traffic
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">sudo firewall-cmd --add-service=dns --permanent
+sudo firewall-cmd --reload
+</pre>
+</div>
+
+<pre class="example">
+success
+success
+</pre>
+
+<p>
+Setup the log directory for named 
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">sudo mkdir -p -m 0700 /var/log/named
+sudo chown named:named /var/log/named
+sudo ls -ldh /var/log/named
+</pre>
+</div>
+
+<pre class="example">
+drwx------. 2 named named 6 Apr 14 14:40 /var/log/named
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge9208ac" class="outline-2">
+<h2 id="orge9208ac"><span class="section-number-2">5</span> RNDC Setup</h2>
+<div class="outline-text-2" id="text-5">
+<div class="note">
+<p>
+Check out <a href="https://a.co/d/j0DxqZS">this great book</a> for more information about DNS and other System Administration stuff
+<br />
+<img src="img/blogs/homelab/dns/unix_linux_handbook_5th_edition.png" alt="unix_linux_handbook_5th_edition.png" />
+</p>
+
+</div>
+<p>
+RNDC or "Remote Name Daemon Control Utility". It's a command that allows you to control you Domain Name System (DNS) without altering or modifying you DNS configuration files.
+</p>
+
+<p>
+To use <code>rndc</code>, we need first to generate a key, and than import that key on <code>named</code> configuration file
+</p>
+
+<p>
+Let's create a key  
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo rndc-confgen -a -b 512
+</pre>
+</div>
+
+<pre class="example">
+wrote key file "/etc/rndc.key"
+</pre>
+
+
+<p>
+And then, we need to give it appropriate permissions 
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">chown root:named /etc/rndc.key
+chmod 0640 /etc/rndc.key
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org313f5ab" class="outline-2">
+<h2 id="org313f5ab"><span class="section-number-2">6</span> Master DNS configuration</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+We will seperate our configuration into multiple files and use <code>include</code> statement to embed these files into <code>/etc/named.conf</code> file.
+This will help us seperate the the parts of the configuraton that are static from those that can be changed overtime.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo tree /etc/named --noreport
+</pre>
+</div>
+
+<pre class="example">
+/etc/named
+├── logging.conf
+└── zones.conf
+</pre>
+
+
+<p>
+the main configuration file for <code>named</code> is <code>/etc/named.conf</code>, open this file and add the following content
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">vim: syntax=named</span>
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include RFC 1912 compliant zone files</span>
+include <span style="font-style: italic;">"/etc/named.rfc1912.zones"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include root DNSSEC trust anchor key</span>
+include <span style="font-style: italic;">"/etc/named.root.key"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include rndc key for remote control of named</span>
+include <span style="font-style: italic;">"/etc/rndc.key"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include zones configuration file</span>
+include <span style="font-style: italic;">"/etc/named/zones.conf"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include logging configuration file</span>
+include <span style="font-style: italic;">"/etc/named/logging.conf"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Allow rndc management on localhost using rndc-key</span>
+<span style="font-weight: bold; text-decoration: underline;">controls</span> {
+  inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { <span style="font-style: italic;">"rndc-key"</span>; };
+};
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Limit access to trusted networks</span>
+<span style="font-weight: bold; text-decoration: underline;">acl </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"trusted"</span> {
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Allow loopback addresses</span>
+  127.0.0.0/8;
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Add local LAN subnet(s)</span>
+  10.10.0.0/24;
+};
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set global options</span>
+<span style="font-weight: bold; text-decoration: underline;">options</span> {
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Listen on port 53 for requests from localhost and 10.10.0.2 (MASTER)</span>
+  listen-on port 53 { 127.0.0.1; 10.10.0.2; };
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Disable IPv6</span>
+  listen-on-v6 port 53 { none; };
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set directory for zone files, cache dump, stats, and root DNSSEC trust anchors</span>
+  directory <span style="font-style: italic;">"/var/named"</span>;
+  dump-file <span style="font-style: italic;">"/var/named/data/cache_dump.db"</span>;
+  statistics-file <span style="font-style: italic;">"/var/named/data/named_stats.txt"</span>;
+  memstatistics-file <span style="font-style: italic;">"/var/named/data/named_mem_stats.txt"</span>;
+  secroots-file <span style="font-style: italic;">"/var/named/data/named.secroots"</span>;
+  recursing-file <span style="font-style: italic;">"/var/named/data/named.recursing"</span>;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Disable built-in server information zones</span>
+  version none;
+  hostname none;
+  server-id none;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable recursion and allow queries from trusted networks only</span>
+  recursion yes;
+  allow-recursion { trusted; };
+  allow-query { trusted; };
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Allow zone transfers from localhost and 10.10.0.3 (SLAVE)</span>
+  allow-transfer { localhost; 10.10.0.3; };
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable DNSSEC validation</span>
+  dnssec-validation yes;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set directory for managed keys</span>
+  managed-keys-directory <span style="font-style: italic;">"/var/named/dynamic"</span>;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set directory for GeoIP data</span>
+  geoip-directory <span style="font-style: italic;">"/usr/share/GeoIP"</span>;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set PID file and session key file</span>
+  pid-file <span style="font-style: italic;">"/run/named/named.pid"</span>;
+  session-keyfile <span style="font-style: italic;">"/run/named/session.key"</span>;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include bind crypto policies configuration</span>
+  include <span style="font-style: italic;">"/etc/crypto-policies/back-ends/bind.config"</span>;
+};
+</pre>
+</div>
+
+<p>
+The zones configuration file
+Here we define our zones; each zone must have its corresponding reverse zone
+</p>
+
+<p>
+In our case, we need to setup a forward zone and a reverse zone for our local domain <code>hl.test</code>. All data related to this zones is saved on <code>/data/db.hl.test</code> and <code>/data=db.0.10.10</code> respectively.
+</p>
+<div class="note">
+<p>
+reverse zone is indentified as following:<br />
+<code>&lt;subnet ip in reverse&gt;.in-addr.arpa</code>
+</p>
+
+</div>
+<div class="org-src-container">
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">vim: syntax=named</span>
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use the root hints file for "." zone</span>
+<span style="font-weight: bold; text-decoration: underline;">zone </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"."</span><span style="font-weight: bold; text-decoration: underline;"> IN</span> {
+    type hint;
+    file <span style="font-style: italic;">"named.ca"</span>;
+};
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Internal zone definitions</span>
+<span style="font-weight: bold; text-decoration: underline;">zone </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"hl.test"</span> {
+    type master;
+    file <span style="font-style: italic;">"data/db.hl.test"</span>;
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Allow updates with rndc key</span>
+    allow-update { key rndc-key; }; 
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Notify slave servers when zone changes</span>
+    notify yes; 
+};
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Reverse DNS zone for 10.10.0.0/16 subnet</span>
+<span style="font-weight: bold; text-decoration: underline;">zone </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"0.10.10.in-addr.arpa"</span> {
+    type master;
+    file <span style="font-style: italic;">"data/db.0.10.10"</span>;
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Allow updates with rndc key</span>
+    allow-update { key rndc-key; };
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Notify slave servers when zone changes</span>
+    notify yes; 
+};
+</pre>
+</div>
+
+<p>
+And the logging configuration file
+</p>
+<div class="org-src-container">
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">vim: syntax=named</span>
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Logging configuration</span>
+<span style="font-weight: bold; text-decoration: underline;">logging</span> {
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Default debug channel</span>
+    <span style="font-weight: bold; text-decoration: underline;">channel default_debug</span> {
+        file <span style="font-style: italic;">"data/named.run"</span>;
+        severity dynamic;
+    };
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Common log channel</span>
+    <span style="font-weight: bold; text-decoration: underline;">channel </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"common_log"</span> {
+        file <span style="font-style: italic;">"/var/log/named/named.log"</span> versions 10 size 5m;
+        severity dynamic;
+        print-category yes;
+        print-severity yes;
+        print-time yes;
+    };
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Categories for logging</span>
+    category default { <span style="font-style: italic;">"common_log"</span>; };
+    category general { <span style="font-style: italic;">"common_log"</span>; };
+    category queries { <span style="font-style: italic;">"common_log"</span>; };
+    category client { <span style="font-style: italic;">"common_log"</span>; };
+    category security { <span style="font-style: italic;">"common_log"</span>; };
+    category query-errors { <span style="font-style: italic;">"common_log"</span>; };
+    category lame-servers { null; };
+};
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org181750d" class="outline-2">
+<h2 id="org181750d"><span class="section-number-2">7</span> Backup DNS configuration</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Now with the backup DNS configuration
+</p>
+<div class="org-src-container">
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">vim: syntax=named</span>
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include RFC 1912 compliant zone files</span>
+include <span style="font-style: italic;">"/etc/named.rfc1912.zones"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include root DNSSEC trust anchor key</span>
+include <span style="font-style: italic;">"/etc/named.root.key"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include zones configuration file</span>
+include <span style="font-style: italic;">"/etc/named/zones.conf"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include logging configuration file</span>
+include <span style="font-style: italic;">"/etc/named/logging.conf"</span>;
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Limit access to trusted networks</span>
+<span style="font-weight: bold; text-decoration: underline;">acl </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"trusted"</span> {
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Allow loopback addresses</span>
+  127.0.0.0/8;
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Add local LAN subnet(s)</span>
+  10.10.0.0/24;
+};
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set global options</span>
+<span style="font-weight: bold; text-decoration: underline;">options</span> {
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Listen on port 53 for requests from localhost and 10.10.0.3 (SLAVE)</span>
+  listen-on port 53 { 127.0.0.1; 10.10.0.3; };
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Disable IPv6</span>
+  listen-on-v6 port 53 { none; };
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set directory for zone files, cache dump, stats, and root DNSSEC trust anchors</span>
+  directory <span style="font-style: italic;">"/var/named"</span>;
+  dump-file <span style="font-style: italic;">"/var/named/data/cache_dump.db"</span>;
+  statistics-file <span style="font-style: italic;">"/var/named/data/named_stats.txt"</span>;
+  memstatistics-file <span style="font-style: italic;">"/var/named/data/named_mem_stats.txt"</span>;
+  secroots-file <span style="font-style: italic;">"/var/named/data/named.secroots"</span>;
+  recursing-file <span style="font-style: italic;">"/var/named/data/named.recursing"</span>;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Disable built-in server information zones</span>
+  version none;
+  hostname none;
+  server-id none;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable recursion and allow queries from trusted networks only</span>
+  recursion yes;
+  allow-recursion { trusted; };
+  allow-query { trusted; };
+
+  allow-transfer { none };
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable DNSSEC validation</span>
+  dnssec-validation yes;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set directory for managed keys</span>
+  managed-keys-directory <span style="font-style: italic;">"/var/named/dynamic"</span>;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set directory for GeoIP data</span>
+  geoip-directory <span style="font-style: italic;">"/usr/share/GeoIP"</span>;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set PID file and session key file</span>
+  pid-file <span style="font-style: italic;">"/run/named/named.pid"</span>;
+  session-keyfile <span style="font-style: italic;">"/run/named/session.key"</span>;
+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Include bind crypto policies configuration</span>
+  include <span style="font-style: italic;">"/etc/crypto-policies/back-ends/bind.config"</span>;
+};
+</pre>
+</div>
+
+<p>
+The zones configuration file
+</p>
+<div class="org-src-container">
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">vim: syntax=named</span>
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use the root hints file for "." zone</span>
+<span style="font-weight: bold; text-decoration: underline;">zone </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"."</span><span style="font-weight: bold; text-decoration: underline;"> IN</span> {
+    type hint;
+    file <span style="font-style: italic;">"named.ca"</span>;
+};
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Internal zone definitions</span>
+<span style="font-weight: bold; text-decoration: underline;">zone </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"hl.test"</span> {
+    type slave;
+          file <span style="font-style: italic;">"data/db.hl.test"</span>;
+    masters { 10.10.0.2; };
+    allow-notify { 10.10.0.2; };
+};
+
+<span style="font-weight: bold; text-decoration: underline;">zone </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"0.10.10.in-addr.arpa"</span> {
+          type slave;
+          file <span style="font-style: italic;">"data/db.0.10.10"</span>;
+    masters { 10.10.0.2; };
+    allow-notify { 10.10.0.2; };
+};
+</pre>
+</div>
+
+<p>
+And then the logging configuration file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">vim: syntax=named</span>
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Logging configuration</span>
+<span style="font-weight: bold; text-decoration: underline;">logging</span> {
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Default debug channel</span>
+    <span style="font-weight: bold; text-decoration: underline;">channel default_debug</span> {
+        file <span style="font-style: italic;">"data/named.run"</span>;
+        severity dynamic;
+    };
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Common log channel</span>
+    <span style="font-weight: bold; text-decoration: underline;">channel </span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">"common_log"</span> {
+        file <span style="font-style: italic;">"/var/log/named/named.log"</span> versions 10 size 5m;
+        severity dynamic;
+        print-category yes;
+        print-severity yes;
+        print-time yes;
+    };
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Categories for logging</span>
+    category default { <span style="font-style: italic;">"common_log"</span>; };
+    category general { <span style="font-style: italic;">"common_log"</span>; };
+    category queries { <span style="font-style: italic;">"common_log"</span>; };
+    category client { <span style="font-style: italic;">"common_log"</span>; };
+    category security { <span style="font-style: italic;">"common_log"</span>; };
+    category query-errors { <span style="font-style: italic;">"common_log"</span>; };
+    category lame-servers { null; };
+};
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3a38ab3" class="outline-2">
+<h2 id="org3a38ab3"><span class="section-number-2">8</span> Configure a client server</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+To configure the client, all we need to do is to update the <code>/etc/resolv.conf</code> file with our new local DNS server IP address.
+</p>
+<div class="note">
+<ul class="org-ul">
+<li>The number of nameservers allowed on <code>/etc/resolv.conf</code> are 3.<br /></li>
+<li>The first request are tried against the first nameserver, if the query was timed out, it will move to the next.<br /></li>
+<li>Each nameserver is tried 4 times.</li>
+</ul>
+
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo nmcli c mod eth0 ipv4.dns <span style="font-style: italic;">'10.10.0.2 10.10.0.3'</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sh">cat /etc/resolv.conf 
+</pre>
+</div>
+
+<pre class="example">
+# Generated by NetworkManager
+nameserver 10.10.0.2
+nameserver 10.10.0.3
+</pre>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+<p class="postamble"> 
+
+<a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+<img src="img/crc.png" alt="Creative Commons License" title="Creative Commons License" />
+
+<a href="https://www.linkedin.com/in/zakaria-kebairia/" title="LinkedIn account" class="social">
+<img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn Account" />
+</a>
+
+<a href="https://twitter.com/z_kebairia" title="Twitter Account" class="social">
+<img src="img/social/twitter-logo.svg" width="40" alt="Twitter Account" /> </a>
+
+<a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" title="Youtube Account" class="social">
+<img src="img/social/youtube-black-logo.svg" width="40" alt="Youtube Account" /> </a>
+
+<a href="https://www.github.com/kebairia" title="GitHub Account" class="social">
+<img src="img/social/github.svg" width="43" alt="GitHub Account" /> </a>
+
+<br>
+
+<p class="credit">
+Copyright &copy  2021 Zakaria Kebairia
+<br>
+Content licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+
+</p>
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-05 Fri 12:37 -->
+<!-- 2023-05-07 Sun 15:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a Homalab with KVM and Kubernetes: An Overview</title>
@@ -22,10 +22,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org48282e8">1. Introduction</a></li>
-<li><a href="#orgfb7524d">2. Tools and technologies</a></li>
-<li><a href="#orgc47e36e">3. Architecture</a></li>
-<li><a href="#org3aa9fdd">4. VM Setup Guides</a></li>
+<li><a href="#org2146c1d">1. Introduction</a></li>
+<li><a href="#org3224981">2. Tools and technologies</a></li>
+<li><a href="#org76cd8b4">3. Architecture</a></li>
+<li><a href="#orgc04f412">4. VM Setup Guides</a></li>
 </ul>
 </div>
 </div>
@@ -35,8 +35,8 @@
 </p>
 
 </div>
-<div id="outline-container-org48282e8" class="outline-2">
-<h2 id="org48282e8"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org2146c1d" class="outline-2">
+<h2 id="org2146c1d"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
@@ -53,8 +53,8 @@ To centralize the configuration as much as possible, I will be using Packer to c
 </div>
 </div>
 
-<div id="outline-container-orgfb7524d" class="outline-2">
-<h2 id="orgfb7524d"><span class="section-number-2">2</span> Tools and technologies</h2>
+<div id="outline-container-org3224981" class="outline-2">
+<h2 id="org3224981"><span class="section-number-2">2</span> Tools and technologies</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each node will have SELinux in enforcing mode.
@@ -78,8 +78,8 @@ To make the process of provisioning new nodes easier, I will create custom base 
 </div>
 </div>
 
-<div id="outline-container-orgc47e36e" class="outline-2">
-<h2 id="orgc47e36e"><span class="section-number-2">3</span> Architecture</h2>
+<div id="outline-container-org76cd8b4" class="outline-2">
+<h2 id="org76cd8b4"><span class="section-number-2">3</span> Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
@@ -233,8 +233,8 @@ This was an overview of my homelab plan. In the following blog posts I will prov
 </p>
 </div>
 </div>
-<div id="outline-container-org3aa9fdd" class="outline-2">
-<h2 id="org3aa9fdd"><span class="section-number-2">4</span> VM Setup Guides</h2>
+<div id="outline-container-orgc04f412" class="outline-2">
+<h2 id="orgc04f412"><span class="section-number-2">4</span> VM Setup Guides</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
