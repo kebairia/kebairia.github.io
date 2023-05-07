@@ -1,4 +1,4 @@
-#+TITLE: Building a Homalab with KVM and Kubernetes: An Overview
+#+TITLE: Building a Homelab with KVM and Kubernetes: An Overview
 #+SUBTITLE: -- 
 #+AUTHOR: Zakaria.K 
 #+EMAIL: 4.kebairia@gmail.com 
@@ -44,6 +44,8 @@ For a quick summary of the cluster details, please refer to the table below.
 |---------+-----------------+------------+----------+------+-----------------------------|
 | storage | storage.hl.test | 10.10.0.10 |     1024 |    1 | NFS / Log server            |
 |---------+-----------------+------------+----------+------+-----------------------------|
+| monitor | monitor.hl.test | 10.10.0.11 |     1024 |    1 | Prometheus/Grafana          |
+|---------+-----------------+------------+----------+------+-----------------------------|
 | master1 | master1.hl.test | 10.10.0.21 |     2048 |    2 |                             |
 | master2 | master2.hl.test | 10.10.0.22 |     2048 |    2 | Kubernetes                  |
 | master3 | master3.hl.test | 10.10.0.23 |     2048 |    2 |                             |
@@ -74,6 +76,9 @@ While the other 3 as worker nodes =10.10.0.31-33=.
 
 
 This was an overview of my homelab plan. In the following blog posts I will provide detailed setup and configuration guides for each component of the homelab.
+#+begin_note
+I will be keeping the list of blog posts below up-to-date with each new article related to this homelab that I publish on my blog.
+#+end_note
 * VM Setup Guides
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
 - Admins
