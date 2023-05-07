@@ -5,7 +5,7 @@
 #+DATE: 14 Apr 2023 Fri
 #+KEYWORDS: :DNS:
 #+OPTIONS: html5-fancy:t tex:t
-#+PROPERTY: header-args:sh :dir /ssh:admin1: :results output :exports both 
+#+PROPERTY: header-args:sh :results output :exports both 
 #+begin_date
 Published on {{{date}}}
 #+end_date
@@ -16,8 +16,6 @@ We are going to setup and confgure a DNS server with a failover and dynamic upda
 =named= stands for NAMEserver Daemon
 #+end_note
 The Bind packages is called =named= in the RedHat-like distrobution like RockyLinux.
-Because DNS server are called nameserver in Linux terminology.
-
 
 * Prerequisites
 Two VMs with RockyLinux with the following configurations
@@ -35,7 +33,7 @@ Two VMs with RockyLinux with the following configurations
 3. Configure Master DNS
 4. Configure Backup DNS
 5. Configure a client server for testing 
-6. Edit dynamic DNS
+# 6. Edit dynamic DNS
 
 * Install required packages and other primary configuration
 On both server, install the following packages
@@ -44,7 +42,7 @@ On both server, install the following packages
 sudo dnf install bind bind-utils -y
 #+end_src
 
-Let's make sure that the service in enabled at startup.
+Let's make sure that the service is enabled at startup.
 #+begin_src sh :results none
 sudo systemctl enable named
 #+end_src
@@ -76,6 +74,10 @@ Check out [[https://a.co/d/j0DxqZS][this great book]] for more information about
 #+end_note
 RNDC or "Remote Name Daemon Control Utility". It's a command that allows you to control you Domain Name System (DNS) without altering or modifying you DNS configuration files.
 
+To use =rndc=, we need first to generate a key, and than import that key on =named= configuration file
+
+Let's create a key  
+
 #+begin_src sh :results none
 sudo rndc-confgen -a -b 512
 #+end_src
@@ -83,15 +85,15 @@ sudo rndc-confgen -a -b 512
 #+RESULTS:
 : wrote key file "/etc/rndc.key"
 
+And then, we need to give it appropriate permissions 
 #+begin_src sh
 chown root:named /etc/rndc.key
 chmod 0640 /etc/rndc.key
 #+end_src
 * Master DNS configuration
 
-
 We will seperate our configuration into multiple files and use =include= statement to embed these files into =/etc/named.conf= file.
-This will help us seperate the the parts of the configuraton that are somehow static from those that can be changed overtime.\\
+This will help us seperate the the parts of the configuraton that are static from those that can be changed overtime.\\
 
 #+begin_src sh
 sudo tree /etc/named --noreport
@@ -183,6 +185,13 @@ options {
 #+end_src
 
 The zones configuration file
+Here we define our zones; each zone must have its corresponding reverse zone
+
+In our case, we need to setup a forward zone and a reverse zone for our local domain =hl.test=. All data related to this zones is saved on =/data/db.hl.test= and =/data=db.0.10.10= respectively.
+#+begin_note
+reverse zone is indentified as following:\\
+=<subnet ip in reverse>.in-addr.arpa=
+#+end_note
 #+begin_src conf
 # vim: syntax=named
 # Use the root hints file for "." zone
@@ -244,10 +253,8 @@ logging {
 
 #+end_src
 * Backup DNS configuration
-For the backup DNS server, it's basicaly the same configuration, with just some modifications that indicate that this server is related to the idea that this server must behave as 
-a secondary DNS server.
-The main configuration for the secondary DNS server
 
+Now with the backup DNS configuration
 #+begin_src conf
 # vim: syntax=named
 
@@ -375,8 +382,13 @@ logging {
 
 #+end_src
 
-* Configure a client server 
-For client, we just need to change our main DNS server to the IP addresses of our new local DNS server.
+* Configure a client server
+To configure the client, all we need to do is to update the =/etc/resolv.conf= file with our new local DNS server IP address.
+#+begin_note
+- The number of nameservers allowed on =/etc/resolv.conf= are 3.\\
+- The first request are tried against the first nameserver, if the query was timed out, it will move to the next.\\
+- Each nameserver is tried 4 times.
+#+end_note
 
 #+begin_src sh
 sudo nmcli c mod eth0 ipv4.dns '10.10.0.2 10.10.0.3'
