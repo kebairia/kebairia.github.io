@@ -78,6 +78,5 @@ This was an overview of my homelab plan. In the following blog posts I will prov
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
 - Admins
   - [[file:2023-04-11-building-qemu-kvm-images-with-packer-(part-I).org][Building Qemu-Kvm Images With Packer (Part I) -- RockyLinux9]]
-  # - [[file:2023-04-07-configure-dns-servers-with-failover-using-bind.org][Configure DNS servers with failover using BIND]]
+  - [[file:2023-04-07-configure-dns-servers-with-failover-using-bind.org][Configure DNS servers with failover using BIND]]
 - Kubernetes
-  
