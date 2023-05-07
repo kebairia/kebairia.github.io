@@ -383,7 +383,7 @@ logging {
 #+end_src
 
 * Configure a client server
-To configure the client, all we need to do is to update the =/etc/resolv.conf= file with our new local DNS server IP address.
+To configure the client, all we need to do is to update the =/etc/resolv.conf= file with the IP addresses of our new local DNS server.
 #+begin_note
 - The number of nameservers allowed on =/etc/resolv.conf= are 3.\\
 - The first request are tried against the first nameserver, if the query was timed out, it will move to the next.\\
