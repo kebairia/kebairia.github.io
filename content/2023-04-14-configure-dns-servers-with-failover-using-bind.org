@@ -74,7 +74,7 @@ Check out [[https://a.co/d/j0DxqZS][this great book]] for more information about
 #+end_note
 RNDC or "Remote Name Daemon Control Utility". It's a command that allows you to control you Domain Name System (DNS) without altering or modifying you DNS configuration files.
 
-To use =rndc=, we need first to generate a key, and than import that key on =named= configuration file
+To use the =rndc= command, we must first generate a key and then import it into the =named= configuration file.
 
 Let's create a key  
 
@@ -85,7 +85,7 @@ sudo rndc-confgen -a -b 512
 #+RESULTS:
 : wrote key file "/etc/rndc.key"
 
-And then, we need to give it appropriate permissions 
+We need to give it appropriate permissions 
 #+begin_src sh
 chown root:named /etc/rndc.key
 chmod 0640 /etc/rndc.key
