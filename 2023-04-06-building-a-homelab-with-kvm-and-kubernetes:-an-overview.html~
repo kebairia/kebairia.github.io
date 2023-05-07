@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-07 Sun 17:09 -->
+<!-- 2023-05-07 Sun 17:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a Homelab with KVM and Kubernetes: An Overview</title>
@@ -11,16 +11,6 @@
 <meta name="author" content="Zakaria.K" />
 <meta name="keywords" content="blog,kvm,linux,kubernetes,haproxy,keepalived,homelab" />
 <link rel="stylesheet"href="css/main.css" type="text/css" />
-<header> <h4> <a href="https://kebairia.github.io" title="Home" class="home">
-	          <img src="img/home.svg" width="50" alt="Home" />
-	          </a>
-	          <a href="files/feed.rss" title="RSS Feed" type="application/rss+xml" class="rss">
-	          <img src="img/rss.svg" alt="RSS icon" />
-	          </a>
-                      <a href="files/cv.pdf" title="My Resume" type="application/pdf" class="resume">
-                      <img src="img/cv.svg" width="25"  alt="My CV icon" /> </a>
-                      </h4>
-	          </header>
 </head>
 <body>
 <div id="content">
@@ -28,14 +18,25 @@
 <br />
 <span class="subtitle">--</span>
 </h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgcf609d8">1. Introduction</a></li>
+<li><a href="#org1be6148">2. Tools and technologies</a></li>
+<li><a href="#org52f49ac">3. Architecture</a></li>
+<li><a href="#org33c1c5b">4. VM Setup Guides</a></li>
+</ul>
+</div>
+</div>
 <div class="date">
 <p>
 06 Apr 2023 Tue
 </p>
 
 </div>
-<div id="outline-container-orgef01923" class="outline-2">
-<h2 id="orgef01923"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orgcf609d8" class="outline-2">
+<h2 id="orgcf609d8"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
@@ -52,8 +53,8 @@ To centralize the configuration as much as possible, I will be using Packer to c
 </div>
 </div>
 
-<div id="outline-container-orgf4657d2" class="outline-2">
-<h2 id="orgf4657d2"><span class="section-number-2">2</span> Tools and technologies</h2>
+<div id="outline-container-org1be6148" class="outline-2">
+<h2 id="org1be6148"><span class="section-number-2">2</span> Tools and technologies</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each node will have SELinux in enforcing mode.
@@ -77,8 +78,8 @@ To make the process of provisioning new nodes easier, I will create custom base 
 </div>
 </div>
 
-<div id="outline-container-org64c8f80" class="outline-2">
-<h2 id="org64c8f80"><span class="section-number-2">3</span> Architecture</h2>
+<div id="outline-container-org52f49ac" class="outline-2">
+<h2 id="org52f49ac"><span class="section-number-2">3</span> Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
@@ -248,8 +249,8 @@ I will be keeping the list of blog posts below up-to-date with each new article 
 </div>
 </div>
 </div>
-<div id="outline-container-orge0de8b6" class="outline-2">
-<h2 id="orge0de8b6"><span class="section-number-2">4</span> VM Setup Guides</h2>
+<div id="outline-container-org33c1c5b" class="outline-2">
+<h2 id="org33c1c5b"><span class="section-number-2">4</span> VM Setup Guides</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
