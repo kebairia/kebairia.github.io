@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-07 Sun 15:54 -->
+<!-- 2023-05-07 Sun 15:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kvmcli V0.9</title>
@@ -21,13 +21,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org2be1fc3">1. Improvements and Features in v0.9</a>
+<li><a href="#orgc08b3a6">1. Improvements and Features in v0.9</a>
 <ul>
-<li><a href="#org4b4623a">1.1. Multiprocessing</a></li>
-<li><a href="#orgdd3d043">1.2. New option <code>kvmcli --init</code></a></li>
+<li><a href="#org701ff35">1.1. Multiprocessing</a></li>
+<li><a href="#orgeea4ac4">1.2. New option <code>kvmcli --init</code></a></li>
 </ul>
 </li>
-<li><a href="#org3354971">2. Other improvements</a></li>
+<li><a href="#orgad295ba">2. Other improvements</a></li>
 </ul>
 </div>
 </div>
@@ -43,16 +43,16 @@
 In this blog post, I will present the latest release of <b>kvmcli</b>, kvmcli version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, <b>kvmcli 1.0</b>.
 </p>
 
-<div id="outline-container-org2be1fc3" class="outline-2">
-<h2 id="org2be1fc3"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
+<div id="outline-container-orgc08b3a6" class="outline-2">
+<h2 id="orgc08b3a6"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b>kvmcli v0.9</b> introduces the following features and improvements:
 </p>
 </div>
 
-<div id="outline-container-org4b4623a" class="outline-3">
-<h3 id="org4b4623a"><span class="section-number-3">1.1</span> Multiprocessing</h3>
+<div id="outline-container-org701ff35" class="outline-3">
+<h3 id="org701ff35"><span class="section-number-3">1.1</span> Multiprocessing</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="note">
 <p>
@@ -76,7 +76,7 @@ Here's an example of how to set the <code>fork</code> value in the configuration
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml" id="orgf94f95d">
+<pre class="src src-toml" id="org06586e2">
 [misc]
 fork = 5
 </pre>
@@ -88,8 +88,8 @@ In the example above, I instructed <b>kvmcli</b> to launch five independent proc
 </div>
 </div>
 
-<div id="outline-container-orgdd3d043" class="outline-3">
-<h3 id="orgdd3d043"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
+<div id="outline-container-orgeea4ac4" class="outline-3">
+<h3 id="orgeea4ac4"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="note">
 <p>
@@ -165,8 +165,8 @@ vms:
 </div>
 </div>
 
-<div id="outline-container-org3354971" class="outline-2">
-<h2 id="org3354971"><span class="section-number-2">2</span> Other improvements</h2>
+<div id="outline-container-orgad295ba" class="outline-2">
+<h2 id="orgad295ba"><span class="section-number-2">2</span> Other improvements</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Other changes in this release include improvements in project structure, code cleaning&#x2026;etc.

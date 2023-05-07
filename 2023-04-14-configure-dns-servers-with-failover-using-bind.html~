@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-07 Sun 15:54 -->
+<!-- 2023-05-07 Sun 15:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Configure Dns Servers With Failover Using Bind</title>
@@ -22,14 +22,14 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org4ffc4b9">1. Introduction</a></li>
-<li><a href="#org6ac85b6">2. Prerequisites</a></li>
-<li><a href="#org1f4e882">3. The Plan</a></li>
-<li><a href="#org9662ce2">4. Install required packages and other primary configuration</a></li>
-<li><a href="#org3c59017">5. RNDC Setup</a></li>
-<li><a href="#org1c264f3">6. Master DNS configuration</a></li>
-<li><a href="#orgf70768f">7. Backup DNS configuration</a></li>
-<li><a href="#org9a46bdf">8. Configure a client server</a></li>
+<li><a href="#orgf72380e">1. Introduction</a></li>
+<li><a href="#org7e44a81">2. Prerequisites</a></li>
+<li><a href="#org8f566df">3. The Plan</a></li>
+<li><a href="#org3243e21">4. Install required packages and other primary configuration</a></li>
+<li><a href="#org3413273">5. RNDC Setup</a></li>
+<li><a href="#orgbe64bea">6. Master DNS configuration</a></li>
+<li><a href="#orgc364528">7. Backup DNS configuration</a></li>
+<li><a href="#org505b0af">8. Configure a client server</a></li>
 </ul>
 </div>
 </div>
@@ -40,8 +40,8 @@ Published on 14 Apr 2023 Fri
 
 </div>
 
-<div id="outline-container-org4ffc4b9" class="outline-2">
-<h2 id="org4ffc4b9"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orgf72380e" class="outline-2">
+<h2 id="orgf72380e"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.<br />
@@ -58,8 +58,8 @@ The Bind packages is called <code>named</code> in the RedHat-like distrobution l
 </div>
 </div>
 
-<div id="outline-container-org6ac85b6" class="outline-2">
-<h2 id="org6ac85b6"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-org7e44a81" class="outline-2">
+<h2 id="org7e44a81"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Two VMs with RockyLinux with the following configurations
@@ -109,8 +109,8 @@ Two VMs with RockyLinux with the following configurations
 </div>
 </div>
 
-<div id="outline-container-org1f4e882" class="outline-2">
-<h2 id="org1f4e882"><span class="section-number-2">3</span> The Plan</h2>
+<div id="outline-container-org8f566df" class="outline-2">
+<h2 id="org8f566df"><span class="section-number-2">3</span> The Plan</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>Install the required packages on both servers</li>
@@ -122,14 +122,14 @@ Two VMs with RockyLinux with the following configurations
 </div>
 </div>
 
-<div id="outline-container-org9662ce2" class="outline-2">
-<h2 id="org9662ce2"><span class="section-number-2">4</span> Install required packages and other primary configuration</h2>
+<div id="outline-container-org3243e21" class="outline-2">
+<h2 id="org3243e21"><span class="section-number-2">4</span> Install required packages and other primary configuration</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 On both server, install the following packages
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="orgd944929">sudo dnf install bind bind-utils -y
+<pre class="src src-sh" id="org9d9e5d9">sudo dnf install bind bind-utils -y
 </pre>
 </div>
 
@@ -171,8 +171,8 @@ drwx------. 2 named named 6 Apr 14 14:40 /var/log/named
 </div>
 </div>
 
-<div id="outline-container-org3c59017" class="outline-2">
-<h2 id="org3c59017"><span class="section-number-2">5</span> RNDC Setup</h2>
+<div id="outline-container-org3413273" class="outline-2">
+<h2 id="org3413273"><span class="section-number-2">5</span> RNDC Setup</h2>
 <div class="outline-text-2" id="text-5">
 <div class="note">
 <p>
@@ -214,8 +214,8 @@ chmod 0640 /etc/rndc.key
 </div>
 </div>
 </div>
-<div id="outline-container-org1c264f3" class="outline-2">
-<h2 id="org1c264f3"><span class="section-number-2">6</span> Master DNS configuration</h2>
+<div id="outline-container-orgbe64bea" class="outline-2">
+<h2 id="orgbe64bea"><span class="section-number-2">6</span> Master DNS configuration</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 We will seperate our configuration into multiple files and use <code>include</code> statement to embed these files into <code>/etc/named.conf</code> file.
@@ -398,8 +398,8 @@ And the logging configuration file
 </div>
 </div>
 </div>
-<div id="outline-container-orgf70768f" class="outline-2">
-<h2 id="orgf70768f"><span class="section-number-2">7</span> Backup DNS configuration</h2>
+<div id="outline-container-orgc364528" class="outline-2">
+<h2 id="orgc364528"><span class="section-number-2">7</span> Backup DNS configuration</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Now with the backup DNS configuration
@@ -540,8 +540,8 @@ And then the logging configuration file.
 </div>
 </div>
 
-<div id="outline-container-org9a46bdf" class="outline-2">
-<h2 id="org9a46bdf"><span class="section-number-2">8</span> Configure a client server</h2>
+<div id="outline-container-org505b0af" class="outline-2">
+<h2 id="org505b0af"><span class="section-number-2">8</span> Configure a client server</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 To configure the client, all we need to do is to update the <code>/etc/resolv.conf</code> file with our new local DNS server IP address.
