@@ -3,6 +3,7 @@
 #+AUTHOR: Zakaria.K
 #+EMAIL: 4.kebairia@gmail.com
 #+DATE: 14 Apr 2023 Fri
+#+STARTUP: show2levels indent hidestars
 #+KEYWORDS: :DNS:
 #+OPTIONS: html5-fancy:t tex:t
 #+PROPERTY: header-args:sh :results output :exports both 
@@ -13,9 +14,10 @@ Published on {{{date}}}
 * Introduction
 We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.\\
 #+begin_note
-=named= stands for NAMEserver Daemon
-#+end_note
+=named= stands for NAMEserver Daemon.\\
+\\
 The Bind packages is called =named= in the RedHat-like distribution like RockyLinux.
+#+end_note
 
 * Prerequisites
 Two VMs with RockyLinux with the following configurations
@@ -68,7 +70,7 @@ sudo ls -ldh /var/log/named
 
 * RNDC Setup
 #+begin_note
-Check out [[https://a.co/d/j0DxqZS][this great book]] for more information about DNS and other System Administration stuff
+Check out [[https://a.co/d/j0DxqZS][this great book]] for more information about DNS and other System Administration stuff.\\
 \\
 [[file:img/blogs/homelab/dns/unix_linux_handbook_5th_edition.png]]
 #+end_note
@@ -85,7 +87,7 @@ sudo rndc-confgen -a -b 512
 #+RESULTS:
 : wrote key file "/etc/rndc.key"
 
-We need to give it appropriate permissions 
+We need to give it appropriate permissions. 
 #+begin_src sh
 chown root:named /etc/rndc.key
 chmod 0640 /etc/rndc.key

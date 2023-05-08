@@ -3,6 +3,7 @@
 #+AUTHOR: Zakaria.K
 #+EMAIL: 4.kebairia@gmail.com
 #+DATE: 11 Apr 2023 Sat
+#+STARTUP: show2levels indent hidestars
 #+TAGS: packer,linux
 #+OPTIONS: html5-fancy:t tex:t
 #+PROPERTY: header-args:sh :results output :exports both 
