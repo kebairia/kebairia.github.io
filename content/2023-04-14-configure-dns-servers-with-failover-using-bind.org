@@ -10,7 +10,6 @@
 #+begin_date
 Published on {{{date}}}
 #+end_date
-
 * Introduction
 We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.\\
 #+begin_note
@@ -37,7 +36,7 @@ Two VMs with RockyLinux with the following configurations
 5. Configure a client server for testing 
 # 6. Edit dynamic DNS
 
-* Install required packages and other primary configuration
+* primary configuration on the nodes
 On both server, install the following packages
 #+name: bind_installation
 #+begin_src sh :results none
@@ -105,7 +104,10 @@ sudo tree /etc/named --noreport
 : /etc/named
 : ├── logging.conf
 : └── zones.conf
-
+** The main configuration file
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 the main configuration file for =named= is =/etc/named.conf=, open this file and add the following content
 
 #+begin_src conf
@@ -186,13 +188,21 @@ options {
 };
 #+end_src
 
-The zones configuration file
+** The zones configuration file
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
 Here we define our zones; each zone must have its corresponding reverse zone
 
 In our case, we need to setup a forward zone and a reverse zone for our local domain =hl.test=. All data related to this zones is saved on =/data/db.hl.test= and =/data=db.0.10.10= respectively.
 #+begin_note
+Of course, you can use whatever filename with the =file= clause in the =zone= section, here I chose to use =db.hl.test= and =db.0.10.10= for example.\\
+\\
 reverse zone is indentified as follow:\\
 =<subnet ip in reverse>.in-addr.arpa=
+\\
+=in-addr.arpa= is a fixed suffix.
 #+end_note
 #+begin_src conf
 # vim: syntax=named
@@ -223,6 +233,71 @@ zone "0.10.10.in-addr.arpa" {
 };
 #+end_src
 
+Our DNS records are stored in files that act as a database on the primary server and called the *Zones files*. The secondary server fetches this data regularly for consistency.\\
+
+As you can see from the zones configuration we used above, we ordered our server to fetch it's records data from =data/db.hl.test=.\\
+#+begin_note
+Hence, the full path is =/var/named/data/db.hl.test=
+#+end_note
+Of course, this path is relative, because we mentioned the root directory in the main configuration above with =directory "/var/named"=\\
+
+
+The forward zone records.
+#+begin_note
+Make sure to update the =Serial= number in the zone files file every time it is modified. This allows Bind to recognize that a change has been made.
+#+end_note
+#+begin_src conf
+; vim: ft=bindzone
+$TTL 86400	; 1 day
+@			IN SOA	dns1.hl.test. root.hl.test. (
+				3 ; Serial
+				3600       ; Refresh (1 hour)
+				3600       ; Retry (1 hour)
+				604800     ; Expire (1 week)
+				3600       ; Minimum (1 hour)
+)
+; name servers -- NS records
+@	                    IN	NS	ns1.hl.test.
+@	                    IN	NS	ns2.hl.test.
+; name servers -- A records
+ns1.hl.test.            IN  A   10.10.0.2
+ns2.hl.test.            IN  A   10.10.0.3
+
+; 10.10.0.0/24 -- A records
+admin1.hl.test.         IN  A   10.10.0.2
+admin2.hl.test.         IN  A   10.10.0.3
+#+end_src
+
+And then, the reverse zone records 
+#+begin_src conf
+; vim: ft=bindzone
+;
+; BIND reverse data file for broadcast zone
+;
+$TTL	604800
+@	IN	SOA	hl.test. root.hl.test. (
+			      3		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+; name servers
+      IN      NS      ns1.hl.test.
+      IN      NS      ns2.hl.test.
+
+; PTR Records
+2               IN  PTR ns1.hl.test.    ; 10.10.0.2
+3               IN  PTR ns2.hl.test.    ; 10.10.0.2
+2               IN  PTR admin1.hl.test.    ; 10.10.0.2
+3               IN  PTR admin2.hl.test.    ; 10.10.0.2
+
+#+end_src
+
+** The logging configuration file
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 And the logging configuration file
 #+begin_src conf
 # vim: syntax=named
@@ -255,7 +330,10 @@ logging {
 
 #+end_src
 * Backup DNS configuration
-
+** The main configuration file
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 Now with the backup DNS configuration
 #+begin_src conf
 # vim: syntax=named
@@ -326,7 +404,11 @@ options {
 };
 #+end_src
 
-The zones configuration file
+** The zones configuration file
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
 #+begin_src conf
 # vim: syntax=named
 # Use the root hints file for "." zone
@@ -350,6 +432,11 @@ zone "0.10.10.in-addr.arpa" {
     allow-notify { 10.10.0.2; };
 };
 #+end_src
+
+** The logging configuration file
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 
 And then the logging configuration file.
 
