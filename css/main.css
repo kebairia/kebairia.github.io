@@ -371,12 +371,14 @@ blockquote:before {
 	content: '“';
   left: -2rem;
   top: -3rem;
+  padding-top: 10pt;
 }
 
 blockquote:after {
 	content: '”';
 	right: -2rem;
 	bottom: -1rem;
+  padding-bottom: 10pt;
 }
 cite {
 	line-height: 3;
