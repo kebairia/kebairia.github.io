@@ -17,7 +17,7 @@ html, body {
 
 body {
   background-color: #f0eeed;
-    /* background-color: #fffff9; */
+     /*background-color: #fffff9; */
     background-color: #fff;
     /*font-family: 'Source Serif Pro', serif;*/
     font-family: 'Gentium Plus', serif;
@@ -351,10 +351,37 @@ footer {
 }
 
 blockquote {
-  border: 2px dashed #ccc;
+  position: relative;
+  margin: 0;
   padding: 10px;
+  font-style: italic;
+  max-width: 450pt;
+	font-weight: 100;
+}
+blockquote:before,
+blockquote:after {
+	position: absolute;
+	color: #ddd;
+	font-size: 5rem;
+	width: 4rem;
+	height: 4rem;
 }
 
+blockquote:before {
+	content: '“';
+  left: -2rem;
+  top: -3rem;
+}
+
+blockquote:after {
+	content: '”';
+	right: -2rem;
+	bottom: -1rem;
+}
+cite {
+	line-height: 3;
+	text-align: left;
+}
 
 /* Code {{{1*/
 code {
