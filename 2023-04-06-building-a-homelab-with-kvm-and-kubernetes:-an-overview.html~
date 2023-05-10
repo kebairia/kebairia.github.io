@@ -22,21 +22,21 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org116166c">1. Introduction</a></li>
-<li><a href="#org9c97fe8">2. Tools and technologies</a></li>
-<li><a href="#org708fa56">3. Architecture</a></li>
-<li><a href="#orgbaa4864">4. VM Setup Guides</a></li>
+<li><a href="#orgf4554c9">1. Introduction</a></li>
+<li><a href="#orgbe89e6b">2. Tools and technologies</a></li>
+<li><a href="#org56c4760">3. Architecture</a></li>
+<li><a href="#org79bee5c">4. VM Setup Guides</a></li>
 </ul>
 </div>
 </div>
 <div class="date">
 <p>
-06 Apr 2023 Tue
+Date: 06 April 2023
 </p>
 
 </div>
-<div id="outline-container-org116166c" class="outline-2">
-<h2 id="org116166c"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orgf4554c9" class="outline-2">
+<h2 id="orgf4554c9"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
@@ -53,8 +53,8 @@ To centralize the configuration as much as possible, I will be using Packer to c
 </div>
 </div>
 
-<div id="outline-container-org9c97fe8" class="outline-2">
-<h2 id="org9c97fe8"><span class="section-number-2">2</span> Tools and technologies</h2>
+<div id="outline-container-orgbe89e6b" class="outline-2">
+<h2 id="orgbe89e6b"><span class="section-number-2">2</span> Tools and technologies</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each node will have SELinux in enforcing mode.
@@ -78,8 +78,8 @@ To make the process of provisioning new nodes easier, I will create custom base 
 </div>
 </div>
 
-<div id="outline-container-org708fa56" class="outline-2">
-<h2 id="org708fa56"><span class="section-number-2">3</span> Architecture</h2>
+<div id="outline-container-org56c4760" class="outline-2">
+<h2 id="org56c4760"><span class="section-number-2">3</span> Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
@@ -249,8 +249,8 @@ I will be keeping the list of blog posts below up-to-date with each new article 
 </div>
 </div>
 </div>
-<div id="outline-container-orgbaa4864" class="outline-2">
-<h2 id="orgbaa4864"><span class="section-number-2">4</span> VM Setup Guides</h2>
+<div id="outline-container-org79bee5c" class="outline-2">
+<h2 id="org79bee5c"><span class="section-number-2">4</span> VM Setup Guides</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
