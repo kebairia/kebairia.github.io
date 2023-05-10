@@ -2,13 +2,13 @@
 #+subtitle: Run arbitrary commands when files change 
 #+AUTHOR: Zakaria.k
 #+EMAIL: 4.kebairia@gmail.com
-#+DATE: 07 Nov 2021 Wed
+#+DATE: 07 November 2021
 # #+options: tags:t title:t toc:nil num:0 date:t
 # #+tags: emacs
 #+KEYWORDS: emacs,test
 #+options: html5-fancy:t tex:t
 #+begin_date
-{{{date}}}
+Date: {{{date}}}
 #+end_date
 
 Long ago, I came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.

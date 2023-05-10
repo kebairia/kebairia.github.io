@@ -2,11 +2,11 @@
 #+SUBTITLE: -- 
 #+AUTHOR: Zakaria.K 
 #+EMAIL: 4.kebairia@gmail.com 
-#+DATE: 06 Apr 2023 Tue 
+#+DATE: 06 April 2023 
 #+KEYWORDS: blog,kvm,linux,kubernetes,haproxy,keepalived,homelab
 #+OPTIONS: html5-fancy:t tex:t
 #+begin_date
-{{{date}}}
+Date: {{{date}}}
 #+end_date
 
 #+begin_comment

@@ -1,15 +1,15 @@
 #+title: Hello World
 #+author: Zakaria.k
 #+email: 4.kebairia@gmail.com
-#+date: 06 Nov 2021 Wed
+#+date: 06 November 2021
 #+keywords: emacs,test
 #+options: html5-fancy:t tex:t
 #+begin_date
-{{{date}}}
+Date: {{{date}}}
 #+end_date
 
 #+begin_quote
 "When you're in love, you want to tell the world. This book is a personal statement, reflecting my lifelong love affair with science.''
 
--- Carl Sagan, /The Demon-Haunted World: Science as a Candle in the Dark/
 #+end_quote
+#+html: <cite>Carl Sagan, The Demon-Haunted World: Science as a Candle in the Dark </cite>

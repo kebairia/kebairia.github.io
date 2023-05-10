@@ -2,13 +2,13 @@
 #+SUBTITLE: Building Rocky Linux 9 VM Images with Packer
 #+AUTHOR: Zakaria.K
 #+EMAIL: 4.kebairia@gmail.com
-#+DATE: 11 Apr 2023 Sat
+#+DATE: 11 April 2023
 #+STARTUP: show2levels indent hidestars
 #+TAGS: packer,linux
 #+OPTIONS: html5-fancy:t tex:t
 #+PROPERTY: header-args:sh :results output :exports both 
 #+begin_date
-{{{date}}}
+Date: {{{date}}}
 #+end_date
 * COMMENT :PACKER:LINUX:ROCKYLINUX:QEMU:
 :PROPERTIES:
