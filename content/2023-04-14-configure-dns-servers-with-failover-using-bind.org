@@ -2,13 +2,13 @@
 #+SUBTITLE:  --
 #+AUTHOR: Zakaria.K
 #+EMAIL: 4.kebairia@gmail.com
-#+DATE: 14 Apr 2023 Fri
+#+DATE: 14 April 2023
 #+STARTUP: show2levels indent hidestars
 #+KEYWORDS: :DNS:
 #+OPTIONS: html5-fancy:t tex:t
 #+PROPERTY: header-args:sh :results output :exports both 
 #+begin_date
-Published on {{{date}}}
+Date: {{{date}}}
 #+end_date
 * Introduction
 We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.\\
