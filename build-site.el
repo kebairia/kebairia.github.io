@@ -82,12 +82,15 @@
 	     "<header> <h4> <a href=\"https://kebairia.github.io\" title=\"Home\" class=\"home\">
 	          <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
 	          </a>
+
 	          <a href=\"files/feed.rss\" title=\"RSS Feed\" type=\"application/rss+xml\" class=\"rss\">
 	          <img src=\"img/rss.svg\" alt=\"RSS icon\" />
+
 	          </a>
-                      <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
-                      <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" /> </a>
-                      </h4>
+            <a href=\"files/cv.pdf\" title=\"My Resume\" type=\"application/pdf\" class=\"resume\">
+            <img src=\"img/cv.svg\" width=\"25\"  alt=\"My CV icon\" /> </a>
+
+            </h4>
 	          </header>"
 	     :section-numbers t
 	     :time-stamp-file t
@@ -128,7 +131,7 @@
 <br>
 
 <p class=\"credit\">
-Copyright &\copy  2021 Zakaria Kebairia
+Copyright &\copy  2023 Zakaria Kebairia
 <br>
 Content licensed <a href=\"http://creativecommons.org/licenses/by-sa/4.0/\">CC-BY-SA 4.0</a> unless otherwise noted.
 
