@@ -137,6 +137,9 @@ header > h4 > a.resume img:hover {
 /*}}}*/
 /*TITLE {{{1*/
 .title {
+    /*the title and the subtitle*/
+    text-align: center;
+    padding-bottom: 7px;
 }
 /*}}}*/
 /*articles & paragraphs {{{1*/
@@ -275,13 +278,8 @@ table, th, td {
 /*}}}*/
 /*Headlines & paragraphs {{{1*/
 
-/*Center only the title*/
-h1 {
-  text-align: center;
-}
-
-h2, h3 {
-  line-height: 1.46;
+h1, h2, h3 {
+  line-height: 1.11;
   margin-top: 1.5rem;
   margin-bottom: 0rem;
   hyphens: none;
