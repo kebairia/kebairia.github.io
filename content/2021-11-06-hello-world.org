@@ -13,3 +13,4 @@ Date: {{{date}}}
 
 #+end_quote
 #+html: <cite>Carl Sagan, The Demon-Haunted World: Science as a Candle in the Dark </cite>
+\\
