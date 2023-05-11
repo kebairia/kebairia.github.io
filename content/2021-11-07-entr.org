@@ -14,7 +14,7 @@ Date: {{{date}}}
 Long ago, I came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.
 What it does is really simple, but yet powerful, it let you run any arbitrary set of commands when a specific files changes.\\
 
-The [[http://eradman.com/entrproject/][entr's website]] has a great explanation for it with a bunch of great examples to start with.\\
+The [[http://eradman.com/entrproject/][entr's website]] has a great explanation for it with a bunch of great examples to start with.
 But long story short, you pass a set of files (using regex for example) to the command through =stdin=, and then make it run
 a script or a command whenever one of these file changes.\\
 For example, here I make it monitor any =markdown= files in my current directory, and execute a script that commit and pushes the changes
