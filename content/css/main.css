@@ -660,38 +660,18 @@ pre.src-hcl::before {
     float: right;
     clear: right;
     margin-right: -43%;
-    width: 300px;
+    width: 350px;
 }
 
 
-.leftnote::before{
-      font-weight: bold;
-  }
+/*.leftnote::before{*/
+      /*font-weight: bold;*/
+  /*}*/
 .leftnote {
     float: left;
+    clear: left;
     margin-left: -300px;
 }
-/*p.note-title {*/
-    /*background-color: #eeeeaa;*/
-    /*font-weight: 600;*/
-    /*padding: 0.1em 1em;*/
-    /*padding-bottom: .25em;*/
-/*}*/
-/*.note p {*/
-    /*[>border-top:  .5px solid #aaa;<]*/
-    /*border-top: solid 1px #dee9ed;*/
-    /*text-align: left;*/
-    /*padding: 0;*/
-    /*margin:0;*/
-    /*padding-top: 0.5em;*/
-/*}*/
-/*.note p.first {*/
-    /*padding: 0;*/
-    /*padding-bottom: .5em;*/
-    /*font-weight: 400;*/
-    /*border-bottom: solid 1px #dee9ed;*/
-/*}*/
-
 
 .legend {
     font-size: 85%;
@@ -715,16 +695,18 @@ pre.src-hcl::before {
 }
 
 @media all and (max-width: 1400px) {
-    .note,
+    .leftnote,
+    .rightnote,
     .legend {
         box-sizing: border-box;
         width: 80%;
-        margin: 10px auto;
+        margin: 40px auto;
         float: none;
         /*box-shadow: 0 0 10px rgba(0,0,0,0.5);*/
         /*border-radius: 5px;*/
-        padding-top: 20px;
+        /*padding-top: 20px;*/
         border-bottom: solid 1px #dee9ed;
+        border-top: solid 1px #dee9ed;
         /*padding-bottom: 20px;*/
         /*border-bottom: 1px solid #000;*/
     }
