@@ -2,20 +2,21 @@
 #+SUBTITLE: Introducing New Features in kvmcli v0.9
 #+AUTHOR: Zakaria.K
 #+EMAIL: 4.kebairia@gmail.com
-#+DATE: 01 May 2023 Mon
+#+DATE: 01 May 2023
 #+KEYWORDS: 
 #+OPTIONS: html5-fancy:t tex:t
+#+STARTUP: show2levels indent hidestars
 #+PROPERTY: header-args:sh :results output :exports both :dir /tmp/kvmcli-test
 #+begin_date
-{{{date}}}
+Date: {{{date}}}
 #+end_date
+
 
 
 In this blog post, I will present the latest release of *kvmcli*, kvmcli version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, *kvmcli 1.0*.
 
 * Improvements and Features in v0.9
 *kvmcli v0.9* introduces the following features and improvements:
-
 ** Multiprocessing
 #+begin_note
 As you can already guessed, sequential provisioning is not efficient for this use case.

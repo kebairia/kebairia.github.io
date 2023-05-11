@@ -18,6 +18,7 @@ We are going to setup and confgure a DNS server with a failover and dynamic upda
 The Bind packages is called =named= in the RedHat-like distribution like RockyLinux.
 #+end_note
 
+
 * Prerequisites
 Two VMs with RockyLinux with the following configurations
 
