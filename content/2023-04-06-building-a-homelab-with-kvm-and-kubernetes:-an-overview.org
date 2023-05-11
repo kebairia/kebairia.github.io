@@ -1,9 +1,10 @@
-#+TITLE: Building a Homelab with KVM and Kubernetes: An Overview
-#+SUBTITLE: 
+#+TITLE: Building a Homelab with KVM and Kubernetes
+#+SUBTITLE: An overview
 #+AUTHOR: Zakaria.K 
 #+EMAIL: 4.kebairia@gmail.com 
 #+DATE: 06 April 2023 
 #+KEYWORDS: blog,kvm,linux,kubernetes,haproxy,keepalived,homelab
+#+STARTUP: show2levels indent hidestars
 #+OPTIONS: html5-fancy:t tex:t
 #+begin_date
 Date: {{{date}}}
@@ -11,18 +12,28 @@ Date: {{{date}}}
 
 #+begin_comment
  =02:5A:41:4B:49:<IP>=
-If you are new to Linux servers, it provides you a playground for learning and breaking things.
+If you are new to Linux servers,
 #+end_comment
 * Introduction
 
-I'm planning to build a highly available Kubernetes homelab cluster that consists of three control plane nodes and three worker nodes (this can change overtime).
-The control plane nodes will be responsible for managing the Kubernetes cluster, while the worker nodes will run the workloads.
 
-The main reason for building this homelab is to help me to test and learn new technologies that I'm interested in, as well as the ones that I need for work. In addition, I need it to be fully automated so that I can provision new VMs quickly if necessary.
+I'm planning to build a homelab for the purpose of learning and experimenting. This lab will utilize containers and, if necessary, virtual machines (VMs). It will serve as a personal playground where I can explore and test various technologies.
 
-To centralize the configuration as much as possible, I will be using Packer to create my VMs and Ansible for configuration management. The ultimate goal is to create an ephemeral sandboxes that can be easily disposed of and replaced, allowing for experimentation.
+The main reason for building this homelab is to help me test and learn new technologies that I'm interested in, as well as the ones that I need for work. 
 
-* Tools and technologies
+To achieve this objective, I have identified the following needs:
+
+
+
+- I need a fast and efficient method for provisioning new virtual machines.
+  For that, I created a tool called [[https://www.github.com/kebairia/kvmcli][kvmcli]]. I designed this tool to simplify the process of creating and deploying new VMs by utilizing a user-friendly YAML file that describes the entire cluster. With just a few options selected, I can effortlessly generate a complete and robust cluster, ready for experimentation.
+- To centralize the configuration as much as possible, I will be using Packer to create my VMs and Ansible for configuration management.
+  The ultimate goal is to create a disposable and replaceable ephemeral sandboxes that allow for seamless experimentation.
+- Kubernetes will play a prominent role in the homelab, serving as a fundamental component.\\
+  A significant portion of the services I require will be based on Kubernetes.
+
+
+* COMMENT Tools and technologies
 Each node will have SELinux in enforcing mode.
 
 Firewalld will also be enabled on all the nodes to provide an additional layer of network security.
@@ -68,16 +79,9 @@ My *Kubernetes cluster* will consist of 6 Nodes in total 3 of these nodes will a
 While the other 3 as worker nodes =10.10.0.31-33=.
 #+end_rightnote
 
-#+caption: Homelab diagram
 #+attr_html: :width 630 
+#+caption: Homelab diagram
 [[file:img/blogs/homelab/overview/arch.png]]
-
-The workflow will be as following
-
-#+caption: Homelab workflow
-#+attr_html: :width 600 :align center
-[[file:img/blogs/homelab/overview/workflow.png]]
-
 
 
 This was an overview of my homelab plan. In the following blog posts I will provide detailed setup and configuration guides for each component of the homelab.
