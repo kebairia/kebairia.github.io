@@ -72,6 +72,7 @@ sudo ls -ldh /var/log/named
 #+begin_leftnote
 Check out [[https://a.co/d/j0DxqZS][this great book]] for more information about DNS and other System Administration stuff.\\
 \\
+#+ATTR_HTML: :width 220 :align center :border 2pt
 [[file:img/blogs/homelab/dns/unix_linux_handbook_5th_edition.png]]
 #+end_leftnote
 RNDC or "Remote Name Daemon Control Utility". It's a command that allows you to control you Domain Name System (DNS) without altering or modifying you DNS configuration files.
@@ -474,13 +475,12 @@ logging {
 #+end_src
 
 * Configure a client server
-To configure the client, all we need to do is to update the =/etc/resolv.conf= file with the IP addresses of our new local DNS server.
-
 #+begin_leftnote
 - The number of nameservers allowed on =/etc/resolv.conf= are 3.\\
 - The first request are tried against the first nameserver, if the query was timed out, it will move to the next.\\
 - Each nameserver is tried 4 times.
 #+end_leftnote
+To configure the client, all we need to do is to update the =/etc/resolv.conf= file with the IP addresses of our new local DNS server.
 
 #+begin_src sh
 sudo nmcli c mod eth0 ipv4.dns '10.10.0.2 10.10.0.3'
