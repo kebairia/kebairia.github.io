@@ -22,9 +22,10 @@ Instead of repeatedly installing the operating system, we'll build VM images for
 
 Part 1 covers building a *Rocky Linux 9* image with Packer, while Part 2 focuses on *Ubuntu 22.04*
 
+
 * Prerequisites
 - We need a server with KVM installed on it
-- ISO file for the image you want to build ( in our case, we are using *[[https://rockylinux.org/download][RockyLinux9.1]]*)
+- ISO file for the image you want to build ( in our case, we are using [[https://rockylinux.org/download][RockyLinux9.1]])
 
 * The Plan
 1. We are going to install Packer.

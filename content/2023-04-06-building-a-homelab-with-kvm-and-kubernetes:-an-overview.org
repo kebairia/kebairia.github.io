@@ -58,7 +58,7 @@ For a quick summary of the cluster details, please refer to the table below.
 
 Here's the homelab diagram for our setup.
 
-#+begin_note 
+#+begin_rightnote 
 These are the *admin nodes*, one serving as the master node =IP: 10.10.0.2= and the other as the slave node =IP: 10.10.0.3=.\\
 Both nodes are equipped with *DNS*, *DHCP*, *HAProxy* and *Keepalived* services installed and configured, which ensures continuous service availability and failover capabilities.\\
 The nodes are configured with a =virtual IP: 10.10.0.20=, which provides a single IP address to contact with.\\
@@ -66,19 +66,24 @@ The nodes are configured with a =virtual IP: 10.10.0.20=, which provides a singl
 \\
 My *Kubernetes cluster* will consist of 6 Nodes in total 3 of these nodes will act as Master nodes =10.10.0.21-23=.\\
 While the other 3 as worker nodes =10.10.0.31-33=.
-#+end_note
+#+end_rightnote
 
 #+caption: Homelab diagram
 #+attr_html: :width 630 
 [[file:img/blogs/homelab/overview/arch.png]]
-#+begin_note 
-#+end_note
+
+The workflow will be as following
+
+#+caption: Homelab workflow
+#+attr_html: :width 600 :align center
+[[file:img/blogs/homelab/overview/workflow.png]]
+
 
 
 This was an overview of my homelab plan. In the following blog posts I will provide detailed setup and configuration guides for each component of the homelab.
-#+begin_note
+#+begin_leftnote
 I will be keeping the list of blog posts below up-to-date with each new article related to this homelab that I publish on my blog.
-#+end_note
+#+end_leftnote
 * VM Setup Guides
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
 - Admins

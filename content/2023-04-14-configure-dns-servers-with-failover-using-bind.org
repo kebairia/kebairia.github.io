@@ -12,11 +12,11 @@ Date: {{{date}}}
 #+end_date
 * Introduction
 We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.\\
-#+begin_note
+#+begin_leftnote
 =named= stands for NAMEserver Daemon.\\
 \\
 The Bind packages is called =named= in the RedHat-like distribution like RockyLinux.
-#+end_note
+#+end_leftnote
 
 
 * Prerequisites
@@ -69,11 +69,11 @@ sudo ls -ldh /var/log/named
 : drwx------. 2 named named 6 Apr 14 14:40 /var/log/named
 
 * RNDC Setup
-#+begin_note
+#+begin_leftnote
 Check out [[https://a.co/d/j0DxqZS][this great book]] for more information about DNS and other System Administration stuff.\\
 \\
 [[file:img/blogs/homelab/dns/unix_linux_handbook_5th_edition.png]]
-#+end_note
+#+end_leftnote
 RNDC or "Remote Name Daemon Control Utility". It's a command that allows you to control you Domain Name System (DNS) without altering or modifying you DNS configuration files.
 
 To use the =rndc= command, we must first generate a key and then import it into the =named= configuration file.
@@ -197,14 +197,14 @@ options {
 Here we define our zones; each zone must have its corresponding reverse zone
 
 In our case, we need to setup a forward zone and a reverse zone for our local domain =hl.test=. All data related to this zones is saved on =/data/db.hl.test= and =/data=db.0.10.10= respectively.
-#+begin_note
+#+begin_leftnote
 Of course, you can use whatever filename with the =file= clause in the =zone= section, here I chose to use =db.hl.test= and =db.0.10.10= for example.\\
 \\
 reverse zone is indentified as follow:\\
 =<subnet ip in reverse>.in-addr.arpa=
 \\
 =in-addr.arpa= is a fixed suffix.
-#+end_note
+#+end_leftnote
 #+begin_src conf
 # vim: syntax=named
 # Use the root hints file for "." zone
@@ -237,16 +237,16 @@ zone "0.10.10.in-addr.arpa" {
 Our DNS records are stored in files that act as a database on the primary server and called the *Zones files*. The secondary server fetches this data regularly for consistency.\\
 
 As you can see from the zones configuration we used above, we ordered our server to fetch it's records data from =data/db.hl.test=.\\
-#+begin_note
+#+begin_leftnote
 Hence, the full path is =/var/named/data/db.hl.test=
-#+end_note
+#+end_leftnote
 Of course, this path is relative, because we mentioned the root directory in the main configuration above with =directory "/var/named"=\\
 
 
 The forward zone records.
-#+begin_note
+#+begin_leftnote
 Make sure to update the =Serial= number in the zone files file every time it is modified. This allows Bind to recognize that a change has been made.
-#+end_note
+#+end_leftnote
 #+begin_src conf
 ; vim: ft=bindzone
 $TTL 86400	; 1 day
@@ -474,11 +474,12 @@ logging {
 
 * Configure a client server
 To configure the client, all we need to do is to update the =/etc/resolv.conf= file with the IP addresses of our new local DNS server.
-#+begin_note
+
+#+begin_leftnote
 - The number of nameservers allowed on =/etc/resolv.conf= are 3.\\
 - The first request are tried against the first nameserver, if the query was timed out, it will move to the next.\\
 - Each nameserver is tried 4 times.
-#+end_note
+#+end_leftnote
 
 #+begin_src sh
 sudo nmcli c mod eth0 ipv4.dns '10.10.0.2 10.10.0.3'
