@@ -236,10 +236,11 @@ zone "0.10.10.in-addr.arpa" {
 
 Our DNS records are stored in files that act as a database on the primary server and called the *Zones files*. The secondary server fetches this data regularly for consistency.\\
 
-As you can see from the zones configuration we used above, we ordered our server to fetch it's records data from =data/db.hl.test=.\\
 #+begin_leftnote
 Hence, the full path is =/var/named/data/db.hl.test=
 #+end_leftnote
+
+As you can see from the zones configuration we used above, we ordered our server to fetch it's records data from =data/db.hl.test=.\\
 Of course, this path is relative, because we mentioned the root directory in the main configuration above with =directory "/var/named"=\\
 
 

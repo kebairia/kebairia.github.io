@@ -109,11 +109,11 @@ The most important blocks that we are going to use here are the following:\\
 
 \\
 
-#+begin_note
+#+begin_leftnote
 Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X image.\\
+\\
 As noted in [[https://github.com/hashicorp/packer-plugin-qemu/issues/76][this issue]], adding the =-cpu host= flag to the =qemuargs= section can resolve this issue.\\
-#+end_note
-
+#+end_leftnote
 
 
 Alright, add the following to your =main.pkr.hcl= file.
@@ -252,9 +252,10 @@ echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
 # #+html: </details>
 
 * Shell script for Provisionning
-#+begin_note
+#+begin_leftnote
 The path of the shell script is =../scripts/configs.sh=
-#+end_note
+#+end_leftnote
+
 This is a basic [[(Execute shell scripts)][shell script]] that creates a file called =/etc/banner= with a greeting message, enable the =Banner= option and restarts the =sshd= service to apply the new configuration. \\
 Feel free to add any additional configuration you see fit.
 
@@ -356,105 +357,3 @@ After the ISO file is downloded, an interface will pop up from which you can fol
 ---
 
 Congratulations, you have built your first image using Packer!
-
-
-* COMMENT Building RockyLinux image
-* COMMENT Archived
-#+begin_comment
-First we need to define our variables first. After the plugin definition section, add the variables that you need
-#+begin_note
-For more information about Built-in block for Packer, check out the [[https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks][official documentation]]
-#+end_note
-
-
-#+name: variables.pkrs.hcl
-#+begin_src hcl
-variable "http_directory" {
-  type    = string
-  default = "./http"
-}
-variable "output_directory" {
-  type    = string
-  default = "./artifacts"
-}
-variable "vm_name" {
-  type    = string
-  default = "qemu_base-image.qcow2"
-}
-variable "format" {
-    type = string
-    default = "qcow2"
-}
-variable "accelerator" {
-    type = string
-    default = "kvm"
-}
-variable "headless" {
-    type = string
-    default = "false"
-}
-variable "net_device" {
-    type = string
-    default = "virtio-net"
-}
-variable "disk_interface" {
-    type = string
-    default = "virtio"
-}
-variable "disk_size" {
-    type = string
-    default = "25G"
-}
-variable "memory" {
-    type = string
-    default = "1024"
-}
-variable "cpus" {
-    type = string
-    default = "2"
-}
-variable "ssh_username" {
-    type = string
-    default = "admin"
-}
-variable "ssh_password" {
-    type = string
-    default = "admin"
-}
-variable "ssh_timeout" {
-    type = string
-    default = "60m"
-}
-
-variable "ssh_handshake_attempts" {
-    type = string
-    default = "1000"
-}
-variable "iso_url" {
-    type = string
-    default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso"
-}
-variable "iso_checksum" {
-    type = string
-    default = "sha256:750c373c3206ae79784e436cc94fffc122296cf1bf8129a427dcd6ba7fac5888"
-}
-variable "boot_wait" {
-    type = string
-    default = "5s"
-}
-variable "shutdown_command" {
-    type = string
-    default = "echo admin | sudo -S -E shutdown -P now"
-}
-variable "shell_scripts" {
-    type = string
-    default = "../scripts/configs.sh"
-}
-#+end_src
-
-To make use of these variables in our =main.pkr.hcl= file, we simply reference them using the syntax =var.<name of the variable>=.
-# Every Packer template is compose of three main components:
-# - The source section 
-# - The builder section 
-
-#+end_comment
