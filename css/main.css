@@ -58,7 +58,7 @@ header {
     padding-bottom: 60px;
 }
 .home:after{
-    content: "Zakaria Kebairia";
+    /*content: "Zakaria Kebairia";*/
     font-family: "Fantasque Sans Mono";
 }
 header > h4 > a.home img {
@@ -660,7 +660,7 @@ pre.src-hcl::before {
     float: right;
     clear: right;
     margin-right: -43%;
-    width: 350px;
+    width: 320px;
 }
 
 
