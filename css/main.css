@@ -407,7 +407,7 @@ code {
   font-family: var(--mono-font);
   font-size: 85%;
   font-weight: 300;
-  background-color: #ebebeb;
+  background-color: #fafafa;
   box-shadow: inset 0 -1.3px 0 #91959a;
   border-radius: 3px;
   border: 1px solid #91959a;
@@ -645,7 +645,7 @@ pre.src-hcl::before {
 /*Sidenote*/
 .leftnote,
 .rightnote {
-  margin-top: 0.3rem;
+  margin-top: 1.9rem;
   margin-bottom: 0;
   line-height: 1.3;
   vertical-align: baseline;
@@ -659,7 +659,7 @@ pre.src-hcl::before {
 .rightnote {
     float: right;
     clear: right;
-    margin-right: -39%;
+    margin-right: -43%;
     width: 300px;
 }
 
