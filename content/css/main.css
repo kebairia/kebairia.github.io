@@ -3,8 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 /* mono font*/
 @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
-@import  url('./note.css')
-@import url('./fonts')
 
 * {box-sizing: border-box}
 
@@ -103,21 +101,14 @@ header > h4 > a.resume img {
     position: relative;
     top: -0.2em;
     filter: invert(0.6);
-    padding-right: 15px;
-    padding-top: 1px;
+    padding-right: 14px;
+    padding-top: 0px;
 }
 header > h4 > a.resume img:hover {
     opacity: 1;
-    filter: invert(18%) sepia(120%) saturate(1085%) hue-rotate(220deg) contrast(58%);
+    filter: invert(0%) sepia(100%) saturate(50%) hue-rotate(130deg) contrast(50%);
 }
 
-
-.subtitle {
-      font-size: var(--subtitle-font-size);
-      color: var(--subtitle-color);
-      /*margin: 0; */
-      text-align: center;
-}
 /*}}}*/
 /*preamble and postamble {{{1*/
 
@@ -161,6 +152,14 @@ header > h4 > a.resume img:hover {
     text-align: center;
     padding-bottom: 7px;
 }
+
+
+.subtitle {
+      font-size: var(--subtitle-font-size);
+      color: var(--subtitle-color);
+      /*margin: 0; */
+      text-align: center;
+}
 /*}}}*/
 /*articles & paragraphs {{{1*/
 article {
@@ -173,10 +172,6 @@ a {
     /*transition: color 0.2s ease, border-color 0.4s ease;*/
 }
 
-a:hover {
-    /* color: #1481b8; */
-    /*border-bottom: solid 1px #dee9ed;*/
-}
 /*}}}*/
 /*Tables {{{1*/
 
@@ -198,6 +193,7 @@ table, th, td {
   padding-bottom: 10px;
   text-align: center;
   padding-bottom: 10pt;
+  justify-content: flex-end;
 }
 /*}}}*/
 /*tag {{{1*/
