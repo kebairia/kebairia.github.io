@@ -3,7 +3,7 @@
 # Author: Zakaria Kebairia
 # Email: 4.kebairia@gmail.com
 #
-# Description: 
+# Description:
 # This script updates the file modification time of all files in the ./content/ directory
 # based on their file name prefix (YYYY-MM-DD).
 
@@ -24,4 +24,3 @@ for file in "${content_dir}"*.org; do
         touch -t "${touch_date}" "${file}"
     fi
 done
-
