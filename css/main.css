@@ -16,7 +16,8 @@
     /*Colors: #f0eeed;  #fffff9;*/
   --background-color: #fefefe;
   --forground-color: #111111;
-  --blog-font: 'Gentium Plus', serif;
+  /* --blog-font: 'Gentium Plus', serif; */
+  --blog-font: source serif pro,serif;
   --mono-font: 'PT Mono', monospace;
   --blog-font-size: 14pt;
   --mono-font-size: 14pt;
