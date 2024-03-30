@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-03-30 Sat 13:02 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Generating A Self-Signed Certificate Using CFSSL</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Zakaria.K" />
+<link rel="stylesheet"href="css/main.css" type="text/css" />
+</head>
+<body>
+<div id="content">
+<h1 class="title">Generating A Self-Signed Certificate Using CFSSL
+<br />
+<span class="subtitle">How to Use Cloudflare's Toolkit for SSL</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org85d0295">1. Generating our Certificate authority</a></li>
+<li><a href="#org43459cb">2. Hosts certificates</a></li>
+<li><a href="#org3c6aef1">3. Check the certification</a></li>
+</ul>
+</div>
+</div>
+<p>
+I have a lot of services since I use my homelab for learning and also for my POCs (Proof of concepts) at work.
+</p>
+
+<p>
+For that, I need to issue multple ssl certificates during this process.
+Previously, I used to use <b>OpenSSL</b> to generate a Certificate authority (CA), which then I use to create my certificates for my services.
+</p>
+
+<p>
+Altought I love <code>openssl</code>, I find its usage to be notably cumbersome.
+</p>
+
+<p>
+I used to create a bash script so that I can give it a configuration-like file from where I generate all of my certificate, but this script kept growing and changing and sometimes fail according to the new situations that I find myself in during the learning process.
+</p>
+
+<p>
+Recently, I had the opportunity to explore <a href="https://github.com/cloudflare/cfssl">cfssl</a> toolkit from <a href="https://github.com/cloudflare/cfssl">Cloudflare</a> and I must say, it's quite impressive.
+it's significatly simplified the process of managing my SSL certificates
+</p>
+
+<div id="outline-container-org85d0295" class="outline-2">
+<h2 id="org85d0295"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+To get started with <code>cfssl</code>, we need to generate some configuration files.
+These are files contain all the necessary information we need for our Certificate Authority (CA)
+</p>
+
+<p>
+First, The certificate signing request, we will keep it simple.
+This file will be used to generate the CA certificate itself.
+Here I specified cryptographic algorithm used for our <b>CA</b> and additional metadata.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">cat ca-csr.json
+</pre>
+</div>
+
+<pre class="example">
+{
+  "CN": "Homelab CA",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "DZ",
+      "ST": "Algiers",
+      "L": "Kouba",
+      "O": "Homelab",
+      "OU": "Homelab Root CA"
+    }
+  ]
+}
+
+</pre>
+
+<p>
+Next, let's create another configuration files, we will use this configuratoin files when we try to generate our hosts certificates.
+These files include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh" id="orgb0db90d">cat config.json
+</pre>
+</div>
+
+<pre class="example">
+{
+  "signing": {
+    "default": {
+      "expiry": "87600h"
+    },
+    "profiles": {
+      "server": {
+        "usages": ["signing", "key encipherment", "digital signature", "server auth"],
+        "expiry": "8760h"
+      },
+      "client": {
+        "usages": ["signing", "digital signature", "client auth"],
+        "expiry": "8760h"
+      }
+    }
+  }
+}
+</pre>
+
+<p>
+Here I defined two profiles for both my servers and clients instances.
+A default configuration that sets the expiration of my Certificate Authority to 10 years
+</p>
+
+<p>
+Now let's generate our files
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+</pre>
+</div>
+
+<pre class="example">
+2024/03/23 12:55:08 [INFO] generating a new CA key and certificate from CSR
+2024/03/23 12:55:08 [INFO] generate received request
+2024/03/23 12:55:08 [INFO] received CSR
+2024/03/23 12:55:08 [INFO] generating key: rsa-2048
+2024/03/23 12:55:08 [INFO] encoded CSR
+2024/03/23 12:55:08 [INFO] signed certificate with serial number 504812531643523101727480645621690514375630374616
+</pre>
+
+
+<div class="leftnote">
+<p>
+You can use <code>-I</code> to ignore certain files, or a pattern of files from the ls output
+</p>
+
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sh">ls -lh -I <span style="font-style: italic;">"*.json"</span>
+</pre>
+</div>
+
+<pre class="example">
+total 24K
+-rw-r--r--. 1 admin admin 1017 Mar 23 12:55 ca.csr
+-rw-------. 1 admin admin 1.7K Mar 23 12:55 ca-key.pem
+-rw-r--r--. 1 admin admin 1.4K Mar 23 12:55 ca.pem
+</pre>
+
+
+<p>
+You can use <code>openssl</code> to consult our new generated files
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">openssl x509 -noout -text -in ca.pem | grep <span style="font-style: italic;">"CA:"</span>
+</pre>
+</div>
+
+<pre class="example">
+CA:TRUE
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org43459cb" class="outline-2">
+<h2 id="org43459cb"><span class="section-number-2">2</span> Hosts certificates</h2>
+<div class="outline-text-2" id="text-2">
+<div class="leftnote">
+<p>
+Certificate signing requests are essentially certificate sent to the Certificate Authority (CA) for it to sign and issue a certificate for our instance,<br />
+thereby authenticating and securing its identity.
+</p>
+
+</div>
+
+<p>
+Now, I'm ready to generate my host certificates, which also requires creating certificate signing requests (CSRs) as well.
+</p>
+
+<p>
+Below is how I create a certificate for my <b>GitLab</b> instance.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">cat git-csr.json
+</pre>
+</div>
+
+<pre class="example">
+{
+  "CN": "git.hl.test",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "DZ",
+      "ST": "Algiers",
+      "L": "Draria",
+      "O": "Homelab",
+      "OU": "Homelab Root CA"
+    }
+  ],
+  "hosts": [
+    "*.hl.test",
+    "git.hl.test",
+    "registry.git.hl.test"
+  ]
+}
+</pre>
+
+<p>
+Just like before, I specified the necessary information for the instance, with a notable addition which is the <code>hosts</code> section, where we can speicify the targeted hostnames and URLs requiring certificate recognition.
+</p>
+
+<p>
+For this example, here I need certificates for two services: the GitLab instance and its container registry.
+</p>
+
+<p>
+Now, let's proceed and generate the certificates. This process will produce both the certificate for <b>GitLab</b> and its associated private key.
+</p>
+
+<div class="leftnote">
+<p>
+In this step, I utilize the -profile option to specify the server profile created earlier in the certificate signing request configuration file. This ensures that the certificate is generated according to the specific requirements and settings defined for server instances.
+</p>
+
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sh">cfssl gencert -ca ca.pem -ca-key ca-key.pem -config config.json -profile server git-csr.json | cfssljson -bare git 2&gt;&amp;1
+</pre>
+</div>
+<pre class="example">
+2024/03/30 08:02:28 [INFO] generate received request
+2024/03/30 08:02:28 [INFO] received CSR
+2024/03/30 08:02:28 [INFO] generating key: rsa-2048
+2024/03/30 08:02:29 [INFO] encoded CSR
+2024/03/30 08:02:29 [INFO] signed certificate with serial number 30822132129223949217507870862884321398589294425
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-sh">ls -lh git*
+</pre>
+</div>
+
+<pre class="example">
+-rw-r--r--. 1 admin admin 1.1K Mar 30 08:02 git.csr
+-rw-r--r--. 1 admin admin  302 Mar 30 07:58 git-csr.json
+-rw-------. 1 admin admin 1.7K Mar 30 08:02 git-key.pem
+-rw-r--r--. 1 admin admin 1.5K Mar 30 08:02 git.pem
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3c6aef1" class="outline-2">
+<h2 id="org3c6aef1"><span class="section-number-2">3</span> Check the certification</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">openssl verify -CAfile ca.pem git.pem
+</pre>
+</div>
+
+<pre class="example">
+git.pem: OK
+</pre>
+
+
+<p>
+This indicates that the GitLab certificate has been correctly signed by our CA, establishing a trustworthy connection based on the CA's authority.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+<p class="postamble"> 
+
+<a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+<img src="img/crc.png" alt="Creative Commons License" title="Creative Commons License" />
+
+<a href="https://www.linkedin.com/in/zakaria-kebairia/" title="LinkedIn account" class="social">
+<img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn Account" />
+</a>
+
+<a href="https://twitter.com/z_kebairia" title="Twitter Account" class="social">
+<img src="img/social/twitter-logo.svg" width="40" alt="Twitter Account" /> </a>
+
+<a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" title="Youtube Account" class="social">
+<img src="img/social/youtube-black-logo.svg" width="40" alt="Youtube Account" /> </a>
+
+<a href="https://www.github.com/kebairia" title="GitHub Account" class="social">
+<img src="img/social/github.svg" width="43" alt="GitHub Account" /> </a>
+
+<br>
+
+<p class="credit">
+Copyright &copy  2023 Zakaria Kebairia
+<br>
+Content licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+
+</p>
+</div>
+</body>
+</html>
