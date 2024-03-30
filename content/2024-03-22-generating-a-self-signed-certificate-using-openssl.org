@@ -1,0 +1,206 @@
+#+TITLE: Generating A Self-Signed Certificate Using CFSSL
+#+SUBTITLE: How to Use Cloudflare's Toolkit for SSL
+#+AUTHOR: Zakaria.K
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 22 March 2024
+#+OPTIONS: html5-fancy:t tex:t
+#+STARTUP: show2levels indent hidestars
+#+PROPERTY: header-args:sh :results output :exports both :dir /ssh:admin1:/home/admin/cfssl-blog/
+#+KEYWORDS:
+
+
+In my homelab, which serves both as a learning environment and as a platform for developing Proof of Concepts (POCs) for work, I frequently need to manage a variety of services. This requires the issuance of multiple SSL certificates.
+
+Previously, I relied on *OpenSSL* for generating a Certificate Authority (CA), which I then used to issue certificates for my services
+
+Altought I love =openssl=, I find its usage to be notably cumbersome.
+
+To streamline the process, I created a Bash script that could read a configuration-like file, but this script kept growing and changing and sometimes fail according to the new situations that I find myself in during the learning process.
+
+Recently, I had the opportunity to explore [[https://github.com/cloudflare/cfssl][cfssl]] toolkit from [[https://github.com/cloudflare/cfssl][Cloudflare]] and I must say, it's quite impressive.
+
+it's significatly simplified the process of managing my SSL certificates.
+
+* Generating our Certificate authority
+To get started with =cfssl=, we need to generate some configuration files.
+These are files contain all the necessary information we need for our Certificate Authority (CA)
+
+First, The certificate signing request, we will keep it simple.
+
+This file will be used to generate the CA certificate itself.
+Here I specified cryptographic algorithm used for our *CA* and additional metadata.
+
+#+begin_src sh
+cat ca-csr.json
+#+end_src
+
+#+RESULTS:
+#+begin_example
+{
+  "CN": "Homelab CA",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "DZ",
+      "ST": "Algiers",
+      "L": "Kouba",
+      "O": "Homelab",
+      "OU": "Homelab Root CA"
+    }
+  ]
+}
+
+#+end_example
+
+Next, let's create another configuration file, we will use this configuratoin files when we try to generate our hosts certificates.
+This file include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
+#+name: config.json
+#+begin_src sh
+cat config.json
+#+end_src
+
+#+RESULTS:
+#+begin_example
+{
+  "signing": {
+    "default": {
+      "expiry": "87600h"
+    },
+    "profiles": {
+      "server": {
+        "usages": ["signing", "key encipherment", "digital signature", "server auth"],
+        "expiry": "8760h"
+      },
+      "client": {
+        "usages": ["signing", "digital signature", "client auth"],
+        "expiry": "8760h"
+      }
+    }
+  }
+}
+#+end_example
+
+Here I defined two profiles for both my servers and clients instances, and default configuration that sets the expiration of my Certificate Authority to 10 years
+
+Now let's generate our files
+#+begin_src sh :results none
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+#+end_src
+
+#+RESULTS:
+: 2024/03/23 12:55:08 [INFO] generating a new CA key and certificate from CSR
+: 2024/03/23 12:55:08 [INFO] generate received request
+: 2024/03/23 12:55:08 [INFO] received CSR
+: 2024/03/23 12:55:08 [INFO] generating key: rsa-2048
+: 2024/03/23 12:55:08 [INFO] encoded CSR
+: 2024/03/23 12:55:08 [INFO] signed certificate with serial number 504812531643523101727480645621690514375630374616
+
+#+begin_leftnote
+You can use =-I= to ignore certain files, or a pattern of files from the =ls= output
+#+end_leftnote
+
+#+begin_src sh
+ls -lh -I "*.json"
+#+end_src
+
+#+RESULTS:
+: total 24K
+: -rw-r--r--. 1 admin admin 1017 Mar 23 12:55 ca.csr
+: -rw-------. 1 admin admin 1.7K Mar 23 12:55 ca-key.pem
+: -rw-r--r--. 1 admin admin 1.4K Mar 23 12:55 ca.pem
+
+You can use =openssl= to consult our new generated files
+#+begin_src sh 
+openssl x509 -noout -text -in ca.pem | grep "CA:"
+#+end_src
+
+#+RESULTS:
+:                 CA:TRUE
+
+* Hosts certificates
+
+#+begin_leftnote
+Certificate signing requests are essentially certificates sent to the Certificate Authority (CA) for it to sign and issue a certificate for our instance,\\
+thereby authenticating and securing its identity.
+#+end_leftnote
+
+Now, I'm ready to generate my host certificates, which also requires creating certificate signing requests (CSRs) as well.
+
+Below is how I created a certificate for my *GitLab* instance.
+
+#+begin_src sh
+cat git-csr.json
+#+end_src
+
+#+RESULTS:
+#+begin_example
+{
+  "CN": "git.hl.test",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "DZ",
+      "ST": "Algiers",
+      "L": "Draria",
+      "O": "Homelab",
+      "OU": "Homelab Root CA"
+    }
+  ],
+  "hosts": [
+    "*.hl.test",
+    "git.hl.test",
+    "registry.git.hl.test"
+  ]
+}
+#+end_example
+
+Just like before, I specified the necessary information for the instance, with a notable addition which is the =hosts= section, where we can speicify the targeted hostnames and URLs requiring certificate recognition.
+
+For this example, here I need certificates for two services: the GitLab instance and its container registry.
+
+Now, let's proceed and generate the certificates. This process will produce both the certificate for *GitLab* and its associated private key.
+
+#+begin_leftnote
+In this step, I utilize the =-profile= option to specify the server profile created earlier in the certificate signing request configuration file.\\
+This ensures that the certificate is generated according to the specific requirements and settings defined for server instances.
+#+end_leftnote
+
+#+begin_src sh
+cfssl gencert -ca ca.pem -ca-key ca-key.pem -config config.json -profile server git-csr.json | cfssljson -bare git 2>&1
+#+end_src
+#+begin_example
+2024/03/30 08:02:28 [INFO] generate received request
+2024/03/30 08:02:28 [INFO] received CSR
+2024/03/30 08:02:28 [INFO] generating key: rsa-2048
+2024/03/30 08:02:29 [INFO] encoded CSR
+2024/03/30 08:02:29 [INFO] signed certificate with serial number 30822132129223949217507870862884321398589294425
+#+end_example
+
+#+begin_src sh
+ls -lh git*
+#+end_src
+
+#+RESULTS:
+: -rw-r--r--. 1 admin admin 1.1K Mar 30 08:02 git.csr
+: -rw-r--r--. 1 admin admin  302 Mar 30 07:58 git-csr.json
+: -rw-------. 1 admin admin 1.7K Mar 30 08:02 git-key.pem
+: -rw-r--r--. 1 admin admin 1.5K Mar 30 08:02 git.pem
+
+* Check the certification
+
+Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:
+
+#+begin_src sh
+openssl verify -CAfile ca.pem git.pem
+#+end_src
+
+#+RESULTS:
+: git.pem: OK
+
+This indicates that the GitLab certificate has been correctly signed by our CA, establishing a trustworthy connection based on the CA's authority.

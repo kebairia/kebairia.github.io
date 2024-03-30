@@ -11,8 +11,6 @@
 Date: {{{date}}}
 #+end_date
 
-
-
 In this blog post, I will present the latest release of *kvmcli*, kvmcli version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, *kvmcli 1.0*.
 
 * Improvements and Features in v0.9
