@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-30 Sat 13:31 -->
+<!-- 2024-03-30 Sat 14:31 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building a Homelab with KVM and Kubernetes</title>
@@ -22,9 +22,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org7802f93">1. Introduction</a></li>
-<li><a href="#orgea4a6ae">2. Architecture</a></li>
-<li><a href="#org54b0f6b">3. VM Setup Guides</a></li>
+<li><a href="#orge784c7b">1. Introduction</a></li>
+<li><a href="#orgf6e2817">2. Architecture</a></li>
+<li><a href="#org3f59025">3. VM Setup Guides</a></li>
 </ul>
 </div>
 </div>
@@ -34,8 +34,8 @@ Date: 06 April 2023
 </p>
 
 </div>
-<div id="outline-container-org7802f93" class="outline-2">
-<h2 id="org7802f93"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orge784c7b" class="outline-2">
+<h2 id="orge784c7b"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm planning to build a homelab for the purpose of learning and experimenting. This lab will utilize containers and, if necessary, virtual machines (VMs). It will serve as a personal playground where I can explore and test various technologies.
@@ -63,8 +63,8 @@ A significant portion of the services I require will be based on Kubernetes.</li
 </div>
 
 
-<div id="outline-container-orgea4a6ae" class="outline-2">
-<h2 id="orgea4a6ae"><span class="section-number-2">2</span> Architecture</h2>
+<div id="outline-container-orgf6e2817" class="outline-2">
+<h2 id="orgf6e2817"><span class="section-number-2">2</span> Architecture</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 For a quick summary of the cluster details, please refer to the table below.
@@ -231,8 +231,8 @@ I will be keeping the list of blog posts below up-to-date with each new article 
 </div>
 </div>
 </div>
-<div id="outline-container-org54b0f6b" class="outline-2">
-<h2 id="org54b0f6b"><span class="section-number-2">3</span> VM Setup Guides</h2>
+<div id="outline-container-org3f59025" class="outline-2">
+<h2 id="org3f59025"><span class="section-number-2">3</span> VM Setup Guides</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
