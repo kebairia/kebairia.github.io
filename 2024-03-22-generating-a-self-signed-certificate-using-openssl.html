@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-30 Sat 13:28 -->
+<!-- 2024-03-30 Sat 13:30 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Generating A Self-Signed Certificate Using CFSSL</title>
@@ -54,8 +54,8 @@ Recently, I had the opportunity to explore <a href="https://github.com/cloudflar
 it's significatly simplified the process of managing my SSL certificates.
 </p>
 
-<div id="outline-container-orgbd3d09d" class="outline-2">
-<h2 id="orgbd3d09d"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
+<div id="outline-container-orgbe6fe8c" class="outline-2">
+<h2 id="orgbe6fe8c"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 To get started with <code>cfssl</code>, we need to generate some configuration files.
@@ -101,7 +101,7 @@ Next, let's create another configuration file, we will use this configuratoin fi
 This file include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org1ea707e">cat config.json
+<pre class="src src-sh" id="orgc3f1c7b">cat config.json
 </pre>
 </div>
 
@@ -181,12 +181,12 @@ CA:TRUE
 </div>
 </div>
 
-<div id="outline-container-org8ef757c" class="outline-2">
-<h2 id="org8ef757c"><span class="section-number-2">2</span> Hosts certificates</h2>
+<div id="outline-container-org972dc43" class="outline-2">
+<h2 id="org972dc43"><span class="section-number-2">2</span> Hosts certificates</h2>
 <div class="outline-text-2" id="text-2">
 <div class="leftnote">
 <p>
-Certificate signing requests are essentially certificate sent to the Certificate Authority (CA) for it to sign and issue a certificate for our instance,<br />
+Certificate signing requests are essentially certificates sent to the Certificate Authority (CA) for it to sign and issue a certificate for our instance,<br />
 thereby authenticating and securing its identity.
 </p>
 
@@ -197,7 +197,7 @@ Now, I'm ready to generate my host certificates, which also requires creating ce
 </p>
 
 <p>
-Below is how I create a certificate for my <b>GitLab</b> instance.
+Below is how I created a certificate for my <b>GitLab</b> instance.
 </p>
 
 <div class="org-src-container">
@@ -274,8 +274,8 @@ In this step, I utilize the -profile option to specify the server profile create
 </div>
 </div>
 
-<div id="outline-container-orga32ff47" class="outline-2">
-<h2 id="orga32ff47"><span class="section-number-2">3</span> Check the certification</h2>
+<div id="outline-container-orgec6b355" class="outline-2">
+<h2 id="orgec6b355"><span class="section-number-2">3</span> Check the certification</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:
