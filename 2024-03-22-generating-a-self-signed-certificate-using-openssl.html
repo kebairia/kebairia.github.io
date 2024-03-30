@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-30 Sat 13:30 -->
+<!-- 2024-03-30 Sat 13:31 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Generating A Self-Signed Certificate Using CFSSL</title>
@@ -54,8 +54,8 @@ Recently, I had the opportunity to explore <a href="https://github.com/cloudflar
 it's significatly simplified the process of managing my SSL certificates.
 </p>
 
-<div id="outline-container-org5687385" class="outline-2">
-<h2 id="org5687385"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
+<div id="outline-container-org4bcb184" class="outline-2">
+<h2 id="org4bcb184"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 To get started with <code>cfssl</code>, we need to generate some configuration files.
@@ -101,7 +101,7 @@ Next, let's create another configuration file, we will use this configuratoin fi
 This file include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org0617922">cat config.json
+<pre class="src src-sh" id="orgffbce66">cat config.json
 </pre>
 </div>
 
@@ -181,8 +181,8 @@ CA:TRUE
 </div>
 </div>
 
-<div id="outline-container-org7ffb7f1" class="outline-2">
-<h2 id="org7ffb7f1"><span class="section-number-2">2</span> Hosts certificates</h2>
+<div id="outline-container-orgcbb440e" class="outline-2">
+<h2 id="orgcbb440e"><span class="section-number-2">2</span> Hosts certificates</h2>
 <div class="outline-text-2" id="text-2">
 <div class="leftnote">
 <p>
@@ -243,7 +243,7 @@ Now, let's proceed and generate the certificates. This process will produce both
 
 <div class="leftnote">
 <p>
-In this step, I utilize the -profile option to specify the server profile created earlier in the certificate signing request configuration file. This ensures that the certificate is generated according to the specific requirements and settings defined for server instances.
+In this step, I utilize the <code>-profile</code> option to specify the server profile created earlier in the certificate signing request configuration file. This ensures that the certificate is generated according to the specific requirements and settings defined for server instances.
 </p>
 
 </div>
@@ -274,8 +274,8 @@ In this step, I utilize the -profile option to specify the server profile create
 </div>
 </div>
 
-<div id="outline-container-orgf822975" class="outline-2">
-<h2 id="orgf822975"><span class="section-number-2">3</span> Check the certification</h2>
+<div id="outline-container-orga123b85" class="outline-2">
+<h2 id="orga123b85"><span class="section-number-2">3</span> Check the certification</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:
