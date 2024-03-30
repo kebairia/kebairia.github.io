@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-30 Sat 13:02 -->
+<!-- 2024-03-30 Sat 13:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Generating A Self-Signed Certificate Using CFSSL</title>
@@ -31,12 +31,11 @@
 <span class="subtitle">How to Use Cloudflare's Toolkit for SSL</span>
 </h1>
 <p>
-I have a lot of services since I use my homelab for learning and also for my POCs (Proof of concepts) at work.
+In my homelab, which serves both as a learning environment and as a platform for developing Proof of Concepts (POCs) for work, I frequently need to manage a variety of services. This requires the issuance of multiple SSL certificates.
 </p>
 
 <p>
-For that, I need to issue multple ssl certificates during this process.
-Previously, I used to use <b>OpenSSL</b> to generate a Certificate authority (CA), which then I use to create my certificates for my services.
+Previously, I relied on <b>OpenSSL</b> for generating a Certificate Authority (CA), which I then used to issue certificates for my services
 </p>
 
 <p>
@@ -44,16 +43,16 @@ Altought I love <code>openssl</code>, I find its usage to be notably cumbersome.
 </p>
 
 <p>
-I used to create a bash script so that I can give it a configuration-like file from where I generate all of my certificate, but this script kept growing and changing and sometimes fail according to the new situations that I find myself in during the learning process.
+To streamline the process, I created a Bash script that could read a configuration-like file, but this script kept growing and changing and sometimes fail according to the new situations that I find myself in during the learning process.
 </p>
 
 <p>
 Recently, I had the opportunity to explore <a href="https://github.com/cloudflare/cfssl">cfssl</a> toolkit from <a href="https://github.com/cloudflare/cfssl">Cloudflare</a> and I must say, it's quite impressive.
-it's significatly simplified the process of managing my SSL certificates
+it's significatly simplified the process of managing my SSL certificates.
 </p>
 
-<div id="outline-container-org7d17134" class="outline-2">
-<h2 id="org7d17134"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
+<div id="outline-container-org08c1af8" class="outline-2">
+<h2 id="org08c1af8"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 To get started with <code>cfssl</code>, we need to generate some configuration files.
@@ -96,7 +95,7 @@ Next, let's create another configuration files, we will use this configuratoin f
 These files include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org33e10bf">cat config.json
+<pre class="src src-sh" id="org75c3e1d">cat config.json
 </pre>
 </div>
 
@@ -177,8 +176,8 @@ CA:TRUE
 </div>
 </div>
 
-<div id="outline-container-org477b4f8" class="outline-2">
-<h2 id="org477b4f8"><span class="section-number-2">2</span> Hosts certificates</h2>
+<div id="outline-container-orgb69440a" class="outline-2">
+<h2 id="orgb69440a"><span class="section-number-2">2</span> Hosts certificates</h2>
 <div class="outline-text-2" id="text-2">
 <div class="leftnote">
 <p>
@@ -270,8 +269,8 @@ In this step, I utilize the -profile option to specify the server profile create
 </div>
 </div>
 
-<div id="outline-container-org8a4cae4" class="outline-2">
-<h2 id="org8a4cae4"><span class="section-number-2">3</span> Check the certification</h2>
+<div id="outline-container-org6e62513" class="outline-2">
+<h2 id="org6e62513"><span class="section-number-2">3</span> Check the certification</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:
