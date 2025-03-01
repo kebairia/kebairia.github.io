@@ -16,9 +16,9 @@ In this blog post, I will present the latest release of *kvmcli*, kvmcli version
 * Improvements and Features in v0.9
 *kvmcli v0.9* introduces the following features and improvements:
 ** Multiprocessing
-#+begin_leftnote
+#+begin_note
 As you can already guessed, sequential provisioning is not efficient for this use case.
-#+end_leftnote
+#+end_note
 To enhance the performance of the provisioning process, *kvmcli* now utilizes multiprocessing.
 This is particularly useful for provisioning a large number of virtual machines across several clusters (each containing 10 to 20 virtual machines for example).
 
@@ -38,9 +38,9 @@ fork = 5
 In the example above, I instructed *kvmcli* to launch five independent processes to provision my cluster. If I set =fork = 0=, *kvmcli* will use a number of processes equal to the number of cores in my computer.
 
 ** New option =kvmcli --init=
-#+begin_leftnote
+#+begin_note
 or =kvmcli -I=
-#+end_leftnote
+#+end_note
 A new option, =kvmcli --init=, has being added. This option enables users to create a cluster template. The contents of the template is stored in a YAML file.
 
 A new configuration key allows for the specification of the template's name.

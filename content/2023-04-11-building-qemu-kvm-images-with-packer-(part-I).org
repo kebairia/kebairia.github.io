@@ -109,11 +109,11 @@ The most important blocks that we are going to use here are the following:\\
 
 \\
 
-#+begin_leftnote
+#+begin_note
 Recently, a kernel panic has occurred while attempting to build a RockyLinux9.X image.\\
 \\
 As noted in [[https://github.com/hashicorp/packer-plugin-qemu/issues/76][this issue]], adding the =-cpu host= flag to the =qemuargs= section can resolve this issue.\\
-#+end_leftnote
+#+end_note
 
 
 Alright, add the following to your =main.pkr.hcl= file.
@@ -252,9 +252,9 @@ echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
 # #+html: </details>
 
 * Shell script for Provisionning
-#+begin_leftnote
+#+begin_note
 The path of the shell script is =../scripts/configs.sh=
-#+end_leftnote
+#+end_note
 
 This is a basic [[(Execute shell scripts)][shell script]] that creates a file called =/etc/banner= with a greeting message, enable the =Banner= option and restarts the =sshd= service to apply the new configuration. \\
 Feel free to add any additional configuration you see fit.

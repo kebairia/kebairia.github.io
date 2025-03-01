@@ -24,9 +24,6 @@
 :root {
   /* Color scheme */
   --background-color: #fefefe;
-  --foreground-color: #111111;
-
-  /* Fonts */
   --blog-font: "Source Serif Pro", serif;
   --mono-font: "PT Mono", monospace;
 
@@ -194,7 +191,7 @@ body {
 }
 
 body {
-  font-family: "Source Serif Pro", serif;
+  font-family: var(--blog-font), serif;
   max-width: 800px;
   margin: 40px auto;
   font-size: 0.93rem;
@@ -223,6 +220,11 @@ h3 {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   hyphens: none;
+}
+.highlight {
+  background-color: #f3f3f3;
+  padding: 5px 10px;
+  border-radius: 3px;
 }
 
 p {
@@ -268,29 +270,6 @@ pre {
   overflow: auto;
 }
 
-.footer-nav ul {
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-.footer-nav ul li {
-  list-style-type: none;
-  margin: auto 10px;
-}
-
-footer {
-  margin: 2em 0;
-  padding: 2em 0;
-  background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.25),
-      rgba(0, 0, 0, 0.125),
-      rgba(0, 0, 0, 0.25)
-    )
-    no-repeat 50% 1em/100% 1px;
-}
-
 .summary {
   margin: 5px auto;
 }
@@ -326,8 +305,8 @@ sub {
 /* } */
 
 /* Sidenote Styling */
-.leftnote,
-.rightnote {
+.note {
+  font-family: "Source Serif Pro";
   margin-top: 1.9rem;
   margin-bottom: 0;
   font-size: 77%;
@@ -335,20 +314,10 @@ sub {
   position: relative;
   vertical-align: baseline;
   padding-bottom: 0.25em;
-}
-
-.leftnote {
   float: left;
   clear: left;
   margin-left: -300px;
   width: 240px; /* Assuming you want to maintain the width as in the general rule */
-}
-
-.rightnote {
-  float: right;
-  clear: right;
-  margin-right: -43%;
-  width: 320px;
 }
 
 footer {
@@ -363,24 +332,16 @@ footer {
     no-repeat 50% 1em / 100% 1px;
 }
 
-.social {
-  float: left;
-  position: relative;
-  padding-right: 17.5px;
-  /*padding-left: 0px;*/
-  /*padding-top: 10px;*/
-}
-
 /* Code {{{1*/
 /* Code block styling */
 code {
   font-family: var(--mono-font);
   font-size: 85%;
   font-weight: 300;
-  background-color: #fafafa;
-  box-shadow: inset 0 -1.3px 0 #91959a;
+  background-color: #eaeaea;
+  /* box-shadow: inset 0 -10.3px 0 #91959a; */
   border-radius: 3px;
-  border: 1px solid #91959a;
+  /* border: 1px solid #91959a; */
   padding: 0 5px;
   width: 200px;
   height: 88px;
@@ -430,13 +391,12 @@ pre.example {
   padding-left: 15px;
   font-family: var(--mono-font);
   font-size: 14px;
-  line-height: 1.9;
+  line-height: 1.6;
   overflow-x: visible;
   box-shadow: none;
   white-space: pre-wrap;
   position: relative;
 }
-
 pre.example {
   border-left-style: dotted;
   border-left-width: 2px;
@@ -447,7 +407,7 @@ pre.src::before {
   position: absolute;
   background-color: transparent;
   top: unset;
-  /*bottom: -16px;*/
+  bottom: -16px;
   right: 20px;
   padding: 0px;
   border: none;

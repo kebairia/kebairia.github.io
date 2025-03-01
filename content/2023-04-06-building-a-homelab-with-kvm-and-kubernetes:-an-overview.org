@@ -85,9 +85,9 @@ While the other 3 as worker nodes =10.10.0.31-33=.
 
 
 This was an overview of my homelab plan. In the following blog posts I will provide detailed setup and configuration guides for each component of the homelab.
-#+begin_leftnote
+#+begin_note
 I will be keeping the list of blog posts below up-to-date with each new article related to this homelab that I publish on my blog.
-#+end_leftnote
+#+end_note
 * VM Setup Guides
 This was an overview of my homelab plan. The links below provide detailed setup and configuration guides for each component of the homelab.
 - Admins

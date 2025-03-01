@@ -98,9 +98,9 @@ cfssl gencert -initca ca-csr.json | cfssljson -bare ca
 : 2024/03/23 12:55:08 [INFO] encoded CSR
 : 2024/03/23 12:55:08 [INFO] signed certificate with serial number 504812531643523101727480645621690514375630374616
 
-#+begin_leftnote
+#+begin_note
 You can use =-I= to ignore certain files, or a pattern of files from the =ls= output
-#+end_leftnote
+#+end_note
 
 #+begin_src sh
 ls -lh -I "*.json"
@@ -122,10 +122,10 @@ openssl x509 -noout -text -in ca.pem | grep "CA:"
 
 * Hosts certificates
 
-#+begin_leftnote
+#+begin_note
 Certificate signing requests are essentially certificates sent to the Certificate Authority (CA) for it to sign and issue a certificate for our instance,\\
 thereby authenticating and securing its identity.
-#+end_leftnote
+#+end_note
 
 Now, I'm ready to generate my host certificates, which also requires creating certificate signing requests (CSRs) as well.
 
@@ -166,10 +166,10 @@ For this example, here I need certificates for two services: the GitLab instance
 
 Now, let's proceed and generate the certificates. This process will produce both the certificate for *GitLab* and its associated private key.
 
-#+begin_leftnote
+#+begin_note
 In this step, I utilize the =-profile= option to specify the server profile created earlier in the certificate signing request configuration file.\\
 This ensures that the certificate is generated according to the specific requirements and settings defined for server instances.
-#+end_leftnote
+#+end_note
 
 #+begin_src sh
 cfssl gencert -ca ca.pem -ca-key ca-key.pem -config config.json -profile server git-csr.json | cfssljson -bare git 2>&1

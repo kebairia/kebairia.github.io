@@ -11,6 +11,10 @@
 Date: {{{date}}}
 #+end_date
 
+#+begin_note
+entr: Stands for *Event Notify Test Runner*.
+#+end_note
+
 Long ago, I came across a tool called [[http://eradman.com/entrproject/][entr]], and it's a pretty cool program actually.
 What it does is really simple, but yet powerful, it let you run any arbitrary set of commands when a specific files changes.\\
 
@@ -26,9 +30,9 @@ i made automatically.
 I can think of numerous use cases and scenarios in which this utility may be quite useful, but for the time being,
 I'm integrating it into my blog writing workflow.
 
-#+begin_leftnote
+#+begin_note
 [[https://orgmode.org/][org mode]] is a markdown language and a major mode for Emacs
-#+end_leftnote
+#+end_note
 
 Before i publish any blog online, I use a small local web server to see the output result locally .
 Of course I use Emacs and [[https://orgmode.org/][org mode]] to create my own blog posts, and I use another Emacs package called 
