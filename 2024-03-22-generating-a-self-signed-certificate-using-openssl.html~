@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-30 Sat 14:31 -->
+<!-- 2025-03-05 Wed 11:41 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Generating A Self-Signed Certificate Using CFSSL</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Zakaria.K" />
-<link rel="stylesheet"href="css/main.css" type="text/css" />
+<link rel="stylesheet" href="css/main.css" type="text/css" />
 </head>
 <body>
 <div id="content">
@@ -21,9 +21,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org299de23">1. Generating our Certificate authority</a></li>
-<li><a href="#orgad0c21f">2. Hosts certificates</a></li>
-<li><a href="#org3298e27">3. Check the certification</a></li>
+<li><a href="#orgecba9d6">1. Generating our Certificate authority</a></li>
+<li><a href="#org34351b2">2. Hosts certificates</a></li>
+<li><a href="#org6bf51bd">3. Check the certification</a></li>
 </ul>
 </div>
 </div>
@@ -51,8 +51,8 @@ Recently, I had the opportunity to explore <a href="https://github.com/cloudflar
 it's significatly simplified the process of managing my SSL certificates.
 </p>
 
-<div id="outline-container-org299de23" class="outline-2">
-<h2 id="org299de23"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
+<div id="outline-container-orgecba9d6" class="outline-2">
+<h2 id="orgecba9d6"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 To get started with <code>cfssl</code>, we need to generate some configuration files.
@@ -98,7 +98,7 @@ Next, let's create another configuration file, we will use this configuratoin fi
 This file include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org078446d">cat config.json
+<pre class="src src-sh" id="org486e62e">cat config.json
 </pre>
 </div>
 
@@ -144,7 +144,7 @@ Now let's generate our files
 </pre>
 
 
-<div class="leftnote">
+<div class="note">
 <p>
 You can use <code>-I</code> to ignore certain files, or a pattern of files from the <code>ls</code> output
 </p>
@@ -178,10 +178,10 @@ CA:TRUE
 </div>
 </div>
 
-<div id="outline-container-orgad0c21f" class="outline-2">
-<h2 id="orgad0c21f"><span class="section-number-2">2</span> Hosts certificates</h2>
+<div id="outline-container-org34351b2" class="outline-2">
+<h2 id="org34351b2"><span class="section-number-2">2</span> Hosts certificates</h2>
 <div class="outline-text-2" id="text-2">
-<div class="leftnote">
+<div class="note">
 <p>
 Certificate signing requests are essentially certificates sent to the Certificate Authority (CA) for it to sign and issue a certificate for our instance,<br />
 thereby authenticating and securing its identity.
@@ -238,7 +238,7 @@ For this example, here I need certificates for two services: the GitLab instance
 Now, let's proceed and generate the certificates. This process will produce both the certificate for <b>GitLab</b> and its associated private key.
 </p>
 
-<div class="leftnote">
+<div class="note">
 <p>
 In this step, I utilize the <code>-profile</code> option to specify the server profile created earlier in the certificate signing request configuration file.<br />
 This ensures that the certificate is generated according to the specific requirements and settings defined for server instances.
@@ -272,8 +272,8 @@ This ensures that the certificate is generated according to the specific require
 </div>
 </div>
 
-<div id="outline-container-org3298e27" class="outline-2">
-<h2 id="org3298e27"><span class="section-number-2">3</span> Check the certification</h2>
+<div id="outline-container-org6bf51bd" class="outline-2">
+<h2 id="org6bf51bd"><span class="section-number-2">3</span> Check the certification</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:
@@ -297,31 +297,34 @@ This indicates that the GitLab certificate has been correctly signed by our CA, 
 </div>
 <div id="postamble" class="status">
 
-<p class="postamble"> 
+<p class="postamble">
+  <a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+    <img src="img/crc.png" alt="Creative Commons License" />
+  </a>
 
-<a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
-<img src="img/crc.png" alt="Creative Commons License" title="Creative Commons License" />
+  <a href="https://www.linkedin.com/in/zakaria-kebairia/" class="social">
+    <img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn" />
+  </a>
 
-<a href="https://www.linkedin.com/in/zakaria-kebairia/" title="LinkedIn account" class="social">
-<img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn Account" />
-</a>
+  <a href="https://twitter.com/z_kebairia" class="social">
+    <img src="img/social/twitter-logo.svg" width="40" alt="Twitter" />
+  </a>
 
-<a href="https://twitter.com/z_kebairia" title="Twitter Account" class="social">
-<img src="img/social/twitter-logo.svg" width="40" alt="Twitter Account" /> </a>
+  <a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" class="social">
+    <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
+  </a>
 
-<a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" title="Youtube Account" class="social">
-<img src="img/social/youtube-black-logo.svg" width="40" alt="Youtube Account" /> </a>
+  <a href="https://www.github.com/kebairia" class="social">
+    <img src="img/social/github.svg" width="43" alt="GitHub" />
+  </a>
 
-<a href="https://www.github.com/kebairia" title="GitHub Account" class="social">
-<img src="img/social/github.svg" width="43" alt="GitHub Account" /> </a>
+  <br>
 
-<br>
-
-<p class="credit">
-Copyright &copy  2023 Zakaria Kebairia
-<br>
-Content licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
-
+  <p class="credit">
+    Copyright &copy; 2025 Zakaria Kebairia
+    <br>
+    Content licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+  </p>
 </p>
 </div>
 </body>

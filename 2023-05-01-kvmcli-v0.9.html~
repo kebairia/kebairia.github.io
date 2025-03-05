@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-30 Sat 14:31 -->
+<!-- 2025-03-05 Wed 11:41 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kvmcli V0.9</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Zakaria.K" />
-<link rel="stylesheet"href="css/main.css" type="text/css" />
+<link rel="stylesheet" href="css/main.css" type="text/css" />
 </head>
 <body>
 <div id="content">
@@ -21,13 +21,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org18780bb">1. Improvements and Features in v0.9</a>
+<li><a href="#orgd855855">1. Improvements and Features in v0.9</a>
 <ul>
-<li><a href="#orgda36b65">1.1. Multiprocessing</a></li>
-<li><a href="#org9e89f94">1.2. New option <code>kvmcli --init</code></a></li>
+<li><a href="#org1ad7781">1.1. Multiprocessing</a></li>
+<li><a href="#org131ac33">1.2. New option <code>kvmcli --init</code></a></li>
 </ul>
 </li>
-<li><a href="#org5310366">2. Other improvements</a></li>
+<li><a href="#org6599b7e">2. Other improvements</a></li>
 </ul>
 </div>
 </div>
@@ -42,17 +42,17 @@ Date: 01 May 2023
 In this blog post, I will present the latest release of <b>kvmcli</b>, kvmcli version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, <b>kvmcli 1.0</b>.
 </p>
 
-<div id="outline-container-org18780bb" class="outline-2">
-<h2 id="org18780bb"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
+<div id="outline-container-orgd855855" class="outline-2">
+<h2 id="orgd855855"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b>kvmcli v0.9</b> introduces the following features and improvements:
 </p>
 </div>
-<div id="outline-container-orgda36b65" class="outline-3">
-<h3 id="orgda36b65"><span class="section-number-3">1.1</span> Multiprocessing</h3>
+<div id="outline-container-org1ad7781" class="outline-3">
+<h3 id="org1ad7781"><span class="section-number-3">1.1</span> Multiprocessing</h3>
 <div class="outline-text-3" id="text-1-1">
-<div class="leftnote">
+<div class="note">
 <p>
 As you can already guessed, sequential provisioning is not efficient for this use case.
 </p>
@@ -74,7 +74,7 @@ Here's an example of how to set the <code>fork</code> value in the configuration
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml" id="org9160c18">
+<pre class="src src-toml" id="org9a46556">
 [misc]
 fork = 5
 </pre>
@@ -86,10 +86,10 @@ In the example above, I instructed <b>kvmcli</b> to launch five independent proc
 </div>
 </div>
 
-<div id="outline-container-org9e89f94" class="outline-3">
-<h3 id="org9e89f94"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
+<div id="outline-container-org131ac33" class="outline-3">
+<h3 id="org131ac33"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
 <div class="outline-text-3" id="text-1-2">
-<div class="leftnote">
+<div class="note">
 <p>
 or <code>kvmcli -I</code>
 </p>
@@ -163,8 +163,8 @@ vms:
 </div>
 </div>
 
-<div id="outline-container-org5310366" class="outline-2">
-<h2 id="org5310366"><span class="section-number-2">2</span> Other improvements</h2>
+<div id="outline-container-org6599b7e" class="outline-2">
+<h2 id="org6599b7e"><span class="section-number-2">2</span> Other improvements</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Other changes in this release include improvements in project structure, code cleaning&#x2026;etc.
@@ -178,31 +178,34 @@ Until the next release, feel free check the <a href="https://www.github.com/keba
 </div>
 <div id="postamble" class="status">
 
-<p class="postamble"> 
+<p class="postamble">
+  <a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+    <img src="img/crc.png" alt="Creative Commons License" />
+  </a>
 
-<a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
-<img src="img/crc.png" alt="Creative Commons License" title="Creative Commons License" />
+  <a href="https://www.linkedin.com/in/zakaria-kebairia/" class="social">
+    <img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn" />
+  </a>
 
-<a href="https://www.linkedin.com/in/zakaria-kebairia/" title="LinkedIn account" class="social">
-<img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn Account" />
-</a>
+  <a href="https://twitter.com/z_kebairia" class="social">
+    <img src="img/social/twitter-logo.svg" width="40" alt="Twitter" />
+  </a>
 
-<a href="https://twitter.com/z_kebairia" title="Twitter Account" class="social">
-<img src="img/social/twitter-logo.svg" width="40" alt="Twitter Account" /> </a>
+  <a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" class="social">
+    <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
+  </a>
 
-<a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" title="Youtube Account" class="social">
-<img src="img/social/youtube-black-logo.svg" width="40" alt="Youtube Account" /> </a>
+  <a href="https://www.github.com/kebairia" class="social">
+    <img src="img/social/github.svg" width="43" alt="GitHub" />
+  </a>
 
-<a href="https://www.github.com/kebairia" title="GitHub Account" class="social">
-<img src="img/social/github.svg" width="43" alt="GitHub Account" /> </a>
+  <br>
 
-<br>
-
-<p class="credit">
-Copyright &copy  2023 Zakaria Kebairia
-<br>
-Content licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
-
+  <p class="credit">
+    Copyright &copy; 2025 Zakaria Kebairia
+    <br>
+    Content licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+  </p>
 </p>
 </div>
 </body>

@@ -3,27 +3,27 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-30 Sat 14:31 -->
+<!-- 2025-03-05 Wed 11:41 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Configure Dns Servers With Failover Using Bind</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Zakaria.K" />
 <meta name="keywords" content=":DNS:" />
-<link rel="stylesheet"href="css/main.css" type="text/css" />
-<header> <h4> <a href="https://kebairia.github.io" title="Home" class="home">
-	          <img src="img/home.svg" width="50" alt="Home" />
-	          </a>
-
-	          <a href="files/feed.rss" title="RSS Feed" type="application/rss+xml" class="rss">
-	          <img src="img/rss.svg" alt="RSS icon" />
-
-	          </a>
-            <a href="files/cv.pdf" title="My Resume" type="application/pdf" class="resume">
-            <img src="img/cv.svg" width="40"  alt="My CV icon" /> </a>
-
-            </h4>
-	          </header>
+<link rel="stylesheet" href="css/main.css" type="text/css" />
+<header>
+                <h4>
+                  <a href="https://kebairia.github.io" class="home">
+                    <img src="img/home.svg" width="50" alt="Home" />
+                  </a>
+                  <a href="files/feed.rss" class="rss">
+                    <img src="img/rss.svg" alt="RSS Feed" />
+                  </a>
+                  <a href="files/cv.pdf" class="resume">
+                    <img src="img/cv.svg" width="40" alt="My CV" />
+                  </a>
+                </h4>
+              </header>
 </head>
 <body>
 <div id="content">
@@ -34,13 +34,13 @@ Date: 14 April 2023
 </p>
 
 </div>
-<div id="outline-container-orgeab411a" class="outline-2">
-<h2 id="orgeab411a"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org2de114d" class="outline-2">
+<h2 id="org2de114d"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.<br />
 </p>
-<div class="leftnote">
+<div class="note">
 <p>
 <code>named</code> stands for NAMEserver Daemon.<br />
 <br />
@@ -51,8 +51,8 @@ The Bind packages is called <code>named</code> in the RedHat-like distribution l
 </div>
 </div>
 
-<div id="outline-container-org41e98d8" class="outline-2">
-<h2 id="org41e98d8"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-orge437b33" class="outline-2">
+<h2 id="orge437b33"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Two VMs with RockyLinux with the following configurations
@@ -102,8 +102,8 @@ Two VMs with RockyLinux with the following configurations
 </div>
 </div>
 
-<div id="outline-container-orgfec1b4c" class="outline-2">
-<h2 id="orgfec1b4c"><span class="section-number-2">3</span> The Plan</h2>
+<div id="outline-container-orgef0d518" class="outline-2">
+<h2 id="orgef0d518"><span class="section-number-2">3</span> The Plan</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>Install the required packages on both servers</li>
@@ -115,14 +115,14 @@ Two VMs with RockyLinux with the following configurations
 </div>
 </div>
 
-<div id="outline-container-org23421e1" class="outline-2">
-<h2 id="org23421e1"><span class="section-number-2">4</span> Primary configuration on the nodes</h2>
+<div id="outline-container-org6c6a3b5" class="outline-2">
+<h2 id="org6c6a3b5"><span class="section-number-2">4</span> Primary configuration on the nodes</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 On both server, install the following packages
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org2d3c7b6">sudo dnf install bind bind-utils -y
+<pre class="src src-sh" id="org2abf9db">sudo dnf install bind bind-utils -y
 </pre>
 </div>
 
@@ -164,10 +164,10 @@ drwx------. 2 named named 6 Apr 14 14:40 /var/log/named
 </div>
 </div>
 
-<div id="outline-container-org7f43042" class="outline-2">
-<h2 id="org7f43042"><span class="section-number-2">5</span> RNDC Setup</h2>
+<div id="outline-container-org0547983" class="outline-2">
+<h2 id="org0547983"><span class="section-number-2">5</span> RNDC Setup</h2>
 <div class="outline-text-2" id="text-5">
-<div class="leftnote">
+<div class="note">
 <p>
 Check out <a href="https://a.co/d/j0DxqZS">this great book</a> for more information about DNS and other System Administration stuff.<br />
 <br />
@@ -211,8 +211,8 @@ chmod 0640 /etc/rndc.key
 </div>
 </div>
 </div>
-<div id="outline-container-org8a1b06d" class="outline-2">
-<h2 id="org8a1b06d"><span class="section-number-2">6</span> Master DNS configuration</h2>
+<div id="outline-container-org2395c66" class="outline-2">
+<h2 id="org2395c66"><span class="section-number-2">6</span> Master DNS configuration</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 We will seperate our configuration into multiple files and use <code>include</code> statement to embed these files into <code>/etc/named.conf</code> file.
@@ -230,9 +230,9 @@ This will help us seperate the the parts of the configuraton that are static fro
 └── zones.conf
 </pre>
 </div>
-<div id="outline-container-org5150f11" class="outline-3">
-<h3 id="org5150f11">The main configuration file</h3>
-<div class="outline-text-3" id="text-org5150f11">
+<div id="outline-container-org6f0ef5f" class="outline-3">
+<h3 id="org6f0ef5f">The main configuration file</h3>
+<div class="outline-text-3" id="text-org6f0ef5f">
 <p>
 the main configuration file for <code>named</code> is <code>/etc/named.conf</code>, open this file and add the following content
 </p>
@@ -318,9 +318,9 @@ include <span style="font-style: italic;">"/etc/named/logging.conf"</span>;
 </div>
 </div>
 
-<div id="outline-container-org350a4a6" class="outline-3">
-<h3 id="org350a4a6">The zones configuration file</h3>
-<div class="outline-text-3" id="text-org350a4a6">
+<div id="outline-container-orgc434eea" class="outline-3">
+<h3 id="orgc434eea">The zones configuration file</h3>
+<div class="outline-text-3" id="text-orgc434eea">
 <p>
 Here we define our zones; each zone must have its corresponding reverse zone
 </p>
@@ -328,7 +328,7 @@ Here we define our zones; each zone must have its corresponding reverse zone
 <p>
 In our case, we need to setup a forward zone and a reverse zone for our local domain <code>hl.test</code>. All data related to this zones is saved on <code>/data/db.hl.test</code> and <code>/data=db.0.10.10</code> respectively.
 </p>
-<div class="leftnote">
+<div class="note">
 <p>
 Of course, you can use whatever filename with the <code>file</code> clause in the <code>zone</code> section, here I chose to use <code>db.hl.test</code> and <code>db.0.10.10</code> for example.<br />
 <br />
@@ -373,7 +373,7 @@ reverse zone is indentified as follow:<br />
 Our DNS records are stored in files that act as a database on the primary server and called the <b>Zones files</b>. The secondary server fetches this data regularly for consistency.<br />
 </p>
 
-<div class="leftnote">
+<div class="note">
 <p>
 Hence, the full path is <code>/var/named/data/db.hl.test</code>
 </p>
@@ -389,7 +389,7 @@ Of course, this path is relative, because we mentioned the root directory in the
 <p>
 The forward zone records.
 </p>
-<div class="leftnote">
+<div class="note">
 <p>
 Make sure to update the <code>Serial</code> number in the zone files file every time it is modified. This allows Bind to recognize that a change has been made.
 </p>
@@ -449,9 +449,9 @@ $TTL    604800
 </div>
 </div>
 
-<div id="outline-container-orgca9eedf" class="outline-3">
-<h3 id="orgca9eedf">The logging configuration file</h3>
-<div class="outline-text-3" id="text-orgca9eedf">
+<div id="outline-container-org6feed55" class="outline-3">
+<h3 id="org6feed55">The logging configuration file</h3>
+<div class="outline-text-3" id="text-org6feed55">
 <p>
 And the logging configuration file
 </p>
@@ -489,13 +489,13 @@ And the logging configuration file
 </div>
 </div>
 </div>
-<div id="outline-container-org2e4b3c6" class="outline-2">
-<h2 id="org2e4b3c6"><span class="section-number-2">7</span> Backup DNS configuration</h2>
+<div id="outline-container-org8bda0d6" class="outline-2">
+<h2 id="org8bda0d6"><span class="section-number-2">7</span> Backup DNS configuration</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org0a26275" class="outline-3">
-<h3 id="org0a26275">The main configuration file</h3>
-<div class="outline-text-3" id="text-org0a26275">
+<div id="outline-container-org5599a7a" class="outline-3">
+<h3 id="org5599a7a">The main configuration file</h3>
+<div class="outline-text-3" id="text-org5599a7a">
 <p>
 Now with the backup DNS configuration
 </p>
@@ -571,9 +571,9 @@ include <span style="font-style: italic;">"/etc/named/logging.conf"</span>;
 </div>
 </div>
 
-<div id="outline-container-org08c068d" class="outline-3">
-<h3 id="org08c068d">The zones configuration file</h3>
-<div class="outline-text-3" id="text-org08c068d">
+<div id="outline-container-orgc33cc07" class="outline-3">
+<h3 id="orgc33cc07">The zones configuration file</h3>
+<div class="outline-text-3" id="text-orgc33cc07">
 <div class="org-src-container">
 <pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">vim: syntax=named</span>
 <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use the root hints file for "." zone</span>
@@ -601,9 +601,9 @@ include <span style="font-style: italic;">"/etc/named/logging.conf"</span>;
 </div>
 </div>
 
-<div id="outline-container-org9cbae9b" class="outline-3">
-<h3 id="org9cbae9b">The logging configuration file</h3>
-<div class="outline-text-3" id="text-org9cbae9b">
+<div id="outline-container-org1cfc127" class="outline-3">
+<h3 id="org1cfc127">The logging configuration file</h3>
+<div class="outline-text-3" id="text-org1cfc127">
 <p>
 And then the logging configuration file.
 </p>
@@ -643,10 +643,10 @@ And then the logging configuration file.
 </div>
 </div>
 
-<div id="outline-container-orgc01b99b" class="outline-2">
-<h2 id="orgc01b99b"><span class="section-number-2">8</span> Configure a client server</h2>
+<div id="outline-container-orgb18e17d" class="outline-2">
+<h2 id="orgb18e17d"><span class="section-number-2">8</span> Configure a client server</h2>
 <div class="outline-text-2" id="text-8">
-<div class="leftnote">
+<div class="note">
 <ul class="org-ul">
 <li>The number of nameservers allowed on <code>/etc/resolv.conf</code> are 3.<br /></li>
 <li>The first request are tried against the first nameserver, if the query was timed out, it will move to the next.<br /></li>
@@ -678,31 +678,34 @@ nameserver 10.10.0.3
 </div>
 <div id="postamble" class="status">
 
-<p class="postamble"> 
+<p class="postamble">
+  <a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+    <img src="img/crc.png" alt="Creative Commons License" />
+  </a>
 
-<a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
-<img src="img/crc.png" alt="Creative Commons License" title="Creative Commons License" />
+  <a href="https://www.linkedin.com/in/zakaria-kebairia/" class="social">
+    <img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn" />
+  </a>
 
-<a href="https://www.linkedin.com/in/zakaria-kebairia/" title="LinkedIn account" class="social">
-<img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn Account" />
-</a>
+  <a href="https://twitter.com/z_kebairia" class="social">
+    <img src="img/social/twitter-logo.svg" width="40" alt="Twitter" />
+  </a>
 
-<a href="https://twitter.com/z_kebairia" title="Twitter Account" class="social">
-<img src="img/social/twitter-logo.svg" width="40" alt="Twitter Account" /> </a>
+  <a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" class="social">
+    <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
+  </a>
 
-<a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" title="Youtube Account" class="social">
-<img src="img/social/youtube-black-logo.svg" width="40" alt="Youtube Account" /> </a>
+  <a href="https://www.github.com/kebairia" class="social">
+    <img src="img/social/github.svg" width="43" alt="GitHub" />
+  </a>
 
-<a href="https://www.github.com/kebairia" title="GitHub Account" class="social">
-<img src="img/social/github.svg" width="43" alt="GitHub Account" /> </a>
+  <br>
 
-<br>
-
-<p class="credit">
-Copyright &copy  2023 Zakaria Kebairia
-<br>
-Content licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
-
+  <p class="credit">
+    Copyright &copy; 2025 Zakaria Kebairia
+    <br>
+    Content licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+  </p>
 </p>
 </div>
 </body>

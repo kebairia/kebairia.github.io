@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-30 Sat 14:31 -->
+<!-- 2025-03-05 Wed 11:41 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Configure Dns Servers With Failover Using Bind</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Zakaria.K" />
 <meta name="keywords" content=":DNS:" />
-<link rel="stylesheet"href="css/main.css" type="text/css" />
+<link rel="stylesheet" href="css/main.css" type="text/css" />
 </head>
 <body>
 <div id="content">
@@ -19,26 +19,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgf2b532d">1. Introduction</a></li>
-<li><a href="#org98b70c3">2. Prerequisites</a></li>
-<li><a href="#org89b293e">3. The Plan</a></li>
-<li><a href="#org02750e1">4. Primary configuration on the nodes</a></li>
-<li><a href="#org8cb4a3a">5. RNDC Setup</a></li>
-<li><a href="#orgeaa528f">6. Master DNS configuration</a>
+<li><a href="#orgc29041f">1. Introduction</a></li>
+<li><a href="#org1ad2956">2. Prerequisites</a></li>
+<li><a href="#orgcfe39cb">3. The Plan</a></li>
+<li><a href="#org19ccc40">4. Primary configuration on the nodes</a></li>
+<li><a href="#org53a5b66">5. RNDC Setup</a></li>
+<li><a href="#orgdafd851">6. Master DNS configuration</a>
 <ul>
-<li><a href="#org8f4bcaa">The main configuration file</a></li>
-<li><a href="#org9ebfa9f">The zones configuration file</a></li>
-<li><a href="#orgca7d282">The logging configuration file</a></li>
+<li><a href="#orga94041d">The main configuration file</a></li>
+<li><a href="#org24322a1">The zones configuration file</a></li>
+<li><a href="#org54b91b8">The logging configuration file</a></li>
 </ul>
 </li>
-<li><a href="#org1aadab1">7. Backup DNS configuration</a>
+<li><a href="#orgac0f095">7. Backup DNS configuration</a>
 <ul>
-<li><a href="#org44300b0">The main configuration file</a></li>
-<li><a href="#orgb579d07">The zones configuration file</a></li>
-<li><a href="#org8ae4b94">The logging configuration file</a></li>
+<li><a href="#orgc103ddd">The main configuration file</a></li>
+<li><a href="#org1410658">The zones configuration file</a></li>
+<li><a href="#orgb44ef23">The logging configuration file</a></li>
 </ul>
 </li>
-<li><a href="#org430d516">8. Configure a client server</a></li>
+<li><a href="#orgaddffd8">8. Configure a client server</a></li>
 </ul>
 </div>
 </div>
@@ -48,13 +48,13 @@ Date: 14 April 2023
 </p>
 
 </div>
-<div id="outline-container-orgf2b532d" class="outline-2">
-<h2 id="orgf2b532d"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orgc29041f" class="outline-2">
+<h2 id="orgc29041f"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to setup and confgure a DNS server with a failover and dynamic updates on RockyLinux using BIND.<br />
 </p>
-<div class="leftnote">
+<div class="note">
 <p>
 <code>named</code> stands for NAMEserver Daemon.<br />
 <br />
@@ -65,8 +65,8 @@ The Bind packages is called <code>named</code> in the RedHat-like distribution l
 </div>
 </div>
 
-<div id="outline-container-org98b70c3" class="outline-2">
-<h2 id="org98b70c3"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-org1ad2956" class="outline-2">
+<h2 id="org1ad2956"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Two VMs with RockyLinux with the following configurations
@@ -116,8 +116,8 @@ Two VMs with RockyLinux with the following configurations
 </div>
 </div>
 
-<div id="outline-container-org89b293e" class="outline-2">
-<h2 id="org89b293e"><span class="section-number-2">3</span> The Plan</h2>
+<div id="outline-container-orgcfe39cb" class="outline-2">
+<h2 id="orgcfe39cb"><span class="section-number-2">3</span> The Plan</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>Install the required packages on both servers</li>
@@ -129,14 +129,14 @@ Two VMs with RockyLinux with the following configurations
 </div>
 </div>
 
-<div id="outline-container-org02750e1" class="outline-2">
-<h2 id="org02750e1"><span class="section-number-2">4</span> Primary configuration on the nodes</h2>
+<div id="outline-container-org19ccc40" class="outline-2">
+<h2 id="org19ccc40"><span class="section-number-2">4</span> Primary configuration on the nodes</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 On both server, install the following packages
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org5352daf">sudo dnf install bind bind-utils -y
+<pre class="src src-sh" id="orgf15e2fd">sudo dnf install bind bind-utils -y
 </pre>
 </div>
 
@@ -178,10 +178,10 @@ drwx------. 2 named named 6 Apr 14 14:40 /var/log/named
 </div>
 </div>
 
-<div id="outline-container-org8cb4a3a" class="outline-2">
-<h2 id="org8cb4a3a"><span class="section-number-2">5</span> RNDC Setup</h2>
+<div id="outline-container-org53a5b66" class="outline-2">
+<h2 id="org53a5b66"><span class="section-number-2">5</span> RNDC Setup</h2>
 <div class="outline-text-2" id="text-5">
-<div class="leftnote">
+<div class="note">
 <p>
 Check out <a href="https://a.co/d/j0DxqZS">this great book</a> for more information about DNS and other System Administration stuff.<br />
 <br />
@@ -225,8 +225,8 @@ chmod 0640 /etc/rndc.key
 </div>
 </div>
 </div>
-<div id="outline-container-orgeaa528f" class="outline-2">
-<h2 id="orgeaa528f"><span class="section-number-2">6</span> Master DNS configuration</h2>
+<div id="outline-container-orgdafd851" class="outline-2">
+<h2 id="orgdafd851"><span class="section-number-2">6</span> Master DNS configuration</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 We will seperate our configuration into multiple files and use <code>include</code> statement to embed these files into <code>/etc/named.conf</code> file.
@@ -244,9 +244,9 @@ This will help us seperate the the parts of the configuraton that are static fro
 └── zones.conf
 </pre>
 </div>
-<div id="outline-container-org8f4bcaa" class="outline-3">
-<h3 id="org8f4bcaa">The main configuration file</h3>
-<div class="outline-text-3" id="text-org8f4bcaa">
+<div id="outline-container-orga94041d" class="outline-3">
+<h3 id="orga94041d">The main configuration file</h3>
+<div class="outline-text-3" id="text-orga94041d">
 <p>
 the main configuration file for <code>named</code> is <code>/etc/named.conf</code>, open this file and add the following content
 </p>
@@ -332,9 +332,9 @@ include <span style="font-style: italic;">"/etc/named/logging.conf"</span>;
 </div>
 </div>
 
-<div id="outline-container-org9ebfa9f" class="outline-3">
-<h3 id="org9ebfa9f">The zones configuration file</h3>
-<div class="outline-text-3" id="text-org9ebfa9f">
+<div id="outline-container-org24322a1" class="outline-3">
+<h3 id="org24322a1">The zones configuration file</h3>
+<div class="outline-text-3" id="text-org24322a1">
 <p>
 Here we define our zones; each zone must have its corresponding reverse zone
 </p>
@@ -342,7 +342,7 @@ Here we define our zones; each zone must have its corresponding reverse zone
 <p>
 In our case, we need to setup a forward zone and a reverse zone for our local domain <code>hl.test</code>. All data related to this zones is saved on <code>/data/db.hl.test</code> and <code>/data=db.0.10.10</code> respectively.
 </p>
-<div class="leftnote">
+<div class="note">
 <p>
 Of course, you can use whatever filename with the <code>file</code> clause in the <code>zone</code> section, here I chose to use <code>db.hl.test</code> and <code>db.0.10.10</code> for example.<br />
 <br />
@@ -387,7 +387,7 @@ reverse zone is indentified as follow:<br />
 Our DNS records are stored in files that act as a database on the primary server and called the <b>Zones files</b>. The secondary server fetches this data regularly for consistency.<br />
 </p>
 
-<div class="leftnote">
+<div class="note">
 <p>
 Hence, the full path is <code>/var/named/data/db.hl.test</code>
 </p>
@@ -403,7 +403,7 @@ Of course, this path is relative, because we mentioned the root directory in the
 <p>
 The forward zone records.
 </p>
-<div class="leftnote">
+<div class="note">
 <p>
 Make sure to update the <code>Serial</code> number in the zone files file every time it is modified. This allows Bind to recognize that a change has been made.
 </p>
@@ -463,9 +463,9 @@ $TTL    604800
 </div>
 </div>
 
-<div id="outline-container-orgca7d282" class="outline-3">
-<h3 id="orgca7d282">The logging configuration file</h3>
-<div class="outline-text-3" id="text-orgca7d282">
+<div id="outline-container-org54b91b8" class="outline-3">
+<h3 id="org54b91b8">The logging configuration file</h3>
+<div class="outline-text-3" id="text-org54b91b8">
 <p>
 And the logging configuration file
 </p>
@@ -503,13 +503,13 @@ And the logging configuration file
 </div>
 </div>
 </div>
-<div id="outline-container-org1aadab1" class="outline-2">
-<h2 id="org1aadab1"><span class="section-number-2">7</span> Backup DNS configuration</h2>
+<div id="outline-container-orgac0f095" class="outline-2">
+<h2 id="orgac0f095"><span class="section-number-2">7</span> Backup DNS configuration</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org44300b0" class="outline-3">
-<h3 id="org44300b0">The main configuration file</h3>
-<div class="outline-text-3" id="text-org44300b0">
+<div id="outline-container-orgc103ddd" class="outline-3">
+<h3 id="orgc103ddd">The main configuration file</h3>
+<div class="outline-text-3" id="text-orgc103ddd">
 <p>
 Now with the backup DNS configuration
 </p>
@@ -585,9 +585,9 @@ include <span style="font-style: italic;">"/etc/named/logging.conf"</span>;
 </div>
 </div>
 
-<div id="outline-container-orgb579d07" class="outline-3">
-<h3 id="orgb579d07">The zones configuration file</h3>
-<div class="outline-text-3" id="text-orgb579d07">
+<div id="outline-container-org1410658" class="outline-3">
+<h3 id="org1410658">The zones configuration file</h3>
+<div class="outline-text-3" id="text-org1410658">
 <div class="org-src-container">
 <pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">vim: syntax=named</span>
 <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use the root hints file for "." zone</span>
@@ -615,9 +615,9 @@ include <span style="font-style: italic;">"/etc/named/logging.conf"</span>;
 </div>
 </div>
 
-<div id="outline-container-org8ae4b94" class="outline-3">
-<h3 id="org8ae4b94">The logging configuration file</h3>
-<div class="outline-text-3" id="text-org8ae4b94">
+<div id="outline-container-orgb44ef23" class="outline-3">
+<h3 id="orgb44ef23">The logging configuration file</h3>
+<div class="outline-text-3" id="text-orgb44ef23">
 <p>
 And then the logging configuration file.
 </p>
@@ -657,10 +657,10 @@ And then the logging configuration file.
 </div>
 </div>
 
-<div id="outline-container-org430d516" class="outline-2">
-<h2 id="org430d516"><span class="section-number-2">8</span> Configure a client server</h2>
+<div id="outline-container-orgaddffd8" class="outline-2">
+<h2 id="orgaddffd8"><span class="section-number-2">8</span> Configure a client server</h2>
 <div class="outline-text-2" id="text-8">
-<div class="leftnote">
+<div class="note">
 <ul class="org-ul">
 <li>The number of nameservers allowed on <code>/etc/resolv.conf</code> are 3.<br /></li>
 <li>The first request are tried against the first nameserver, if the query was timed out, it will move to the next.<br /></li>
@@ -692,31 +692,34 @@ nameserver 10.10.0.3
 </div>
 <div id="postamble" class="status">
 
-<p class="postamble"> 
+<p class="postamble">
+  <a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+    <img src="img/crc.png" alt="Creative Commons License" />
+  </a>
 
-<a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
-<img src="img/crc.png" alt="Creative Commons License" title="Creative Commons License" />
+  <a href="https://www.linkedin.com/in/zakaria-kebairia/" class="social">
+    <img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn" />
+  </a>
 
-<a href="https://www.linkedin.com/in/zakaria-kebairia/" title="LinkedIn account" class="social">
-<img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn Account" />
-</a>
+  <a href="https://twitter.com/z_kebairia" class="social">
+    <img src="img/social/twitter-logo.svg" width="40" alt="Twitter" />
+  </a>
 
-<a href="https://twitter.com/z_kebairia" title="Twitter Account" class="social">
-<img src="img/social/twitter-logo.svg" width="40" alt="Twitter Account" /> </a>
+  <a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" class="social">
+    <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
+  </a>
 
-<a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" title="Youtube Account" class="social">
-<img src="img/social/youtube-black-logo.svg" width="40" alt="Youtube Account" /> </a>
+  <a href="https://www.github.com/kebairia" class="social">
+    <img src="img/social/github.svg" width="43" alt="GitHub" />
+  </a>
 
-<a href="https://www.github.com/kebairia" title="GitHub Account" class="social">
-<img src="img/social/github.svg" width="43" alt="GitHub Account" /> </a>
+  <br>
 
-<br>
-
-<p class="credit">
-Copyright &copy  2023 Zakaria Kebairia
-<br>
-Content licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
-
+  <p class="credit">
+    Copyright &copy; 2025 Zakaria Kebairia
+    <br>
+    Content licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+  </p>
 </p>
 </div>
 </body>
