@@ -1,5 +1,5 @@
 #+TITLE: Qemu Overlay Images
-#+SUBTITLE: Efficiently Managing Virtual Machines with QCOW2 Overlays
+#+SUBTITLE: Efficiently Managing Virtual Machines with *QCOW2* Overlays
 #+AUTHOR: Zakaria.K
 #+EMAIL: 4.kebairia@gmail.com
 #+DATE: 30 March 2025
@@ -12,11 +12,11 @@
 #+ATTR_HTML: :width 800
 [[file:img/blogs/qemu-overlay-images/illustration01.png]]
 #+begin_note
-*QCOW2* stands for Qemu Copy-On-Write version 2
+**QCOW2** stands for Qemu Copy-On-Write version 2
 #+end_note
-Recently, while refactoring my [[https://github.com/kebairia/kvmcli][kvmcli]] project (which I've migrated primarily to Golang to enhance the overall experience), I stumbled upon something really cool related to QCOW2.
+Recently, while refactoring my [[https://github.com/kebairia/kvmcli][kvmcli]] project (which I've migrated primarily to Golang to enhance the overall experience), I stumbled upon something really cool related to *QCOW2*.
 
-I was already familiar with the basics of the QCOW2 image format, but you never truly appreciate certain features until you encounter a real-world problem yourself.
+I was already familiar with the basics of the *QCOW2* image format, but you never truly appreciate certain features until you encounter a real-world problem yourself.
 
 * My Original Problem
 
@@ -26,19 +26,17 @@ However, each time I needed a new VM, I found myself doing the following:
 
 1. Making a complete copy of the base image.
 
-2. Renaming the copy.
-
-3. Booting up the new VM from this copied image.
+2. Booting up the new VM from this copied image.
 
 This approach consumed considerable time and disk space—especially time, since creating multiple VMs per day quickly becomes tedious.
 
-* The QCOW2 Overlay Image Solution
+* The *QCOW2* Overlay Image Solution
 
-What I learned (and found genuinely exciting!) is that QCOW2 supports what's known as an overlay image. An overlay image acts as a tiny read-write layer on top of your existing base image.
+What I learned (and found genuinely exciting!) is that *QCOW2* supports what's known as an overlay image. An overlay image acts as a tiny read-write layer on top of your existing base image.
 
 Here's how it works:
 
-1. You keep your base image untouched and pristine.
+1. You keep your base image untouched.
 
 2. You create an overlay image that's essentially empty and references your base image.
 
@@ -51,7 +49,7 @@ This solution was perfect for my needs:
 - Disk space is significantly saved since only the differences from the base image are stored.
 
 Discovering this was a fantastic productivity boost for my daily workflow
-* How to Create a QCOW2 Overlay Image
+* How to Create a *QCOW2* Overlay Image
 
 #+begin_note
 What I've noticed is that, you need to to add =backing_fmt= to =qcow2= otherwise the virtual machine won't boot
@@ -63,7 +61,7 @@ Here's a simple demonstration of creating an overlay image:
 #+begin_src sh
 qemu-img create -f qcow2 -b ubuntu-base.qcow2 ubuntu-overlay.qcow2
 #+end_src
-=-f qcow2=: Specifies the QCOW2 format.
+=-f qcow2=: Specifies the *QCOW2* format.
 
 =-b ubuntu-base.qcow2=: Specifies the base (backing) image.
 
@@ -71,7 +69,7 @@ qemu-img create -f qcow2 -b ubuntu-base.qcow2 ubuntu-overlay.qcow2
 
 * Overlay Image vs. Backing Image
 
-*Backing Image*: Also called the base image, this is your original, untouched QCOW2 file. It's the read-only reference used by overlay images.
+*Backing Image*: Also called the base image, this is your original, untouched *QCOW2* file. It's the read-only reference used by overlay images.
 
 *Overlay Image*: This is the read-write layer created on top of the backing image. All modifications are stored here, leaving your backing image pristine.
 
