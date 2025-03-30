@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-03-30 Sun 22:30 -->
+<!-- 2025-03-30 Sun 22:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>entr</title>
@@ -22,8 +22,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org3f624c2">1. My use case</a></li>
-<li><a href="#org71e7d3a">2. References</a></li>
+<li><a href="#orga45d136">1. My use case</a></li>
+<li><a href="#orgc72f355">2. References</a></li>
 </ul>
 </div>
 </div>
@@ -57,8 +57,8 @@ i made automatically.
 <pre class="src src-sh">find -iname <span style="font-style: italic;">"*.md"</span> | entr commit-and-push.sh
 </pre>
 </div>
-<div id="outline-container-org3f624c2" class="outline-2">
-<h2 id="org3f624c2"><span class="section-number-2">1</span> My use case</h2>
+<div id="outline-container-orga45d136" class="outline-2">
+<h2 id="orga45d136"><span class="section-number-2">1</span> My use case</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I can think of numerous use cases and scenarios in which this utility may be quite useful, but for the time being,
@@ -101,8 +101,8 @@ Wonderful.
 </div>
 </div>
 
-<div id="outline-container-org71e7d3a" class="outline-2">
-<h2 id="org71e7d3a"><span class="section-number-2">2</span> References</h2>
+<div id="outline-container-orgc72f355" class="outline-2">
+<h2 id="orgc72f355"><span class="section-number-2">2</span> References</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li><a href="https://github.com/skeeto/emacs-web-server">simple-httpd GitHub repo</a></li>
