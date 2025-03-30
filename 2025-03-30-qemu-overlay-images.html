@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-03-30 Sun 22:30 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Qemu Overlay Images</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Zakaria.K" />
+<link rel="stylesheet" href="css/main.css" type="text/css" />
+<header>
+                <h4>
+                  <a href="https://kebairia.github.io" class="home">
+                    <img src="img/home.svg" width="50" alt="Home" />
+                  </a>
+                  <a href="files/feed.rss" class="rss">
+                    <img src="img/rss.svg" alt="RSS Feed" />
+                  </a>
+                  <a href="files/cv.pdf" class="resume">
+                    <img src="img/cv.svg" width="40" alt="My CV" />
+                  </a>
+                </h4>
+              </header>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Qemu Overlay Images
+<br />
+<span class="subtitle">Efficiently Managing Virtual Machines with QCOW2 Overlays</span>
+</h1>
+
+<div class="figure">
+<p><img src="img/blogs/qemu-overlay-images/illustration01.png" alt="Packer blocks" width="800" title="Packer's blocks" align="center" />
+</p>
+</div>
+<div class="note">
+<p>
+<b>QCOW2</b> stands for Qemu Copy-On-Write version 2
+</p>
+
+</div>
+<p>
+Recently, while refactoring my <a href="https://github.com/kebairia/kvmcli">kvmcli</a> project (which I've migrated primarily to Golang to enhance the overall experience), I stumbled upon something really cool related to QCOW2.
+</p>
+
+<p>
+I was already familiar with the basics of the QCOW2 image format, but you never truly appreciate certain features until you encounter a real-world problem yourself.
+</p>
+
+<div id="outline-container-orgb6e6dfd" class="outline-2">
+<h2 id="orgb6e6dfd"><span class="section-number-2">1</span> My Original Problem</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I provision multiple VMs daily. To streamline this process, I initially created base images for Ubuntu and Rocky Linux using Packer, as these are the distributions I use most frequently.
+</p>
+
+<p>
+However, each time I needed a new VM, I found myself doing the following:
+</p>
+
+<ol class="org-ol">
+<li>Making a complete copy of the base image.</li>
+
+<li>Renaming the copy.</li>
+
+<li>Booting up the new VM from this copied image.</li>
+</ol>
+
+<p>
+This approach consumed considerable time and disk space—especially time, since creating multiple VMs per day quickly becomes tedious.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2ff3ce4" class="outline-2">
+<h2 id="org2ff3ce4"><span class="section-number-2">2</span> The QCOW2 Overlay Image Solution</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+What I learned (and found genuinely exciting!) is that QCOW2 supports what's known as an overlay image. An overlay image acts as a tiny read-write layer on top of your existing base image.
+</p>
+
+<p>
+Here's how it works:
+</p>
+
+<ol class="org-ol">
+<li>You keep your base image untouched and pristine.</li>
+
+<li>You create an overlay image that's essentially empty and references your base image.</li>
+
+<li>All new modifications (writes) go directly into this overlay image, while read operations fetch data from the base image as needed.</li>
+</ol>
+
+<p>
+This solution was perfect for my needs:
+</p>
+
+<ul class="org-ul">
+<li>Overlay images start extremely small (just about 100 KiB in my experience).</li>
+<li>Provisioning time is drastically reduced since I'm no longer copying large disk images.</li>
+<li>Disk space is significantly saved since only the differences from the base image are stored.</li>
+</ul>
+
+<p>
+Discovering this was a fantastic productivity boost for my daily workflow
+</p>
+</div>
+</div>
+<div id="outline-container-org7da5e67" class="outline-2">
+<h2 id="org7da5e67"><span class="section-number-2">3</span> How to Create a QCOW2 Overlay Image</h2>
+<div class="outline-text-2" id="text-3">
+<div class="note">
+<p>
+What I've noticed is that, you need to to add <code>backing_fmt</code> to <code>qcow2</code> otherwise the virtual machine won't boot
+</p>
+
+</div>
+
+
+<p>
+Here's a simple demonstration of creating an overlay image:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">qemu-img create -f qcow2 -b ubuntu-base.qcow2 ubuntu-overlay.qcow2
+</pre>
+</div>
+<p>
+<code>-f qcow2</code>: Specifies the QCOW2 format.
+</p>
+
+<p>
+<code>-b ubuntu-base.qcow2</code>: Specifies the base (backing) image.
+</p>
+
+<p>
+<code>ubuntu-overlay.qcow2</code>: The name of your new overlay image.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcdaaf07" class="outline-2">
+<h2 id="orgcdaaf07"><span class="section-number-2">4</span> Overlay Image vs. Backing Image</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<b>Backing Image</b>: Also called the base image, this is your original, untouched QCOW2 file. It's the read-only reference used by overlay images.
+</p>
+
+<p>
+<b>Overlay Image</b>: This is the read-write layer created on top of the backing image. All modifications are stored here, leaving your backing image pristine.
+</p>
+
+<p>
+It's important to remember that if your backing image gets moved or deleted, your overlay image becomes unusable since it depends directly on the backing image.
+</p>
+
+<p>
+That's infortinate, but it's OK :)
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+<p class="postamble">
+  <a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+    <img src="img/crc.png" alt="Creative Commons License" />
+  </a>
+
+  <a href="https://www.linkedin.com/in/zakaria-kebairia/" class="social">
+    <img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn" />
+  </a>
+
+  <a href="https://twitter.com/z_kebairia" class="social">
+    <img src="img/social/twitter-logo.svg" width="40" alt="Twitter" />
+  </a>
+
+  <a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" class="social">
+    <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
+  </a>
+
+  <a href="https://www.github.com/kebairia" class="social">
+    <img src="img/social/github.svg" width="43" alt="GitHub" />
+  </a>
+
+  <br>
+
+  <p class="credit">
+    Copyright &copy; 2025 Zakaria Kebairia
+    <br>
+    Content licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+  </p>
+</p>
+</div>
+</body>
+</html>
