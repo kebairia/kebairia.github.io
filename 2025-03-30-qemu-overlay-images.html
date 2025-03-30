@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-03-30 Sun 22:35 -->
+<!-- 2025-03-30 Sun 23:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Qemu Overlay Images</title>
@@ -28,7 +28,7 @@
 <div id="content">
 <h1 class="title">Qemu Overlay Images
 <br />
-<span class="subtitle">Efficiently Managing Virtual Machines with QCOW2 Overlays</span>
+<span class="subtitle">Efficiently Managing Virtual Machines with <b>QCOW2</b> Overlays</span>
 </h1>
 
 <div class="figure">
@@ -37,20 +37,20 @@
 </div>
 <div class="note">
 <p>
-<b>QCOW2</b> stands for Qemu Copy-On-Write version 2
+<b><b>QCOW2</b></b> stands for Qemu Copy-On-Write version 2
 </p>
 
 </div>
 <p>
-Recently, while refactoring my <a href="https://github.com/kebairia/kvmcli">kvmcli</a> project (which I've migrated primarily to Golang to enhance the overall experience), I stumbled upon something really cool related to QCOW2.
+Recently, while refactoring my <a href="https://github.com/kebairia/kvmcli">kvmcli</a> project (which I've migrated primarily to Golang to enhance the overall experience), I stumbled upon something really cool related to <b>QCOW2</b>.
 </p>
 
 <p>
-I was already familiar with the basics of the QCOW2 image format, but you never truly appreciate certain features until you encounter a real-world problem yourself.
+I was already familiar with the basics of the <b>QCOW2</b> image format, but you never truly appreciate certain features until you encounter a real-world problem yourself.
 </p>
 
-<div id="outline-container-orgc3faa20" class="outline-2">
-<h2 id="orgc3faa20"><span class="section-number-2">1</span> My Original Problem</h2>
+<div id="outline-container-org1fb114d" class="outline-2">
+<h2 id="org1fb114d"><span class="section-number-2">1</span> My Original Problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I provision multiple VMs daily. To streamline this process, I initially created base images for Ubuntu and Rocky Linux using Packer, as these are the distributions I use most frequently.
@@ -63,8 +63,6 @@ However, each time I needed a new VM, I found myself doing the following:
 <ol class="org-ol">
 <li>Making a complete copy of the base image.</li>
 
-<li>Renaming the copy.</li>
-
 <li>Booting up the new VM from this copied image.</li>
 </ol>
 
@@ -74,11 +72,11 @@ This approach consumed considerable time and disk space—especially time, since
 </div>
 </div>
 
-<div id="outline-container-org37638f6" class="outline-2">
-<h2 id="org37638f6"><span class="section-number-2">2</span> The QCOW2 Overlay Image Solution</h2>
+<div id="outline-container-org8bf990f" class="outline-2">
+<h2 id="org8bf990f"><span class="section-number-2">2</span> The <b>QCOW2</b> Overlay Image Solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-What I learned (and found genuinely exciting!) is that QCOW2 supports what's known as an overlay image. An overlay image acts as a tiny read-write layer on top of your existing base image.
+What I learned (and found genuinely exciting!) is that <b>QCOW2</b> supports what's known as an overlay image. An overlay image acts as a tiny read-write layer on top of your existing base image.
 </p>
 
 <p>
@@ -86,7 +84,7 @@ Here's how it works:
 </p>
 
 <ol class="org-ol">
-<li>You keep your base image untouched and pristine.</li>
+<li>You keep your base image untouched.</li>
 
 <li>You create an overlay image that's essentially empty and references your base image.</li>
 
@@ -108,8 +106,8 @@ Discovering this was a fantastic productivity boost for my daily workflow
 </p>
 </div>
 </div>
-<div id="outline-container-orga45546e" class="outline-2">
-<h2 id="orga45546e"><span class="section-number-2">3</span> How to Create a QCOW2 Overlay Image</h2>
+<div id="outline-container-orge32431a" class="outline-2">
+<h2 id="orge32431a"><span class="section-number-2">3</span> How to Create a <b>QCOW2</b> Overlay Image</h2>
 <div class="outline-text-2" id="text-3">
 <div class="note">
 <p>
@@ -128,7 +126,7 @@ Here's a simple demonstration of creating an overlay image:
 </pre>
 </div>
 <p>
-<code>-f qcow2</code>: Specifies the QCOW2 format.
+<code>-f qcow2</code>: Specifies the <b>QCOW2</b> format.
 </p>
 
 <p>
@@ -141,11 +139,11 @@ Here's a simple demonstration of creating an overlay image:
 </div>
 </div>
 
-<div id="outline-container-org734a816" class="outline-2">
-<h2 id="org734a816"><span class="section-number-2">4</span> Overlay Image vs. Backing Image</h2>
+<div id="outline-container-org8431816" class="outline-2">
+<h2 id="org8431816"><span class="section-number-2">4</span> Overlay Image vs. Backing Image</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<b>Backing Image</b>: Also called the base image, this is your original, untouched QCOW2 file. It's the read-only reference used by overlay images.
+<b>Backing Image</b>: Also called the base image, this is your original, untouched <b>QCOW2</b> file. It's the read-only reference used by overlay images.
 </p>
 
 <p>
