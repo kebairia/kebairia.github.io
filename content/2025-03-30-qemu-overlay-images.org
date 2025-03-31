@@ -10,7 +10,7 @@
 
 #+ATTR_HTML: :alt Packer blocks :title Packer's blocks :align center
 #+ATTR_HTML: :width 800
-[[file:img/blogs/qemu-overlay-images/illustration01.png]]
+[[file:img/blogs/qemu-overlay-images/illustration02.png]]
 #+begin_note
 **QCOW2** stands for Qemu Copy-On-Write version 2
 #+end_note
