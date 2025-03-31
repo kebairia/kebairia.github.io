@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-03-30 Sun 23:52 -->
+<!-- 2025-03-31 Mon 08:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Qemu Overlay Images</title>
@@ -21,16 +21,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org395e777">1. My Original Problem</a></li>
-<li><a href="#org3f8a0cf">2. The <b>QCOW2</b> Overlay Image Solution</a></li>
-<li><a href="#orga4dd27d">3. How to Create a <b>QCOW2</b> Overlay Image</a></li>
-<li><a href="#org7e2e734">4. Overlay Image vs. Backing Image</a></li>
+<li><a href="#org2487c6a">1. My Original Problem</a></li>
+<li><a href="#org2b9394e">2. The <b>QCOW2</b> Overlay Image Solution</a></li>
+<li><a href="#org8d60642">3. How to Create a <b>QCOW2</b> Overlay Image</a></li>
+<li><a href="#org7697826">4. Overlay Image vs. Backing Image</a></li>
 </ul>
 </div>
 </div>
 
 <div class="figure">
-<p><img src="img/blogs/qemu-overlay-images/illustration01.png" alt="Packer blocks" width="800" title="Packer's blocks" align="center" />
+<p><img src="img/blogs/qemu-overlay-images/illustration02.png" alt="Packer blocks" width="800" title="Packer's blocks" align="center" />
 </p>
 </div>
 <div class="note">
@@ -47,8 +47,8 @@ Recently, while refactoring my <a href="https://github.com/kebairia/kvmcli">kvmc
 I was already familiar with the basics of the <b>QCOW2</b> image format, but you never truly appreciate certain features until you encounter a real-world problem yourself.
 </p>
 
-<div id="outline-container-org395e777" class="outline-2">
-<h2 id="org395e777"><span class="section-number-2">1</span> My Original Problem</h2>
+<div id="outline-container-org2487c6a" class="outline-2">
+<h2 id="org2487c6a"><span class="section-number-2">1</span> My Original Problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I provision multiple VMs daily. To streamline this process, I initially created base images for Ubuntu and Rocky Linux using Packer, as these are the distributions I use most frequently.
@@ -70,8 +70,8 @@ This approach consumed considerable time and disk space—especially time, since
 </div>
 </div>
 
-<div id="outline-container-org3f8a0cf" class="outline-2">
-<h2 id="org3f8a0cf"><span class="section-number-2">2</span> The <b>QCOW2</b> Overlay Image Solution</h2>
+<div id="outline-container-org2b9394e" class="outline-2">
+<h2 id="org2b9394e"><span class="section-number-2">2</span> The <b>QCOW2</b> Overlay Image Solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 What I learned (and found genuinely exciting!) is that <b>QCOW2</b> supports what's known as an overlay image. An overlay image acts as a tiny read-write layer on top of your existing base image.
@@ -104,8 +104,8 @@ Discovering this was a fantastic productivity boost for my daily workflow
 </p>
 </div>
 </div>
-<div id="outline-container-orga4dd27d" class="outline-2">
-<h2 id="orga4dd27d"><span class="section-number-2">3</span> How to Create a <b>QCOW2</b> Overlay Image</h2>
+<div id="outline-container-org8d60642" class="outline-2">
+<h2 id="org8d60642"><span class="section-number-2">3</span> How to Create a <b>QCOW2</b> Overlay Image</h2>
 <div class="outline-text-2" id="text-3">
 <div class="note">
 <p>
@@ -137,8 +137,8 @@ Here's a simple demonstration of creating an overlay image:
 </div>
 </div>
 
-<div id="outline-container-org7e2e734" class="outline-2">
-<h2 id="org7e2e734"><span class="section-number-2">4</span> Overlay Image vs. Backing Image</h2>
+<div id="outline-container-org7697826" class="outline-2">
+<h2 id="org7697826"><span class="section-number-2">4</span> Overlay Image vs. Backing Image</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <b>Backing Image</b>: Also called the base image, this is your original, untouched <b>QCOW2</b> file. It's the read-only reference used by overlay images.
