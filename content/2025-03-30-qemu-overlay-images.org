@@ -28,11 +28,11 @@ However, each time I needed a new VM, I found myself doing the following:
 
 2. Booting up the new VM from this copied image.
 
-This approach consumed considerable time and disk space—especially time, since creating multiple VMs per day quickly becomes tedious.
+This approach consumed considerable time and disk space—especially time, hence creating multiple VMs per day quickly becomes tedious.
 
 * The *QCOW2* Overlay Image Solution
 
-What I learned (and found genuinely exciting!) is that *QCOW2* supports what's known as an overlay image. An overlay image acts as a tiny read-write layer on top of your existing base image.
+What I learned (and found genuinely exciting!) is that *QCOW2* supports what's known as an *overlay image*. An overlay image acts as a tiny read-write layer on top of your existing base image.
 
 Here's how it works:
 
@@ -40,7 +40,7 @@ Here's how it works:
 
 2. You create an overlay image that's essentially empty and references your base image.
 
-3. All new modifications (writes) go directly into this overlay image, while read operations fetch data from the base image as needed.
+3. All new modifications (writes) go directly into this overlay image, while read operations fetch data from the base image as needed (just like the layered filesystem used in Docker).
 
 This solution was perfect for my needs:
 
@@ -52,26 +52,62 @@ Discovering this was a fantastic productivity boost for my daily workflow
 * How to Create a *QCOW2* Overlay Image
 
 #+begin_note
-What I've noticed is that, you need to to add =backing_fmt= to =qcow2= otherwise the virtual machine won't boot
+You must include =backing_fmt=qcow2= when creating an overlay. Without it, the virtual machine may fail to boot.
 #+end_note
 
+Here's a simple example of creating an overlay image:
 
-Here's a simple demonstration of creating an overlay image:
+Suppose you have a base image called =ubuntu-base.qcow2=, and you want to create an overlay named =ubuntu-overlay.qcow2=:
 
 #+begin_src sh
-qemu-img create -f qcow2 -b ubuntu-base.qcow2 ubuntu-overlay.qcow2
+qemu-img create -o backing_file=./ubuntu-base.qcow2,backing_fmt=qcow2 -f qcow2 ./ubuntu-overlay.qcow2
 #+end_src
-=-f qcow2=: Specifies the *QCOW2* format.
 
-=-b ubuntu-base.qcow2=: Specifies the base (backing) image.
+- =-o backing_file...,backing_fmt=qcow2=:
+  - =-o=: Passes extra options.
+  - =backing_file=: Path to the base image.
+  - =backing_fmt=: Format of the base image (must be =qcow2=).
 
-=ubuntu-overlay.qcow2=: The name of your new overlay image.
+- =-f qcow2=: Format of the new overlay image.
+
+- =./ubuntu-overlay.qcow2=: Path and name of the new overlay image.
+
+* Verifying the Overlay
+
+After creating the overlay image, you can verify that it correctly references the base image using the following command:
+
+#+begin_src sh
+qemu-img info ./ubuntu-overlay.qcow2
+#+end_src
+
+Look for output like this:
+#+begin_note
+Notice that the actual disk size is "=disk size: 107 MiB= "
+#+end_note
+
+#+begin_example
+image: ubuntu-overlay.qcow2
+file format: qcow2
+virtual size: 25 GiB (26843545600 bytes)
+disk size: 107 MiB
+backing file: ./ubuntu-base.qcow2
+backing file format: qcow2
+...
+
+#+end_example
+
+This confirms that:
+- The overlay is in =qcow2= format.
+- The =backing file= is correctly set to =ubuntu-base.qcow2=.
+- The =backing file format= is =qcow2=.
+
+If these fields are missing or incorrect, the virtual machine may not boot properly.
 
 * Overlay Image vs. Backing Image
 
 *Backing Image*: Also called the base image, this is your original, untouched *QCOW2* file. It's the read-only reference used by overlay images.
 
-*Overlay Image*: This is the read-write layer created on top of the backing image. All modifications are stored here, leaving your backing image pristine.
+*Overlay Image*: This is the read-write layer created on top of the backing image. All modifications are stored here, leaving your backing image untouched.
 
 It's important to remember that if your backing image gets moved or deleted, your overlay image becomes unusable since it depends directly on the backing image.
 
