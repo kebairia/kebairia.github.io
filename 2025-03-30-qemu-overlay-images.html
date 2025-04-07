@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-03-31 Mon 08:51 -->
+<!-- 2025-04-07 Mon 11:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Qemu Overlay Images</title>
@@ -49,8 +49,8 @@ Recently, while refactoring my <a href="https://github.com/kebairia/kvmcli">kvmc
 I was already familiar with the basics of the <b>QCOW2</b> image format, but you never truly appreciate certain features until you encounter a real-world problem yourself.
 </p>
 
-<div id="outline-container-orgf2a58b3" class="outline-2">
-<h2 id="orgf2a58b3"><span class="section-number-2">1</span> My Original Problem</h2>
+<div id="outline-container-org3af1495" class="outline-2">
+<h2 id="org3af1495"><span class="section-number-2">1</span> My Original Problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I provision multiple VMs daily. To streamline this process, I initially created base images for Ubuntu and Rocky Linux using Packer, as these are the distributions I use most frequently.
@@ -72,8 +72,8 @@ This approach consumed considerable time and disk space—especially time, since
 </div>
 </div>
 
-<div id="outline-container-org245f41d" class="outline-2">
-<h2 id="org245f41d"><span class="section-number-2">2</span> The <b>QCOW2</b> Overlay Image Solution</h2>
+<div id="outline-container-org4789f5f" class="outline-2">
+<h2 id="org4789f5f"><span class="section-number-2">2</span> The <b>QCOW2</b> Overlay Image Solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 What I learned (and found genuinely exciting!) is that <b>QCOW2</b> supports what's known as an overlay image. An overlay image acts as a tiny read-write layer on top of your existing base image.
@@ -106,42 +106,95 @@ Discovering this was a fantastic productivity boost for my daily workflow
 </p>
 </div>
 </div>
-<div id="outline-container-org6f477fb" class="outline-2">
-<h2 id="org6f477fb"><span class="section-number-2">3</span> How to Create a <b>QCOW2</b> Overlay Image</h2>
+<div id="outline-container-org760c55a" class="outline-2">
+<h2 id="org760c55a"><span class="section-number-2">3</span> How to Create a <b>QCOW2</b> Overlay Image</h2>
 <div class="outline-text-2" id="text-3">
 <div class="note">
 <p>
-What I've noticed is that, you need to to add <code>backing_fmt</code> to <code>qcow2</code> otherwise the virtual machine won't boot
+You must include <code>backing_fmt=qcow2</code> when creating an overlay. Without it, the virtual machine may fail to boot.
 </p>
 
 </div>
 
+<p>
+Here's a simple example of creating an overlay image:
+</p>
 
 <p>
-Here's a simple demonstration of creating an overlay image:
+Suppose you have a base image called <code>ubuntu-base.qcow2</code>, and you want to create an overlay named <code>ubuntu-overlay.qcow2</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">qemu-img create -f qcow2 -b ubuntu-base.qcow2 ubuntu-overlay.qcow2
+<pre class="src src-sh">qemu-img create -o <span style="font-weight: bold; font-style: italic;">backing_file</span>=./ubuntu-base.qcow2,<span style="font-weight: bold; font-style: italic;">backing_fmt</span>=qcow2 -f qcow2 ./ubuntu-overlay.qcow2
 </pre>
 </div>
-<p>
-<code>-f qcow2</code>: Specifies the <b>QCOW2</b> format.
-</p>
 
-<p>
-<code>-b ubuntu-base.qcow2</code>: Specifies the base (backing) image.
-</p>
+<ul class="org-ul">
+<li><code>-o backing_file...,backing_fmt=qcow2</code>:
+<ul class="org-ul">
+<li><code>-o</code>: Passes extra options.</li>
+<li><code>backing_file</code>: Path to the base image.</li>
+<li><code>backing_fmt</code>: Format of the base image (must be <code>qcow2</code>).</li>
+</ul></li>
 
-<p>
-<code>ubuntu-overlay.qcow2</code>: The name of your new overlay image.
-</p>
+<li><code>-f qcow2</code>: Format of the new overlay image.</li>
+
+<li><code>./ubuntu-overlay.qcow2</code>: Path and name of the new overlay image.</li>
+</ul>
 </div>
 </div>
 
-<div id="outline-container-orgcea99c4" class="outline-2">
-<h2 id="orgcea99c4"><span class="section-number-2">4</span> Overlay Image vs. Backing Image</h2>
+<div id="outline-container-org4629f6d" class="outline-2">
+<h2 id="org4629f6d"><span class="section-number-2">4</span> Verifying the Overlay</h2>
 <div class="outline-text-2" id="text-4">
+<p>
+After creating the overlay image, you can verify that it correctly references the base image using the following command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">qemu-img info ./ubuntu-overlay.qcow2
+</pre>
+</div>
+
+<p>
+Look for output like this:
+</p>
+<div class="note">
+<p>
+Notice that the actual disk size is "<code>disk size: 107 MiB</code> "
+</p>
+
+</div>
+
+<pre class="example">
+image: ubuntu-overlay.qcow2
+file format: qcow2
+virtual size: 25 GiB (26843545600 bytes)
+disk size: 107 MiB
+backing file: ./ubuntu-base.qcow2
+backing file format: qcow2
+...
+
+</pre>
+
+<p>
+This confirms that:
+</p>
+<ul class="org-ul">
+<li>The overlay is in <code>qcow2</code> format.</li>
+<li>The <code>backing file</code> is correctly set to <code>ubuntu-base.qcow2</code>.</li>
+<li>The <code>backing file format</code> is <code>qcow2</code>.</li>
+</ul>
+
+<p>
+If these fields are missing or incorrect, the virtual machine may not boot properly.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9276005" class="outline-2">
+<h2 id="org9276005"><span class="section-number-2">5</span> Overlay Image vs. Backing Image</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 <b>Backing Image</b>: Also called the base image, this is your original, untouched <b>QCOW2</b> file. It's the read-only reference used by overlay images.
 </p>
