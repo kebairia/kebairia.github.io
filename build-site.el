@@ -126,7 +126,7 @@
     <img src=\"img/social/twitter-logo.svg\" width=\"40\" alt=\"Twitter\" />
   </a>
 
-  <a href=\"https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg\" class=\"social\">
+  <a href= \"https://www.youtube.com/@zakariakebairia\" class=\"social\">
     <img src=\"img/social/youtube-black-logo.svg\" width=\"40\" alt=\"YouTube\" />
   </a>
 
@@ -143,7 +143,6 @@
   </p>
 </p>
 " (format-time-string "%Y")))
-
 ;; -------------------------
 ;; Build the Site
 ;; -------------------------
