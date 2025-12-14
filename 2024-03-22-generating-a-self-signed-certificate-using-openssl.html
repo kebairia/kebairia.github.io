@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-14 Sun 21:56 -->
+<!-- 2025-12-14 Sun 22:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Generating A Self-Signed Certificate Using CFSSL</title>
@@ -54,8 +54,8 @@ Recently, I had the opportunity to explore <a href="https://github.com/cloudflar
 it's significatly simplified the process of managing my SSL certificates.
 </p>
 
-<div id="outline-container-org6ad51fe" class="outline-2">
-<h2 id="org6ad51fe"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
+<div id="outline-container-org0006acb" class="outline-2">
+<h2 id="org0006acb"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 To get started with <code>cfssl</code>, we need to generate some configuration files.
@@ -101,7 +101,7 @@ Next, let's create another configuration file, we will use this configuratoin fi
 This file include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org4e8da45">cat config.json
+<pre class="src src-sh" id="org2f5a481">cat config.json
 </pre>
 </div>
 
@@ -181,8 +181,8 @@ CA:TRUE
 </div>
 </div>
 
-<div id="outline-container-org9fccb0b" class="outline-2">
-<h2 id="org9fccb0b"><span class="section-number-2">2</span> Hosts certificates</h2>
+<div id="outline-container-org57959e5" class="outline-2">
+<h2 id="org57959e5"><span class="section-number-2">2</span> Hosts certificates</h2>
 <div class="outline-text-2" id="text-2">
 <div class="note">
 <p>
@@ -275,8 +275,8 @@ This ensures that the certificate is generated according to the specific require
 </div>
 </div>
 
-<div id="outline-container-orged5c6de" class="outline-2">
-<h2 id="orged5c6de"><span class="section-number-2">3</span> Check the certification</h2>
+<div id="outline-container-org067db9e" class="outline-2">
+<h2 id="org067db9e"><span class="section-number-2">3</span> Check the certification</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:
@@ -313,7 +313,7 @@ This indicates that the GitLab certificate has been correctly signed by our CA, 
     <img src="img/social/twitter-logo.svg" width="40" alt="Twitter" />
   </a>
 
-  <a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" class="social">
+  <a href= "https://www.youtube.com/@zakariakebairia" class="social">
     <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
   </a>
 

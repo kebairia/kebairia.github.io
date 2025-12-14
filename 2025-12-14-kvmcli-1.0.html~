@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-14 Sun 21:56 -->
+<!-- 2025-12-14 Sun 22:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kvmcli v1.0.0</title>
@@ -18,19 +18,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga173314">1. Introduction</a></li>
-<li><a href="#org142c381">2. Why switching to Go</a></li>
-<li><a href="#orgeb1c62d">3. YAML Configuration: Why It Didn’t Scale</a></li>
-<li><a href="#orgc4e0388">4. Switching to HCL</a></li>
-<li><a href="#org48341a2">5. SQLite Backend</a></li>
-<li><a href="#org6965b25">6. Logging Improvements</a></li>
-<li><a href="#org7664872">7. What’s Next</a></li>
+<li><a href="#orgd69d753">1. Introduction</a></li>
+<li><a href="#orga646269">2. Why switching to Go</a></li>
+<li><a href="#orgf5824f8">3. YAML Configuration: Why It Didn’t Scale</a></li>
+<li><a href="#orgd91f034">4. Switching to HCL</a></li>
+<li><a href="#org4b84d88">5. SQLite Backend</a></li>
+<li><a href="#org2cbd86d">6. Logging Improvements</a></li>
+<li><a href="#org51207f4">7. What’s Next</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga173314" class="outline-2">
-<h2 id="orga173314"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orgd69d753" class="outline-2">
+<h2 id="orgd69d753"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 And here it is: <a href="https://github.com/kebairia/kvmcli">kvmcli v1.0.0</a>
@@ -46,8 +46,8 @@ Earlier versions worked, but they were basically just wrappers around the <code>
 </div>
 </div>
 
-<div id="outline-container-org142c381" class="outline-2">
-<h2 id="org142c381"><span class="section-number-2">2</span> Why switching to Go</h2>
+<div id="outline-container-orga646269" class="outline-2">
+<h2 id="orga646269"><span class="section-number-2">2</span> Why switching to Go</h2>
 <div class="outline-text-2" id="text-2">
 <div class="note">
 <p>
@@ -104,8 +104,8 @@ What <code>go-libvirt</code> provided:
 </div>
 
 
-<div id="outline-container-orgeb1c62d" class="outline-2">
-<h2 id="orgeb1c62d"><span class="section-number-2">3</span> YAML Configuration: Why It Didn’t Scale</h2>
+<div id="outline-container-orgf5824f8" class="outline-2">
+<h2 id="orgf5824f8"><span class="section-number-2">3</span> YAML Configuration: Why It Didn’t Scale</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 When I first switched to Go, I kept using YAML.
@@ -172,8 +172,8 @@ YAML was good for static data, but bad for composition.
 </div>
 </div>
 
-<div id="outline-container-orgc4e0388" class="outline-2">
-<h2 id="orgc4e0388"><span class="section-number-2">4</span> Switching to HCL</h2>
+<div id="outline-container-orgd91f034" class="outline-2">
+<h2 id="orgd91f034"><span class="section-number-2">4</span> Switching to HCL</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The main configuration change in <b>v1.0.0</b> is the move from YAML to HCL.
@@ -219,8 +219,8 @@ The configuration stays readable even when the number of VMs increases.
 </div>
 </div>
 
-<div id="outline-container-org48341a2" class="outline-2">
-<h2 id="org48341a2"><span class="section-number-2">5</span> SQLite Backend</h2>
+<div id="outline-container-org4b84d88" class="outline-2">
+<h2 id="org4b84d88"><span class="section-number-2">5</span> SQLite Backend</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 kvmcli now uses SQLite to store information about resources.
@@ -247,8 +247,8 @@ SQLite was chosen because:
 </div>
 </div>
 
-<div id="outline-container-org6965b25" class="outline-2">
-<h2 id="org6965b25"><span class="section-number-2">6</span> Logging Improvements</h2>
+<div id="outline-container-org2cbd86d" class="outline-2">
+<h2 id="org2cbd86d"><span class="section-number-2">6</span> Logging Improvements</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Logging was improved to make debugging easier.
@@ -257,8 +257,8 @@ Go really pushed me to be more strict and intentional about logging 😄
 </div>
 </div>
 
-<div id="outline-container-org7664872" class="outline-2">
-<h2 id="org7664872"><span class="section-number-2">7</span> What’s Next</h2>
+<div id="outline-container-org51207f4" class="outline-2">
+<h2 id="org51207f4"><span class="section-number-2">7</span> What’s Next</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Planned work after v1.0.0:
@@ -287,7 +287,7 @@ Planned work after v1.0.0:
     <img src="img/social/twitter-logo.svg" width="40" alt="Twitter" />
   </a>
 
-  <a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" class="social">
+  <a href= "https://www.youtube.com/@zakariakebairia" class="social">
     <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
   </a>
 
