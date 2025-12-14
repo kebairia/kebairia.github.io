@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-12-14 Sun 21:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kvmcli v1.0.0</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Zakaria.K" />
+<link rel="stylesheet" href="css/main.css" type="text/css" />
+</head>
+<body>
+<div id="content">
+<h1 class="title">Kvmcli v1.0.0</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org191c0c6">1. Introduction</a></li>
+<li><a href="#orgdbe550b">2. Why switching to Go</a></li>
+<li><a href="#org728562d">3. YAML Configuration: Why It Didn’t Scale</a></li>
+<li><a href="#orgedba2c9">4. Switching to HCL</a></li>
+<li><a href="#org8f299d4">5. SQLite Backend</a></li>
+<li><a href="#org32226e4">6. Logging Improvements</a></li>
+<li><a href="#org3c44aa6">7. What’s Next</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org191c0c6" class="outline-2">
+<h2 id="org191c0c6"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+And here it is: <a href="https://github.com/kebairia/kvmcli">kvmcli v1.0.0</a>
+</p>
+
+<p>
+The goal of this release was not to add more features, but to fix architectural problems that appeared as soon as I started managing more than a few VMs.
+</p>
+
+<p>
+Earlier versions worked, but they were basically just wrappers around the <code>virsh</code> command line (with Docker-Compose-inspired configuration files), which made further development very limited.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdbe550b" class="outline-2">
+<h2 id="orgdbe550b"><span class="section-number-2">2</span> Why switching to Go</h2>
+<div class="outline-text-2" id="text-2">
+<div class="note">
+<p>
+
+</p>
+
+<p>
+<code>go-libvirt</code> is a Go client for the libvirt API, which allows direct, structured interaction with libvirt and provides better control over resource lifecycles and error handling.
+</p>
+
+<p>
+Project link:
+<a href="https://github.com/digitalocean/go-libvirt">https://github.com/digitalocean/go-libvirt</a>
+</p>
+
+</div>
+
+<p>
+To be honest, the first reason was that I wanted to learn Go.
+At the same time, I knew that Go is fast and has a good library for libvirt (<code>go-libvirt</code>), which made the decision easier <code>¯\_(ツ)_/¯</code> 
+</p>
+
+<p>
+This project was also ambitious. I wanted to create something that can handle:
+</p>
+<ul class="org-ul">
+<li>Virtual networks</li>
+<li>Virtual machines</li>
+<li>Snapshots</li>
+<li>Clusters (groups of VMs with logic and metadata)</li>
+<li>Stores</li>
+<li>&#x2026;etc</li>
+</ul>
+
+<p>
+Using the libvirt library for Go instead of writing just a wrapper gave me the freedom to achieve what I really wanted.
+</p>
+
+<p>
+Today, I can say that this project is ready to be tagged as <b>v1.0.0</b>.
+There are still issues that will come later as patches, but the foundation is now solid.
+</p>
+
+<p>
+What <code>go-libvirt</code> provided:
+</p>
+<ul class="org-ul">
+<li>Direct API calls</li>
+<li>Better error handling</li>
+<li>Less implicit behavior</li>
+<li>Clearer lifecycle management</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org728562d" class="outline-2">
+<h2 id="org728562d"><span class="section-number-2">3</span> YAML Configuration: Why It Didn’t Scale</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+When I first switched to Go, I kept using YAML.
+</p>
+
+<p>
+The idea was to use Kubernetes-like manifests, because the model is familiar and works well for simple objects.
+</p>
+
+<p>
+Example of a config in YAML:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-yaml">apiVersion: kvmcli/v1
+kind: VirtualMachine
+metadata:
+  name: admin
+  namespace: k8s
+  store: homelab-store
+  labels:
+    role: dns
+    environment: homelab
+spec:
+  image: rocky-9.5
+  cpu: 1
+  memory: 2048
+  disk:
+    size: 20G
+  network:
+    name: homelab
+    mac: "02:A3:10:00:00:02"
+  autostart: true
+</pre>
+</div>
+
+<p>
+This worked fine for a few VMs.
+</p>
+
+<p>
+But once I started defining:
+</p>
+<ul class="org-ul">
+<li>clusters</li>
+<li>multiple roles</li>
+<li>shared networks and stores</li>
+<li>repeated specs with small variations</li>
+</ul>
+
+<p>
+the YAML files became:
+</p>
+<ul class="org-ul">
+<li>Very long</li>
+<li>Hard to read (indentation hell)</li>
+<li>Hard to refactor and maintain</li>
+<li>Easy to break</li>
+</ul>
+
+<p>
+YAML was good for static data, but bad for composition.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgedba2c9" class="outline-2">
+<h2 id="orgedba2c9"><span class="section-number-2">4</span> Switching to HCL</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The main configuration change in <b>v1.0.0</b> is the move from YAML to HCL.
+</p>
+
+<p>
+HCL allows:
+</p>
+<ul class="org-ul">
+<li>Direct references between resources</li>
+<li>Clearer structure</li>
+<li>Less duplication</li>
+<li>Better readability as configs grow</li>
+</ul>
+
+<p>
+Example of a config in HCL:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-hcl">vm "admin" {
+  image     = "rocky-10.1"
+  namespace = "k8s"
+  cpu       = 1
+  memory    = 2048
+  disk      = "20G"
+  store     = data.store.homelab
+  network   = network.kubernetes
+  ip        = "10.10.10.10"
+
+  labels = {
+    environment = "homelab"
+    role        = "dns"
+  }
+}
+</pre>
+</div>
+
+<p>
+For me, this made a big difference.
+The configuration stays readable even when the number of VMs increases.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8f299d4" class="outline-2">
+<h2 id="org8f299d4"><span class="section-number-2">5</span> SQLite Backend</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+kvmcli now uses SQLite to store information about resources.
+</p>
+
+<p>
+This includes:
+</p>
+<ul class="org-ul">
+<li>Networks</li>
+<li>VMs</li>
+<li>Stores</li>
+<li>and the relationships between them</li>
+</ul>
+
+<p>
+SQLite was chosen because:
+</p>
+<ul class="org-ul">
+<li>no external service is required</li>
+<li>it is reliable</li>
+<li>it fits local infrastructure tooling very well</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org32226e4" class="outline-2">
+<h2 id="org32226e4"><span class="section-number-2">6</span> Logging Improvements</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Logging was improved to make debugging easier.
+Go really pushed me to be more strict and intentional about logging 😄
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3c44aa6" class="outline-2">
+<h2 id="org3c44aa6"><span class="section-number-2">7</span> What’s Next</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Planned work after v1.0.0:
+</p>
+<ul class="org-ul">
+<li>Provisionners support (ansible and shell)</li>
+<li>Cluster-level logic</li>
+<li>Variables (similar to Terraform and Packer, very handy)</li>
+<li>Snapshots (and restore)</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+<p class="postamble">
+  <a href="http://creativecommons.org/licenses/by-sa/4.0/" class="crc">
+    <img src="img/crc.png" alt="Creative Commons License" />
+  </a>
+
+  <a href="https://www.linkedin.com/in/zakaria-kebairia/" class="social">
+    <img src="img/social/linkedin-icon-logo.svg" width="45" alt="LinkedIn" />
+  </a>
+
+  <a href="https://twitter.com/z_kebairia" class="social">
+    <img src="img/social/twitter-logo.svg" width="40" alt="Twitter" />
+  </a>
+
+  <a href="https://www.youtube.com/channel/UC7OqXJDFQI8_WFC6WnsWCrg" class="social">
+    <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
+  </a>
+
+  <a href="https://www.github.com/kebairia" class="social">
+    <img src="img/social/github.svg" width="43" alt="GitHub" />
+  </a>
+
+  <br>
+
+  <p class="credit">
+    Copyright &copy; 2025 Zakaria Kebairia
+    <br>
+    Content licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> unless otherwise noted.
+  </p>
+</p>
+</div>
+</body>
+</html>

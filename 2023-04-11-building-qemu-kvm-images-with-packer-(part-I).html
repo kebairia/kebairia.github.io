@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-07 Mon 11:24 -->
+<!-- 2025-12-14 Sun 21:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Qemu-Kvm Images With Packer (Part I)</title>
@@ -36,8 +36,8 @@ Date: 11 April 2023
 </p>
 
 </div>
-<div id="outline-container-orgeb73507" class="outline-2">
-<h2 id="orgeb73507"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org1f8e660" class="outline-2">
+<h2 id="org1f8e660"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We are going to create a RockyLinux image using Packer.<br />
@@ -52,8 +52,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 
 
-<div id="outline-container-org5f389ee" class="outline-2">
-<h2 id="org5f389ee"><span class="section-number-2">2</span> Prerequisites</h2>
+<div id="outline-container-orgd161103" class="outline-2">
+<h2 id="orgd161103"><span class="section-number-2">2</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>We need a server with KVM installed on it</li>
@@ -62,8 +62,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-orgde67eca" class="outline-2">
-<h2 id="orgde67eca"><span class="section-number-2">3</span> The Plan</h2>
+<div id="outline-container-orga4e2b90" class="outline-2">
+<h2 id="orga4e2b90"><span class="section-number-2">3</span> The Plan</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>We are going to install Packer.</li>
@@ -75,8 +75,8 @@ Part 1 covers building a <b>Rocky Linux 9</b> image with Packer, while Part 2 fo
 </div>
 </div>
 
-<div id="outline-container-orga2a2940" class="outline-2">
-<h2 id="orga2a2940"><span class="section-number-2">4</span> Installing Packer</h2>
+<div id="outline-container-org84ba9e0" class="outline-2">
+<h2 id="org84ba9e0"><span class="section-number-2">4</span> Installing Packer</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Installing Packer is a straightforward process. Simply visit the <a href="https://developer.hashicorp.com/packer/downloads">official documentation</a>, where you can find the appropriate version of Packer for your operating system.<br />
@@ -99,8 +99,8 @@ packer --version
 </div>
 </div>
 
-<div id="outline-container-org9ea02cb" class="outline-2">
-<h2 id="org9ea02cb"><span class="section-number-2">5</span> Write Packer Templates with HCL2</h2>
+<div id="outline-container-orgbfa234a" class="outline-2">
+<h2 id="orgbfa234a"><span class="section-number-2">5</span> Write Packer Templates with HCL2</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 HashiCorp has developed its own configuration language, known as the <b>HashiCorp Configuration Language (HCL)</b>, which is utilized in its suite of tools.<br />
@@ -117,13 +117,13 @@ We will create a file named <code>main.pkr.hcl</code>, it will serve as our prim
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh" id="org979da41">touch main.pkr.hcl
+<pre class="src src-sh" id="org243079e">touch main.pkr.hcl
 </pre>
 </div>
 </div>
 
-<div id="outline-container-orgb4575cf" class="outline-3">
-<h3 id="orgb4575cf"><span class="section-number-3">5.1</span> Installing Packer's builder for QEMU</h3>
+<div id="outline-container-org024f525" class="outline-3">
+<h3 id="org024f525"><span class="section-number-3">5.1</span> Installing Packer's builder for QEMU</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Add this to <code>main.pkr.hcl</code>
@@ -154,8 +154,8 @@ This command is used to initiate our Packer template, which is basically downloa
 </div>
 </div>
 
-<div id="outline-container-org9afe515" class="outline-3">
-<h3 id="org9afe515"><span class="section-number-3">5.2</span> Packer's main blocks</h3>
+<div id="outline-container-org76fc31a" class="outline-3">
+<h3 id="org76fc31a"><span class="section-number-3">5.2</span> Packer's main blocks</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Packer templates consist of several built-in blocks, each serving as a container for configuration settings.
@@ -196,7 +196,7 @@ Alright, add the following to your <code>main.pkr.hcl</code> file.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-hcl" id="orge63c414"># Define QEMU source for rocky
+<pre class="src src-hcl" id="orgccaaa40"># Define QEMU source for rocky
 source "qemu" "rocky" {
   vm_name                 = "rocky-base-image.qcow2"
   http_directory          = "./http"
@@ -250,15 +250,15 @@ We also used a <code>provisioner</code> block calling the <code>configs.sh</code
 </div>
 </div>
 
-<div id="outline-container-orgdb74f4c" class="outline-2">
-<h2 id="orgdb74f4c"><span class="section-number-2">6</span> Kickstart file</h2>
+<div id="outline-container-org5f5405b" class="outline-2">
+<h2 id="org5f5405b"><span class="section-number-2">6</span> Kickstart file</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Packer initiates its HTTP server at boot time to serve configuration files, we'll create a directory named <code>http</code> and store our Kickstart configuration file within. Then, we can reference the Kickstart file with the <a href="#coderef-Bootstrapping with a Kickstart Config File" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-Bootstrapping with a Kickstart Config File');" onmouseout="CodeHighlightOff(this, 'coderef-Bootstrapping with a Kickstart Config File');">boot command</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh" id="org795bfa3">mkdir http
+<pre class="src src-sh" id="org571e76f">mkdir http
 </pre>
 </div>
 
@@ -267,35 +267,35 @@ Create a kickstart file with the following content, (or any content you want).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Global settings</span>
-cdrom                              <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Specify installation media type</span>
-lang en_US.UTF-8                   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set language and character encoding</span>
-keyboard us                        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set keyboard layout</span>
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Global settings
+</span>cdrom                              <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Specify installation media type
+</span>lang en_US.UTF-8                   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set language and character encoding
+</span>keyboard us                        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set keyboard layout
+</span>
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Network settings
+</span><span style="font-weight: bold; font-style: italic;">network --bootproto</span>=dhcp --device=eth0 --nameserver=10.10.0.2,10.10.0.3 --noipv6 --activate --onboot=on
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Network settings</span>
-<span style="font-weight: bold; font-style: italic;">network --bootproto</span>=dhcp --device=eth0 --nameserver=10.10.0.2,10.10.0.3 --noipv6 --activate --onboot=on
-
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">User settings</span>
-rootpw --plaintext admin           <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set root password</span>
-<span style="font-weight: bold; font-style: italic;">user --name</span>=admin --plaintext --password admin   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Create a user account</span>
-
-timezone Africa/Algeria            <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set timezone</span>
-<span style="font-weight: bold; font-style: italic;">bootloader --timeout</span>=1 --location=mbr --append=<span style="font-style: italic;">"net.ifnames=0 biosdevname=0"</span>   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Configure bootloader</span>
-text                               <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use text mode install</span>
-skipx                              <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Do not configure X Window System</span>
-zerombr                            <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Clear master boot record</span>
-clearpart --all --initlabel        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Clear all existing partitions</span>
-autopart --nohome --nolvm --noboot <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Automatically partition disk</span>
-
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">System service settings</span>
-firewall --enabled                 <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable firewall</span>
-selinux --enforcing                <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable SELinux in enforcing mode</span>
-firstboot --disabled               <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Disable Initial Setup on first boot</span>
-reboot --eject                     <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Reboot system after installation</span>
-<span style="font-weight: bold; font-style: italic;">services --enabled</span>=<span style="font-style: italic;">"NetworkManager,sshd,chronyd"</span>   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable specified services</span>
-
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Package installation settings</span>
-%packages --ignoremissing --excludedocs
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">User settings
+</span>rootpw --plaintext admin           <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set root password
+</span><span style="font-weight: bold; font-style: italic;">user --name</span>=admin --plaintext --password admin   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Create a user account
+</span>
+timezone Africa/Algeria            <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set timezone
+</span><span style="font-weight: bold; font-style: italic;">bootloader --timeout</span>=1 --location=mbr --append=<span style="font-style: italic;">"net.ifnames=0 biosdevname=0"</span>   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Configure bootloader
+</span>text                               <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use text mode install
+</span>skipx                              <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Do not configure X Window System
+</span>zerombr                            <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Clear master boot record
+</span>clearpart --all --initlabel        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Clear all existing partitions
+</span>autopart --nohome --nolvm --noboot <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Automatically partition disk
+</span>
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">System service settings
+</span>firewall --enabled                 <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable firewall
+</span>selinux --enforcing                <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable SELinux in enforcing mode
+</span>firstboot --disabled               <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Disable Initial Setup on first boot
+</span>reboot --eject                     <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Reboot system after installation
+</span><span style="font-weight: bold; font-style: italic;">services --enabled</span>=<span style="font-style: italic;">"NetworkManager,sshd,chronyd"</span>   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable specified services
+</span>
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Package installation settings
+</span>%packages --ignoremissing --excludedocs
 openssh-clients
 sudo
 vim
@@ -317,20 +317,20 @@ elfutils-libelf-devel
 -microcode_ctl
 %end
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Post installation settings</span>
-%post
-<span style="font-weight: bold; font-style: italic;">#</span>
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Sudo configuration</span>
-echo <span style="font-style: italic;">'Defaults:admin !requiretty'</span> &gt; /etc/sudoers.d/admin
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Post installation settings
+</span>%post
+<span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">
+</span><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Sudo configuration
+</span>echo <span style="font-style: italic;">'Defaults:admin !requiretty'</span> &gt; /etc/sudoers.d/admin
 echo <span style="font-style: italic;">'%admin ALL=(ALL) NOPASSWD: ALL'</span> &gt;&gt; /etc/sudoers.d/admin
 chmod 440 /etc/sudoers.d/admin
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">SSH configuration</span>
-echo <span style="font-style: italic;">"PubkeyAcceptedKeyTypes=+ssh-rsa"</span> &gt;&gt; /etc/ssh/sshd_config
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">SSH configuration
+</span>echo <span style="font-style: italic;">"PubkeyAcceptedKeyTypes=+ssh-rsa"</span> &gt;&gt; /etc/ssh/sshd_config
 /usr/bin/systemctl enable sshd
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Update all packages</span>
-/usr/bin/yum -y update
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Update all packages
+</span>/usr/bin/yum -y update
 
 %end
 
@@ -339,8 +339,8 @@ echo <span style="font-style: italic;">"PubkeyAcceptedKeyTypes=+ssh-rsa"</span> 
 </div>
 </div>
 
-<div id="outline-container-org89da42c" class="outline-2">
-<h2 id="org89da42c"><span class="section-number-2">7</span> Shell script for Provisionning</h2>
+<div id="outline-container-org8263f99" class="outline-2">
+<h2 id="org8263f99"><span class="section-number-2">7</span> Shell script for Provisionning</h2>
 <div class="outline-text-2" id="text-7">
 <div class="note">
 <p>
@@ -355,25 +355,25 @@ Feel free to add any additional configuration you see fit.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/bin/</span><span style="font-weight: bold;">bash</span>
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">We need to use `tee` command, because redirection "&gt;" doesn't pass sudo privileges </span>
-cat &lt;&lt; EOF | sudo tee /etc/banner
-<span style="font-weight: bold;">    &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</span>
-<span style="font-weight: bold;">    &#9474;!! Welcome to Homelab !!&#9474;</span>
-<span style="font-weight: bold;">    &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</span>
-<span style="font-weight: bold;">EOF</span>
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable `Banner` option</span>
-sudo sed -i <span style="font-style: italic;">'s/^#Banner none/Banner \/etc\/banner/'</span> /etc/ssh/sshd_config
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Restart sshd service</span>
-sudo systemctl restart sshd
+<pre class="src src-sh"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/bin/</span><span style="font-weight: bold;">bash</span><span style="font-weight: bold; font-style: italic;">
+</span><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">We need to use `tee` command, because redirection "&gt;" doesn't pass sudo privileges 
+</span>cat &lt;&lt; EOF | sudo tee /etc/banner<span style="font-weight: bold;">
+    &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+    &#9474;!! Welcome to Homelab !!&#9474;
+    &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+EOF
+</span><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Enable `Banner` option
+</span>sudo sed -i <span style="font-style: italic;">'s/^#Banner none/Banner \/etc\/banner/'</span> /etc/ssh/sshd_config
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Restart sshd service
+</span>sudo systemctl restart sshd
 
 
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7e088e8" class="outline-2">
-<h2 id="org7e088e8"><span class="section-number-2">8</span> Building the image</h2>
+<div id="outline-container-org7dbf749" class="outline-2">
+<h2 id="org7dbf749"><span class="section-number-2">8</span> Building the image</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 Let's first validate our template.
