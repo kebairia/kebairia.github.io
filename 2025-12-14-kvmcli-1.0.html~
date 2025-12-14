@@ -18,19 +18,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org191c0c6">1. Introduction</a></li>
-<li><a href="#orgdbe550b">2. Why switching to Go</a></li>
-<li><a href="#org728562d">3. YAML Configuration: Why It Didn’t Scale</a></li>
-<li><a href="#orgedba2c9">4. Switching to HCL</a></li>
-<li><a href="#org8f299d4">5. SQLite Backend</a></li>
-<li><a href="#org32226e4">6. Logging Improvements</a></li>
-<li><a href="#org3c44aa6">7. What’s Next</a></li>
+<li><a href="#orga173314">1. Introduction</a></li>
+<li><a href="#org142c381">2. Why switching to Go</a></li>
+<li><a href="#orgeb1c62d">3. YAML Configuration: Why It Didn’t Scale</a></li>
+<li><a href="#orgc4e0388">4. Switching to HCL</a></li>
+<li><a href="#org48341a2">5. SQLite Backend</a></li>
+<li><a href="#org6965b25">6. Logging Improvements</a></li>
+<li><a href="#org7664872">7. What’s Next</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org191c0c6" class="outline-2">
-<h2 id="org191c0c6"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orga173314" class="outline-2">
+<h2 id="orga173314"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 And here it is: <a href="https://github.com/kebairia/kvmcli">kvmcli v1.0.0</a>
@@ -46,8 +46,8 @@ Earlier versions worked, but they were basically just wrappers around the <code>
 </div>
 </div>
 
-<div id="outline-container-orgdbe550b" class="outline-2">
-<h2 id="orgdbe550b"><span class="section-number-2">2</span> Why switching to Go</h2>
+<div id="outline-container-org142c381" class="outline-2">
+<h2 id="org142c381"><span class="section-number-2">2</span> Why switching to Go</h2>
 <div class="outline-text-2" id="text-2">
 <div class="note">
 <p>
@@ -104,8 +104,8 @@ What <code>go-libvirt</code> provided:
 </div>
 
 
-<div id="outline-container-org728562d" class="outline-2">
-<h2 id="org728562d"><span class="section-number-2">3</span> YAML Configuration: Why It Didn’t Scale</h2>
+<div id="outline-container-orgeb1c62d" class="outline-2">
+<h2 id="orgeb1c62d"><span class="section-number-2">3</span> YAML Configuration: Why It Didn’t Scale</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 When I first switched to Go, I kept using YAML.
@@ -172,8 +172,8 @@ YAML was good for static data, but bad for composition.
 </div>
 </div>
 
-<div id="outline-container-orgedba2c9" class="outline-2">
-<h2 id="orgedba2c9"><span class="section-number-2">4</span> Switching to HCL</h2>
+<div id="outline-container-orgc4e0388" class="outline-2">
+<h2 id="orgc4e0388"><span class="section-number-2">4</span> Switching to HCL</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The main configuration change in <b>v1.0.0</b> is the move from YAML to HCL.
@@ -219,8 +219,8 @@ The configuration stays readable even when the number of VMs increases.
 </div>
 </div>
 
-<div id="outline-container-org8f299d4" class="outline-2">
-<h2 id="org8f299d4"><span class="section-number-2">5</span> SQLite Backend</h2>
+<div id="outline-container-org48341a2" class="outline-2">
+<h2 id="org48341a2"><span class="section-number-2">5</span> SQLite Backend</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 kvmcli now uses SQLite to store information about resources.
@@ -247,8 +247,8 @@ SQLite was chosen because:
 </div>
 </div>
 
-<div id="outline-container-org32226e4" class="outline-2">
-<h2 id="org32226e4"><span class="section-number-2">6</span> Logging Improvements</h2>
+<div id="outline-container-org6965b25" class="outline-2">
+<h2 id="org6965b25"><span class="section-number-2">6</span> Logging Improvements</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Logging was improved to make debugging easier.
@@ -257,8 +257,8 @@ Go really pushed me to be more strict and intentional about logging 😄
 </div>
 </div>
 
-<div id="outline-container-org3c44aa6" class="outline-2">
-<h2 id="org3c44aa6"><span class="section-number-2">7</span> What’s Next</h2>
+<div id="outline-container-org7664872" class="outline-2">
+<h2 id="org7664872"><span class="section-number-2">7</span> What’s Next</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Planned work after v1.0.0:

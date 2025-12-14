@@ -21,9 +21,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org6d7103d">1. Generating our Certificate authority</a></li>
-<li><a href="#orgeafc3b2">2. Hosts certificates</a></li>
-<li><a href="#org441ba59">3. Check the certification</a></li>
+<li><a href="#org4deae60">1. Generating our Certificate authority</a></li>
+<li><a href="#org0c4daa0">2. Hosts certificates</a></li>
+<li><a href="#org7889cda">3. Check the certification</a></li>
 </ul>
 </div>
 </div>
@@ -51,8 +51,8 @@ Recently, I had the opportunity to explore <a href="https://github.com/cloudflar
 it's significatly simplified the process of managing my SSL certificates.
 </p>
 
-<div id="outline-container-org6d7103d" class="outline-2">
-<h2 id="org6d7103d"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
+<div id="outline-container-org4deae60" class="outline-2">
+<h2 id="org4deae60"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 To get started with <code>cfssl</code>, we need to generate some configuration files.
@@ -98,7 +98,7 @@ Next, let's create another configuration file, we will use this configuratoin fi
 This file include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org4324f23">cat config.json
+<pre class="src src-sh" id="org3688fae">cat config.json
 </pre>
 </div>
 
@@ -178,8 +178,8 @@ CA:TRUE
 </div>
 </div>
 
-<div id="outline-container-orgeafc3b2" class="outline-2">
-<h2 id="orgeafc3b2"><span class="section-number-2">2</span> Hosts certificates</h2>
+<div id="outline-container-org0c4daa0" class="outline-2">
+<h2 id="org0c4daa0"><span class="section-number-2">2</span> Hosts certificates</h2>
 <div class="outline-text-2" id="text-2">
 <div class="note">
 <p>
@@ -272,8 +272,8 @@ This ensures that the certificate is generated according to the specific require
 </div>
 </div>
 
-<div id="outline-container-org441ba59" class="outline-2">
-<h2 id="org441ba59"><span class="section-number-2">3</span> Check the certification</h2>
+<div id="outline-container-org7889cda" class="outline-2">
+<h2 id="org7889cda"><span class="section-number-2">3</span> Check the certification</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:

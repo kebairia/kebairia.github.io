@@ -21,13 +21,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org266e38d">1. Improvements and Features in v0.9</a>
+<li><a href="#orgffb767d">1. Improvements and Features in v0.9</a>
 <ul>
-<li><a href="#org9964913">1.1. Multiprocessing</a></li>
-<li><a href="#orgd172431">1.2. New option <code>kvmcli --init</code></a></li>
+<li><a href="#orgae7c46f">1.1. Multiprocessing</a></li>
+<li><a href="#orge1ba221">1.2. New option <code>kvmcli --init</code></a></li>
 </ul>
 </li>
-<li><a href="#orgb932e7e">2. Other improvements</a></li>
+<li><a href="#org96a1a97">2. Other improvements</a></li>
 </ul>
 </div>
 </div>
@@ -42,15 +42,15 @@ Date: 01 May 2023
 In this blog post, I will present the latest release of <b>kvmcli</b>, kvmcli version 0.9, and the new features it brings. This release serves as a preparation for the upcoming stable release, <b>kvmcli 1.0</b>.
 </p>
 
-<div id="outline-container-org266e38d" class="outline-2">
-<h2 id="org266e38d"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
+<div id="outline-container-orgffb767d" class="outline-2">
+<h2 id="orgffb767d"><span class="section-number-2">1</span> Improvements and Features in v0.9</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b>kvmcli v0.9</b> introduces the following features and improvements:
 </p>
 </div>
-<div id="outline-container-org9964913" class="outline-3">
-<h3 id="org9964913"><span class="section-number-3">1.1</span> Multiprocessing</h3>
+<div id="outline-container-orgae7c46f" class="outline-3">
+<h3 id="orgae7c46f"><span class="section-number-3">1.1</span> Multiprocessing</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="note">
 <p>
@@ -74,7 +74,7 @@ Here's an example of how to set the <code>fork</code> value in the configuration
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml" id="org8a17867">
+<pre class="src src-toml" id="org03fef86">
 [misc]
 fork = 5
 </pre>
@@ -86,8 +86,8 @@ In the example above, I instructed <b>kvmcli</b> to launch five independent proc
 </div>
 </div>
 
-<div id="outline-container-orgd172431" class="outline-3">
-<h3 id="orgd172431"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
+<div id="outline-container-orge1ba221" class="outline-3">
+<h3 id="orge1ba221"><span class="section-number-3">1.2</span> New option <code>kvmcli --init</code></h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="note">
 <p>
@@ -163,8 +163,8 @@ vms:
 </div>
 </div>
 
-<div id="outline-container-orgb932e7e" class="outline-2">
-<h2 id="orgb932e7e"><span class="section-number-2">2</span> Other improvements</h2>
+<div id="outline-container-org96a1a97" class="outline-2">
+<h2 id="org96a1a97"><span class="section-number-2">2</span> Other improvements</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Other changes in this release include improvements in project structure, code cleaning&#x2026;etc.

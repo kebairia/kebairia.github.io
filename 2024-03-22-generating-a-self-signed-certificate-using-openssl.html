@@ -54,8 +54,8 @@ Recently, I had the opportunity to explore <a href="https://github.com/cloudflar
 it's significatly simplified the process of managing my SSL certificates.
 </p>
 
-<div id="outline-container-org0723326" class="outline-2">
-<h2 id="org0723326"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
+<div id="outline-container-org6ad51fe" class="outline-2">
+<h2 id="org6ad51fe"><span class="section-number-2">1</span> Generating our Certificate authority</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 To get started with <code>cfssl</code>, we need to generate some configuration files.
@@ -101,7 +101,7 @@ Next, let's create another configuration file, we will use this configuratoin fi
 This file include default settings, such as the CA's validity period, and various profiles to the specific server types for which we're issuing certificates.
 </p>
 <div class="org-src-container">
-<pre class="src src-sh" id="org762c3c5">cat config.json
+<pre class="src src-sh" id="org4e8da45">cat config.json
 </pre>
 </div>
 
@@ -181,8 +181,8 @@ CA:TRUE
 </div>
 </div>
 
-<div id="outline-container-orga266acb" class="outline-2">
-<h2 id="orga266acb"><span class="section-number-2">2</span> Hosts certificates</h2>
+<div id="outline-container-org9fccb0b" class="outline-2">
+<h2 id="org9fccb0b"><span class="section-number-2">2</span> Hosts certificates</h2>
 <div class="outline-text-2" id="text-2">
 <div class="note">
 <p>
@@ -275,8 +275,8 @@ This ensures that the certificate is generated according to the specific require
 </div>
 </div>
 
-<div id="outline-container-orgfd05c63" class="outline-2">
-<h2 id="orgfd05c63"><span class="section-number-2">3</span> Check the certification</h2>
+<div id="outline-container-orged5c6de" class="outline-2">
+<h2 id="orged5c6de"><span class="section-number-2">3</span> Check the certification</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Finally, to confirm the validity and proper relationship between the GitLab certificate and the CA's certificate, we use the following OpenSSL command:
