@@ -1,0 +1,156 @@
+#+TITLE: Kvmcli v1.0.0
+#+SUBTITLE:
+#+AUTHOR: Zakaria.K
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 14 December 2025
+#+OPTIONS: html5-fancy:t tex:t
+#+STARTUP: show2levels indent hidestars
+#+KEYWORDS:
+
+* Introduction
+
+And here it is: [[https://github.com/kebairia/kvmcli][kvmcli v1.0.0]]
+
+The goal of this release was not to add more features, but to fix architectural problems that appeared as soon as I started managing more than a few VMs.
+
+Earlier versions worked, but they were basically just wrappers around the =virsh= command line (with Docker-Compose-inspired configuration files), which made further development very limited.
+
+* Why switching to Go
+
+#+begin_note
+
+=go-libvirt= is a Go client for the libvirt API, which allows direct, structured interaction with libvirt and provides better control over resource lifecycles and error handling.
+
+Project link:
+https://github.com/digitalocean/go-libvirt
+#+end_note
+
+To be honest, the first reason was that I wanted to learn Go.
+At the same time, I knew that Go is fast and has a good library for libvirt (=go-libvirt=), which made the decision easier =¯\_(ツ)_/¯= 
+
+This project was also ambitious. I wanted to create something that can handle:
+- Virtual networks
+- Virtual machines
+- Snapshots
+- Clusters (groups of VMs with logic and metadata)
+- Stores
+- ...etc
+
+Using the libvirt library for Go instead of writing just a wrapper gave me the freedom to achieve what I really wanted.
+
+Today, I can say that this project is ready to be tagged as *v1.0.0*.
+There are still issues that will come later as patches, but the foundation is now solid.
+
+What =go-libvirt= provided:
+- Direct API calls
+- Better error handling
+- Less implicit behavior
+- Clearer lifecycle management
+
+
+* YAML Configuration: Why It Didn’t Scale
+
+When I first switched to Go, I kept using YAML.
+
+The idea was to use Kubernetes-like manifests, because the model is familiar and works well for simple objects.
+
+Example of a config in YAML:
+
+#+begin_src yaml
+apiVersion: kvmcli/v1
+kind: VirtualMachine
+metadata:
+  name: admin
+  namespace: k8s
+  store: homelab-store
+  labels:
+    role: dns
+    environment: homelab
+spec:
+  image: rocky-9.5
+  cpu: 1
+  memory: 2048
+  disk:
+    size: 20G
+  network:
+    name: homelab
+    mac: "02:A3:10:00:00:02"
+  autostart: true
+#+end_src
+
+This worked fine for a few VMs.
+
+But once I started defining:
+- clusters
+- multiple roles
+- shared networks and stores
+- repeated specs with small variations
+
+the YAML files became:
+- Very long
+- Hard to read (indentation hell)
+- Hard to refactor and maintain
+- Easy to break
+
+YAML was good for static data, but bad for composition.
+
+* Switching to HCL
+
+The main configuration change in *v1.0.0* is the move from YAML to HCL.
+
+HCL allows:
+- Direct references between resources
+- Clearer structure
+- Less duplication
+- Better readability as configs grow
+
+Example of a config in HCL:
+
+#+begin_src hcl
+vm "admin" {
+  image     = "rocky-10.1"
+  namespace = "k8s"
+  cpu       = 1
+  memory    = 2048
+  disk      = "20G"
+  store     = data.store.homelab
+  network   = network.kubernetes
+  ip        = "10.10.10.10"
+
+  labels = {
+    environment = "homelab"
+    role        = "dns"
+  }
+}
+#+end_src
+
+For me, this made a big difference.
+The configuration stays readable even when the number of VMs increases.
+
+* SQLite Backend
+
+kvmcli now uses SQLite to store information about resources.
+
+This includes:
+- Networks
+- VMs
+- Stores
+- and the relationships between them
+
+SQLite was chosen because:
+- no external service is required
+- it is reliable
+- it fits local infrastructure tooling very well
+
+* Logging Improvements
+
+Logging was improved to make debugging easier.
+Go really pushed me to be more strict and intentional about logging 😄
+
+* What’s Next
+
+Planned work after v1.0.0:
+- Provisionners support (ansible and shell)
+- Cluster-level logic
+- Variables (similar to Terraform and Packer, very handy)
+- Snapshots (and restore)
