@@ -1,4 +1,4 @@
-#+TITLE: Kvmcli v1.0.0
+#+TITLE: Kvmcli v1.0.0-alpha
 #+SUBTITLE:
 #+AUTHOR: Zakaria.K
 #+EMAIL: 4.kebairia@gmail.com
@@ -9,7 +9,7 @@
 
 * Introduction
 
-And here it is: [[https://github.com/kebairia/kvmcli][kvmcli v1.0.0]]
+And here it is: [[https://github.com/kebairia/kvmcli][kvmcli v1.0.0-alpha]]
 
 The goal of this release was not to add more features, but to fix architectural problems that appeared as soon as I started managing more than a few VMs.
 
@@ -38,7 +38,7 @@ This project was also ambitious. I wanted to create something that can handle:
 
 Using the libvirt library for Go instead of writing just a wrapper gave me the freedom to achieve what I really wanted.
 
-Today, I can say that this project is ready to be tagged as *v1.0.0*.
+Today, I can say that this project is ready to be tagged as *v1.0.0-alpha*.
 There are still issues that will come later as patches, but the foundation is now solid.
 
 What =go-libvirt= provided:
