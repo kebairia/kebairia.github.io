@@ -1,13 +1,16 @@
-/* Importing fonts from Google Fonts */
+/* =========================================================
+   Fonts
+   ========================================================= */
 @import url("https://fonts.googleapis.com/css2?family=PT+Mono&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap");
 
-/* Base box-sizing rule for all elements */
+/* =========================================================
+   Global
+   ========================================================= */
 * {
   box-sizing: border-box;
 }
 
-/* Responsive font sizes */
 @media all and (min-width: 1000px) {
   html {
     font-size: 18px;
@@ -20,45 +23,41 @@
   }
 }
 
-/* Variable Declarations */
+/* =========================================================
+   Variables
+   ========================================================= */
 :root {
-  /* Color scheme */
   --background-color: #fefefe;
   --blog-font: "Source Serif Pro", serif;
   --mono-font: "PT Mono", monospace;
 
-  /* Font sizes */
   --blog-font-size: 16pt;
   --mono-font-size: 13pt;
   --subtitle-font-size: 18pt;
   --date-font-size: 10pt;
 
-  /* Colors */
   --subtitle-color: grey;
   --section-number-font-color: transparent;
   --link-color: var(--foreground-color);
 
-  /* Other styles */
   --section-number-font-size: 12px;
   --section-number-line-height: 0.95;
 }
 
-/* Header Styles */
-
-/* Basic header styling */
+/* =========================================================
+   Header
+   ========================================================= */
 header {
   position: relative;
   margin: 0 auto -2rem;
   padding-bottom: 60px;
 }
 
-/* Styling for home link - content removed */
 .home:after {
   /* content: "Zakaria Kebairia"; */
   font-family: "Fantasque Sans Mono";
 }
 
-/* Home image link within header */
 header > h4 > a.home img {
   height: 2em;
   top: 0.25em;
@@ -66,46 +65,35 @@ header > h4 > a.home img {
   position: relative;
 }
 
-/* RSS link styling */
-header > h4 > a.rss {
+header > h4 > a.rss,
+header > h4 > a.resume {
   float: right;
 }
 
-/* RSS image within header */
-header > h4 > a.rss img {
+header > h4 > a.rss img,
+header > h4 > a.resume img {
   position: relative;
   top: -0.2em;
   filter: invert(0.6);
 }
 
-/* Hover effect for RSS image */
+header > h4 > a.resume img {
+  padding-right: 14px;
+}
+
 header > h4 > a.rss img:hover {
   opacity: 1;
   filter: invert(38%) sepia(98%) saturate(1640%) hue-rotate(11deg) contrast(98%);
 }
 
-/* Resume link styling */
-header > h4 > a.resume {
-  float: right;
-}
-
-/* Resume image within header */
-header > h4 > a.resume img {
-  position: relative;
-  top: -0.2em;
-  filter: invert(0.6);
-  padding-right: 14px;
-}
-
-/* Hover effect for Resume image */
 header > h4 > a.resume img:hover {
   opacity: 1;
   filter: invert(0%) sepia(100%) saturate(50%) hue-rotate(130deg) contrast(50%);
 }
 
-/* Footer Styles */
-
-/* Footer Navigation */
+/* =========================================================
+   Footer
+   ========================================================= */
 .footer-nav ul {
   display: flex;
   margin: 0;
@@ -117,7 +105,6 @@ header > h4 > a.resume img:hover {
   margin: auto 10px;
 }
 
-/* Main Footer Styling */
 footer {
   margin: 2em 0;
   padding: 2em 0;
@@ -130,7 +117,6 @@ footer {
     no-repeat 50% 1em / 100% 1px;
 }
 
-/* Social Icons */
 .social {
   float: left;
   position: relative;
@@ -141,35 +127,6 @@ footer {
   opacity: 0.85;
 }
 
-/* Summaries */
-.summary {
-  margin: 5px auto;
-}
-
-/* Preamble Section */
-.preamble {
-  color: #7b7b7b;
-  font-family: "Source Serif Pro";
-  font-size: 15px;
-}
-
-.preamble h3 {
-  margin: -20px 0px;
-}
-
-/* Postamble Section */
-.postamble {
-  border-top: 1px solid #ccc;
-  padding: 10px;
-  padding-top: 18px;
-  width: 100%;
-}
-
-.postamble h3 {
-  margin: -20px 0px;
-}
-
-/* Credit Section */
 .credit {
   position: relative;
   font-size: 13.5px;
@@ -182,7 +139,30 @@ footer {
   float: right;
 }
 
-/* Base Styles */
+/* =========================================================
+   Preamble / Postamble
+   ========================================================= */
+.preamble {
+  color: #7b7b7b;
+  font-family: "Source Serif Pro";
+  font-size: 15px;
+}
+
+.preamble h3,
+.postamble h3 {
+  margin: -20px 0px;
+}
+
+.postamble {
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  padding-top: 18px;
+  width: 100%;
+}
+
+/* =========================================================
+   Base Typography / Layout
+   ========================================================= */
 html,
 body {
   margin: 0;
@@ -192,9 +172,8 @@ body {
 
 body {
   font-family: var(--blog-font), serif;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 40px auto;
-  /* font-size: 0.93rem; */
   font-size: var(--blog-font-size);
   padding: 0 10px;
   color: #261b0d;
@@ -222,11 +201,6 @@ h3 {
   margin-bottom: 1rem;
   hyphens: none;
 }
-.highlight {
-  background-color: #f3f3f3;
-  padding: 5px 10px;
-  border-radius: 3px;
-}
 
 p {
   margin-bottom: 1em;
@@ -234,7 +208,6 @@ p {
 }
 
 .title {
-  /*the title and the subtitle*/
   text-align: center;
   padding-bottom: 7px;
 }
@@ -242,9 +215,9 @@ p {
 .subtitle {
   font-size: var(--subtitle-font-size);
   color: var(--subtitle-color);
-  /*margin: 0; */
   text-align: center;
 }
+
 .inline {
   display: inline;
 }
@@ -266,11 +239,6 @@ figcaption {
   font-style: italic;
 }
 
-pre {
-  width: 100%;
-  overflow: auto;
-}
-
 .summary {
   margin: 5px auto;
 }
@@ -281,6 +249,9 @@ blockquote {
 }
 
 .highlight {
+  background-color: #f3f3f3;
+  border-radius: 3px;
+
   font-size: 0.9em;
   margin: 5px auto;
   padding: 5px 15px;
@@ -298,125 +269,520 @@ sub {
   top: 0.4em;
 }
 
-/* p code { */
-/*     background: hsla(25deg,75%,25%,0.1); */
-/*     padding: .15em .33em .1em; */
-/*     border: solid #fff8; */
-/*     border-width: 2px 0 */
-/* } */
-
-/* Sidenote Styling */
+/* =========================================================
+   Sidenotes
+   ========================================================= */
 .note {
   font-family: "Source Serif Pro";
   margin-top: 1.9rem;
   margin-bottom: 0;
   font-size: 77%;
-  line-height: 1.69; /* Adjusted for clarity - combined two line-heights */
+  line-height: 1.69;
   position: relative;
   vertical-align: baseline;
   padding-bottom: 0.25em;
   float: left;
   clear: left;
   margin-left: -300px;
-  width: 240px; /* Assuming you want to maintain the width as in the general rule */
+  width: 240px;
 }
 
-footer {
-  margin: 2em 0;
-  padding: 2em 0;
-  background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.25),
-      rgba(0, 0, 0, 0.125),
-      rgba(0, 0, 0, 0.25)
-    )
-    no-repeat 50% 1em / 100% 1px;
+/* =========================================================
+   Tables (full grid lines)
+   ========================================================= */
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
 
-/* Code {{{1*/
-/* Code block styling */
+table,
+th,
+td {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+th,
+td {
+  padding: 8px 10px;
+}
+
+th {
+  font-weight: 600;
+}
+
+/* =========================================================
+   Org Callouts (Special Blocks)
+   - #+begin_callout_note ... #+end_callout_note
+   - #+begin_callout_warning ... #+end_callout_warning
+   - #+begin_callout_error ... #+end_callout_error
+   - #+begin_callout_critical ... #+end_callout_critical
+   ========================================================= */
+.callout_note,
+.callout_warning,
+.callout_error,
+.callout_critical {
+  --co-accent: #2a6fdb;
+  --co-bg: rgba(42, 111, 219, 0.08);
+  --co-border: rgba(42, 111, 219, 0.3);
+  --co-title-bg: rgba(42, 111, 219, 0.18);
+
+  margin: 1.2rem 0;
+  border: 1px solid var(--co-border);
+  border-radius: 12px;
+  background: var(--co-bg);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+
+  /* readability (keep blog font) */
+  font-family: var(--blog-font), serif;
+  line-height: 1.55;
+}
+
+.callout_note::before,
+.callout_warning::before,
+.callout_error::before,
+.callout_critical::before {
+  content: "";
+  display: block;
+  padding: 0.75rem 0.95rem 0.7rem 2.85rem;
+  background: var(--co-title-bg);
+  border-bottom: 1px solid var(--co-border);
+
+  font-family: var(--blog-font), serif;
+  font-weight: 600;
+  font-size: 0.95em;
+  letter-spacing: 0.3px;
+  line-height: 1.25;
+}
+
+.callout_note::after,
+.callout_warning::after,
+.callout_error::after,
+.callout_critical::after {
+  content: "";
+  position: absolute;
+  left: 0.95rem;
+  top: 0.78rem;
+  width: 18px;
+  height: 18px;
+  background: var(--co-accent);
+
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.65);
+  border-radius: 6px;
+}
+
+.callout_note > *,
+.callout_warning > *,
+.callout_error > *,
+.callout_critical > * {
+  padding-left: 0.95rem;
+  padding-right: 0.95rem;
+}
+
+.callout_note > :first-child,
+.callout_warning > :first-child,
+.callout_error > :first-child,
+.callout_critical > :first-child {
+  margin-top: 0.9rem;
+}
+
+.callout_note > :last-child,
+.callout_warning > :last-child,
+.callout_error > :last-child,
+.callout_critical > :last-child {
+  margin-bottom: 1rem;
+}
+
+.callout_note p,
+.callout_warning p,
+.callout_error p,
+.callout_critical p {
+  margin: 0.55rem 0;
+}
+
+.callout_note ul,
+.callout_warning ul,
+.callout_error ul,
+.callout_critical ul,
+.callout_note ol,
+.callout_warning ol,
+.callout_error ol,
+.callout_critical ol {
+  margin: 0.55rem 0 0.9rem;
+  padding-left: 1.25rem;
+}
+
+.callout_note li,
+.callout_warning li,
+.callout_error li,
+.callout_critical li {
+  margin: 0.25rem 0;
+}
+
+.callout_note a,
+.callout_warning a,
+.callout_error a,
+.callout_critical a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.callout_note code,
+.callout_warning code,
+.callout_error code,
+.callout_critical code {
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  padding: 0.05em 0.35em;
+  font-family: var(--mono-font);
+  font-size: 0.95em;
+}
+
+/* Callout variants */
+.callout_note {
+  --co-accent: #1f7a74;
+  --co-bg: rgba(31, 122, 116, 0.1);
+  --co-border: rgba(31, 122, 116, 0.3);
+  --co-title-bg: rgba(31, 122, 116, 0.18);
+}
+.callout_note::before {
+  content: "Note";
+}
+.callout_note::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M11 10h2v8h-2v-8Zm0-4h2v2h-2V6Zm1 16a10 10 0 1 1 0-20a10 10 0 0 1 0 20Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M11 10h2v8h-2v-8Zm0-4h2v2h-2V6Zm1 16a10 10 0 1 1 0-20a10 10 0 0 1 0 20Z'/%3E%3C/svg%3E");
+}
+
+.callout_warning {
+  --co-accent: #b86a00;
+  --co-bg: rgba(184, 106, 0, 0.1);
+  --co-border: rgba(184, 106, 0, 0.3);
+  --co-title-bg: rgba(184, 106, 0, 0.18);
+}
+.callout_warning::before {
+  content: "Warning";
+}
+.callout_warning::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 3 1 21h22L12 3Zm1 13h-2V9h2v7Zm0 4h-2v-2h2v2Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 3 1 21h22L12 3Zm1 13h-2V9h2v7Zm0 4h-2v-2h2v2Z'/%3E%3C/svg%3E");
+}
+
+.callout_error {
+  --co-accent: #b3261e;
+  --co-bg: rgba(179, 38, 30, 0.1);
+  --co-border: rgba(179, 38, 30, 0.3);
+  --co-title-bg: rgba(179, 38, 30, 0.18);
+}
+.callout_error::before {
+  content: "Error";
+}
+.callout_error::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Zm3.5 13.1-1.4 1.4L12 13.4l-2.1 2.1-1.4-1.4L10.6 12 8.5 9.9l1.4-1.4 2.1 2.1 2.1-2.1 1.4 1.4L13.4 12l2.1 2.1Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Zm3.5 13.1-1.4 1.4L12 13.4l-2.1 2.1-1.4-1.4L10.6 12 8.5 9.9l1.4-1.4 2.1 2.1 2.1-2.1 1.4 1.4L13.4 12l2.1 2.1Z'/%3E%3C/svg%3E");
+}
+
+.callout_critical {
+  --co-accent: #6b1b99;
+  --co-bg: rgba(107, 27, 153, 0.1);
+  --co-border: rgba(107, 27, 153, 0.35);
+  --co-title-bg: rgba(107, 27, 153, 0.2);
+}
+.callout_critical::before {
+  content: "Critical";
+}
+.callout_critical::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7.1 2h9.8L22 7.1v9.8L16.9 22H7.1L2 16.9V7.1L7.1 2ZM13 7h-2v7h2V7Zm0 10h-2v2h2v-2Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7.1 2h9.8L22 7.1v9.8L16.9 22H7.1L2 16.9V7.1L7.1 2ZM13 7h-2v7h2V7Zm0 10h-2v2h2v-2Z'/%3E%3C/svg%3E");
+}
+
+@media all and (max-width: 520px) {
+  .callout_note::before,
+  .callout_warning::before,
+  .callout_error::before,
+  .callout_critical::before {
+    padding: 0.68rem 0.8rem 0.62rem 2.65rem;
+  }
+
+  .callout_note::after,
+  .callout_warning::after,
+  .callout_error::after,
+  .callout_critical::after {
+    left: 0.8rem;
+    top: 0.72rem;
+    width: 17px;
+    height: 17px;
+  }
+}
+
+/* =========================================================
+   Code (Clean + readable)
+   - Fixes the original 5% font-size issue
+   - Fixes inline code fixed width/height
+   - Adds language label, output label, copy button, prompts
+   ========================================================= */
+
+/* Inline code */
 code {
   font-family: var(--mono-font);
-  font-size: var(--mono-font-size);
-  font-weight: 300;
-  background-color: #eaeaea;
-  /* box-shadow: inset 0 -10.3px 0 #91959a; */
-  border-radius: 3px;
-  /* border: 1px solid #91959a; */
-  padding: 0 5px;
-  width: 200px;
-  height: 88px;
-  /*outline: 0;*/
-}
-
-/* Styling for specific types of pre elements */
-pre.code,
-pre.output,
-pre.src {
-    font-size: 5%;
-    font-family: var(--mono-font);
-    line-height: 125%;
-    padding-left: 2em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    overflow-x: auto;
-}
-/* Styling for code and source blocks */
-pre.code,
-pre.src {
-  background: #fafafa;
-}
-
-/* Styling for output block */
-pre.output {
-  background: #faf8f5;
-  border: none;
-}
-
-.function,
-.class {
+  font-size: calc(var(--mono-font-size) * 0.98);
   font-weight: 400;
-}
-.comment {
-  color: #459;
+
+  background: rgba(0, 0, 0, 0.01);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 6px;
+
+  padding: 0.08em 0.35em;
+  display: inline;
+
+  width: auto;
+  height: auto;
 }
 
+/* Code blocks */
+pre,
 pre.src,
-pre.example {
-  border-width: 0;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: var(--back-medium);
-  margin: 20px 0;
-  padding: 0;
-  padding-left: 15px;
+pre.example,
+pre.code,
+pre.output {
   font-family: var(--mono-font);
-  font-size: 18px;
-  line-height: 1.6;
-  overflow-x: visible;
-  box-shadow: none;
-  white-space: pre-wrap;
-  position: relative;
-}
-pre.example {
-  border-left-style: dotted;
-  border-left-width: 2px;
+  font-size: calc(var(--mono-font-size) * 0.98);
+  line-height: 1.65;
+
+  background: #2f2f2f;
+  color: #e5e7eb;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+
+  padding: 1.25rem 1.1rem 1rem; /* top padding for labels/prompts */
+  margin: 1.2rem 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: pre;
+
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+
+  position: relative; /* needed for labels/buttons */
+  width: 100%;
 }
 
+/* Output blocks are slightly dimmer */
+pre.example,
+pre.output {
+  opacity: 0.9;
+}
+
+/* Optional: slightly different background for explicit output blocks */
+pre.output {
+  background: #111827;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Do not style code inside pre like inline code */
+pre code,
+pre.src code,
+pre.example code,
+pre.code code,
+pre.output code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Selection highlight */
+pre::selection,
+pre code::selection {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Scrollbar (subtle) */
+pre::-webkit-scrollbar {
+  height: 10px;
+}
+pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+}
+pre::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+/* =========================================================
+   Language labels (minimal)
+   ========================================================= */
 pre.src::before {
-  display: inline-block;
   position: absolute;
-  background-color: transparent;
-  top: unset;
-  bottom: -16px;
-  right: 20px;
-  padding: 0px;
-  border: none;
-  font-size: 80%;
-  font-style: italic;
-  color: var(--text-light);
+  top: 0.55rem;
+  right: 0.75rem;
+
+  font-family: var(--mono-font);
+  font-size: 0.75em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+  user-select: none;
 }
 
-pre.src:empty {
-  display: none;
+/* Language mappings */
+pre.src-bash::before {
+  content: "bash";
+}
+pre.src-sh::before {
+  content: "sh";
+}
+pre.src-zsh::before {
+  content: "zsh";
+}
+
+pre.src-yaml::before,
+pre.src-yml::before {
+  content: "yaml";
+}
+
+pre.src-hcl::before {
+  content: "hcl";
+}
+
+pre.src-json::before {
+  content: "json";
+}
+pre.src-toml::before {
+  content: "toml";
+}
+pre.src-ini::before {
+  content: "ini";
+}
+
+pre.src-go::before {
+  content: "go";
+}
+pre.src-python::before {
+  content: "python";
+}
+pre.src-rust::before {
+  content: "rust";
+}
+
+pre.src-dockerfile::before {
+  content: "dockerfile";
+}
+pre.src-makefile::before {
+  content: "make";
+}
+
+pre.src-conf::before {
+  content: "conf";
+}
+pre.src-nginx::before {
+  content: "nginx";
+}
+
+/* =========================================================
+   Output label ("output")
+   ========================================================= */
+pre.example::before,
+pre.output::before {
+  content: "output";
+  position: absolute;
+  top: 0.55rem;
+  right: 0.75rem;
+
+  font-family: var(--mono-font);
+  font-size: 0.72em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* =========================================================
+   Copy-to-clipboard button (expects copy.js to inject it)
+   ========================================================= */
+pre .copy-btn {
+  position: absolute;
+  top: 0.55rem;
+  left: 0.75rem;
+
+  font-family: var(--mono-font);
+  font-size: 0.72em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.45);
+  background: transparent;
+  border: 0;
+  padding: 0;
+
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease;
+
+  user-select: none;
+}
+
+pre:hover .copy-btn {
+  opacity: 1;
+}
+
+pre .copy-btn:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+pre .copy-btn.copied {
+  color: rgba(120, 200, 160, 0.85);
+}
+
+/* =========================================================
+   Bash / Shell prompt indicators (explicit via class)
+   - Add in Org:
+     #+ATTR_HTML: :class cmd-root
+     #+begin_src bash ... #+end_src
+   ========================================================= */
+pre.src-bash.cmd-root::after,
+pre.src-sh.cmd-root::after,
+pre.src-zsh.cmd-root::after,
+pre.src-bash.cmd-user::after,
+pre.src-sh.cmd-user::after,
+pre.src-zsh.cmd-user::after {
+  position: absolute;
+  top: 0.55rem;
+  left: 3.2rem; /* leaves room for copy button on the left */
+  font-family: var(--mono-font);
+  font-size: 0.75em;
+  font-weight: 500;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.9;
+}
+
+pre.src-bash.cmd-root::after,
+pre.src-sh.cmd-root::after,
+pre.src-zsh.cmd-root::after {
+  content: "root #";
+  color: #d14;
+}
+
+pre.src-bash.cmd-user::after,
+pre.src-sh.cmd-user::after,
+pre.src-zsh.cmd-user::after {
+  content: "user $";
+  color: #2f9e44;
 }
