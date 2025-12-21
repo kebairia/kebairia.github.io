@@ -130,7 +130,7 @@
     <img src=\"img/social/youtube-black-logo.svg\" width=\"40\" alt=\"YouTube\" />
   </a>
 
-  <a href=\"https://www.github.com/kebairia\" class=\"social\">
+  <a href=\"https://www.github.com/zakariakebairia\" class=\"social\">
     <img src=\"img/social/github.svg\" width=\"43\" alt=\"GitHub\" />
   </a>
 
