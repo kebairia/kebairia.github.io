@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-21 Sun 15:12 -->
+<!-- 2025-12-21 Sun 15:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Qemu Overlay Images</title>
@@ -21,11 +21,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1d3a29a">1. My Original Problem</a></li>
-<li><a href="#org7dba1a3">2. The <b>QCOW2</b> Overlay Image Solution</a></li>
-<li><a href="#orge48de62">3. How to Create a <b>QCOW2</b> Overlay Image</a></li>
-<li><a href="#org3e4fe7a">4. Verifying the Overlay</a></li>
-<li><a href="#org4d1dd66">5. Overlay Image vs. Backing Image</a></li>
+<li><a href="#orgc377bef">1. My Original Problem</a></li>
+<li><a href="#orge08b5d6">2. The <b>QCOW2</b> Overlay Image Solution</a></li>
+<li><a href="#org7846d0a">3. How to Create a <b>QCOW2</b> Overlay Image</a></li>
+<li><a href="#orgc1c7592">4. Verifying the Overlay</a></li>
+<li><a href="#org8fc823f">5. Overlay Image vs. Backing Image</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ Recently, while refactoring my <a href="https://github.com/kebairia/kvmcli">kvmc
 I was already familiar with the basics of the <b>QCOW2</b> image format, but you never truly appreciate certain features until you encounter a real-world problem yourself.
 </p>
 
-<div id="outline-container-org1d3a29a" class="outline-2">
-<h2 id="org1d3a29a"><span class="section-number-2">1</span> My Original Problem</h2>
+<div id="outline-container-orgc377bef" class="outline-2">
+<h2 id="orgc377bef"><span class="section-number-2">1</span> My Original Problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I provision multiple VMs daily. To streamline this process, I initially created base images for Ubuntu and Rocky Linux using Packer, as these are the distributions I use most frequently.
@@ -71,8 +71,8 @@ This approach consumed considerable time and disk space—especially time, hence
 </div>
 </div>
 
-<div id="outline-container-org7dba1a3" class="outline-2">
-<h2 id="org7dba1a3"><span class="section-number-2">2</span> The <b>QCOW2</b> Overlay Image Solution</h2>
+<div id="outline-container-orge08b5d6" class="outline-2">
+<h2 id="orge08b5d6"><span class="section-number-2">2</span> The <b>QCOW2</b> Overlay Image Solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 What I learned (and found genuinely exciting!) is that <b>QCOW2</b> supports what's known as an <b>overlay image</b>. An overlay image acts as a tiny read-write layer on top of your existing base image.
@@ -105,8 +105,8 @@ Discovering this was a fantastic productivity boost for my daily workflow
 </p>
 </div>
 </div>
-<div id="outline-container-orge48de62" class="outline-2">
-<h2 id="orge48de62"><span class="section-number-2">3</span> How to Create a <b>QCOW2</b> Overlay Image</h2>
+<div id="outline-container-org7846d0a" class="outline-2">
+<h2 id="org7846d0a"><span class="section-number-2">3</span> How to Create a <b>QCOW2</b> Overlay Image</h2>
 <div class="outline-text-2" id="text-3">
 <div class="note">
 <p>
@@ -143,8 +143,8 @@ Suppose you have a base image called <code>ubuntu-base.qcow2</code>, and you wan
 </div>
 </div>
 
-<div id="outline-container-org3e4fe7a" class="outline-2">
-<h2 id="org3e4fe7a"><span class="section-number-2">4</span> Verifying the Overlay</h2>
+<div id="outline-container-orgc1c7592" class="outline-2">
+<h2 id="orgc1c7592"><span class="section-number-2">4</span> Verifying the Overlay</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 After creating the overlay image, you can verify that it correctly references the base image using the following command:
@@ -191,8 +191,8 @@ If these fields are missing or incorrect, the virtual machine may not boot prope
 </div>
 </div>
 
-<div id="outline-container-org4d1dd66" class="outline-2">
-<h2 id="org4d1dd66"><span class="section-number-2">5</span> Overlay Image vs. Backing Image</h2>
+<div id="outline-container-org8fc823f" class="outline-2">
+<h2 id="org8fc823f"><span class="section-number-2">5</span> Overlay Image vs. Backing Image</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 <b>Backing Image</b>: Also called the base image, this is your original, untouched <b>QCOW2</b> file. It's the read-only reference used by overlay images.
@@ -231,7 +231,7 @@ That's infortinate, but it's OK :)
     <img src="img/social/youtube-black-logo.svg" width="40" alt="YouTube" />
   </a>
 
-  <a href="https://www.github.com/kebairia" class="social">
+  <a href="https://www.github.com/zakariakebairia" class="social">
     <img src="img/social/github.svg" width="43" alt="GitHub" />
   </a>
 
