@@ -1,0 +1,932 @@
+#+TITLE: Deploy a Highly Available Kubernetes Cluster on Rocky Linux 10 using kubeadm and Cilium
+#+AUTHOR: Zakaria Kebairia
+#+EMAIL: 4.kebairia@gmail.com
+#+DATE: 20 December 2025
+#+OPTIONS: html5-fancy:t tex:t toc:1 num:t
+#+STARTUP: show2levels indent hidestars
+#+KEYWORDS: kubernetes, kubeadm, cilium, ha, rocky-linux, devops
+#+export: org-special-block-extras
+
+#+MACRO: domain hl.lan
+#+MACRO: k8s_version 1.35.0
+#+MACRO: cilium_version 1.18.5
+#+MACRO: cp_endpoint lb.{{{domain}}}:6443
+#+MACRO: pod_cidr 10.244.0.0/16
+#+MACRO: svc_cidr 10.96.0.0/12
+#+MACRO: lab_net_address 10.10.10
+
+* README :noexport:
+#+name: startup
+#+begin_src elisp :results none
+  (load-theme 'modus-operandi-deuteranopia)
+#+end_src
+
+#+name: domain
+#+begin_src text :exports none
+hl.lan
+#+end_src
+#+name: cilium_version
+#+begin_src text :exports none
+1.18.5
+#+end_src
+
+
+* Introduction
+In this blog, I will describes how to deploy a *highly available Kubernetes cluster* on *Rocky Linux 10* using =kubeadm= and *Cilium* as the CNI.
+
+# - Domain: *{{{domain}}}*
+# - Kubernetes version: *{{{k8s_version}}}*
+# - Cilium version: *{{{cilium_version}}}*
+# - Control plane endpoint: *{{{cp_endpoint}}}*
+# - Pod CIDR: *{{{pod_cidr}}}*
+# - Service CIDR (default): *{{{svc_cidr}}}*
+
+
+* Topology
+
+#+ATTR_HTML: :width 850 :align center :alt k8s infra :title Kubernetes infrastructure
+[[file:img/blogs/ha-k8s/infra.png]]
+** Node inventory (single source of truth)
+
+#+NAME: cluster-nodes
+| Role   | Hostname             | RAM (GB) | CPU Cores | IP                       | notes                         |
+|--------+----------------------+----------+-----------+--------------------------+-------------------------------|
+| admin  | admin.{{{domain}}}   | 1G       |         1 | {{{lab_net_address}}}.10 | nginx LB + CoreDNS            |
+| master | master1.{{{domain}}} | 2G       |         2 | {{{lab_net_address}}}.11 | control-plane + etcd          |
+| master | master2.{{{domain}}} | 2G       |         2 | {{{lab_net_address}}}.12 | control-plane + etcd          |
+| master | master3.{{{domain}}} | 2G       |         2 | {{{lab_net_address}}}.13 | control-plane + etcd          |
+| worker | worker1.{{{domain}}} | 4G       |         2 | {{{lab_net_address}}}.21 | kubelet + containerd + cilium |
+| worker | worker2.{{{domain}}} | 4G       |         2 | {{{lab_net_address}}}.22 | kubelet + containerd + cilium |
+| worker | worker3.{{{domain}}} | 4G       |         2 | {{{lab_net_address}}}.23 | kubelet + containerd + cilium |
+
+** DNS conventions
+
+- *lb.{{{domain}}}* points to the admin node (nginx) and is used as the *control-plane endpoint*.
+- node hostnames use: *master{1..3}.{{{domain}}}* and *worker{1..3}.{{{domain}}}*
+
+* COMMENT Installation
+
+* Configure admin node
+** Optional: Using =/etc/hosts= Instead of DNS
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+Before deploying the cluster, all nodes must be able to resolve each other by name.
+
+The recommended approach is to deploy a local DNS server ([[#dns][as I will explain below]]).
+However, if you want to pass this, you may choose to use =/etc/hosts= instead.
+
+Be aware that this approach does not scale, and requires manual updates on every node, and also it's error-prone as the cluster grows
+
+If you decide to go this route, the following entries must be present on **every node**.
+
+#+begin_src conf :noweb yes
+10.10.10.11   master1.<<domain>>
+10.10.10.12   master2.<<domain>>
+10.10.10.13   master3.<<domain>>
+10.10.10.21   worker1.<<domain>>
+10.10.10.22   worker2.<<domain>>
+10.10.10.23   worker3.<<domain>>
+#+end_src
+
+** Configure DNS on the Admin Node (CoreDNS)
+:PROPERTIES:
+:CUSTOM_ID: dns
+:END:
+
+Before deploying Kubernetes, we need a reliable internal DNS service.  
+In this setup, the *admin* node will act as the DNS server for the homelab.
+
+If you are looking for a **highly available DNS** solution, you can use *BIND* with failover.
+I previously covered this approach here:
+
+- [[https://zakariakebairia.com/2023-04-14-configure-dns-servers-with-failover-using-bind.html][Configure DNS Servers with Failover Using BIND]]
+
+In this environment, we will deploy **CoreDNS** as a *single-instance DNS server*.
+High availability is intentionally out of scope.
+
+CoreDNS can be deployed in multiple ways:
+- As a systemd service
+- Or as a container
+
+In our case, we will deploy CoreDNS **using Docker Compose**.
+
+
+
+*** Docker Compose Definition
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+The following Compose file runs CoreDNS, exposes DNS on port *53 (TCP/UDP)*, and mounts both:
+- The CoreDNS *Corefile*
+- The BIND-compatible zone file for the homelab
+
+#+name: coredns_docker_compose
+#+begin_src yaml :noweb yes
+services:
+  coredns:
+    image: coredns/coredns:latest
+    container_name: coredns
+    restart: always
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - ./config/Corefile:/etc/coredns/Corefile:ro
+      - ./config/zones/db.<<domain>>.zone:/etc/coredns/zones/db.<<domain>>.zone:ro
+    command: "-conf /etc/coredns/Corefile -dns.port 53"
+
+networks:
+  default:
+    external: true
+    name: admin-network
+#+end_src
+
+*** CoreDNS Configuration (Corefile)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+CoreDNS uses a single configuration file called *Corefile*.
+we define two zones in it:
+
+1. The =root zone (.)=
+   - Forwards all external DNS queries
+   - Uses public resolvers (Cloudflare, Google, ...etc)
+2. The =homelab zone (hl.lan)=
+   - Serves us locally
+   - Uses a BIND-compatible zone file
+
+#+name: coredns_corefile
+#+begin_src conf :noweb yes
+.:53 {
+    forward . 1.1.1.1 8.8.8.8 8.8.4.4
+    log
+    errors
+}
+
+<<domain>>:53 {
+    file /etc/coredns/zones/db.<<domain>>.zone
+    reload
+    log
+    errors
+}
+#+end_src
+
+# This approach allows us to keep **clean and explicit DNS ownership**:
+# - Internal records stay under our control
+# - External queries are forwarded transparently
+
+*** Homelab Zone File (BIND-Compatible)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+Below is the zone file defining the internal DNS records for *{{{domain}}}*.
+CoreDNS natively understands BIND-style zone files, making migration and maintenance straightforward.
+
+#+name: homelab_zonefile
+#+begin_src bindzone :noweb yes
+; vim: ft=bindzone
+; ============================================================================
+; Zone File for <<domain>>
+; ============================================================================
+; Author        : Zakaria Kebairia
+; Organization  : Homelab Technologies
+; Purpose       : Internal DNS zone served via CoreDNS
+; ============================================================================
+
+$ORIGIN <<domain>>.
+$TTL 3600
+
+; ----------------------------------------------------------------------------
+; SOA & NS
+; ----------------------------------------------------------------------------
+@   IN  SOA dns.<<domain>>. infra.hl.com. (
+        2025102801 ; Serial (YYYYMMDDNN)
+        7200       ; Refresh
+        3600       ; Retry
+        1209600    ; Expire
+        3600       ; Minimum
+)
+@   IN  NS  dns.<<domain>>.
+
+; ----------------------------------------------------------------------------
+; Infrastructure Nodes
+; ----------------------------------------------------------------------------
+dns      IN  A  10.10.10.10
+
+master1  IN  A  10.10.10.11
+master2  IN  A  10.10.10.12
+master3  IN  A  10.10.10.13
+
+worker1  IN  A  10.10.10.21
+worker2  IN  A  10.10.10.22
+worker3  IN  A  10.10.10.23
+
+; ----------------------------------------------------------------------------
+; Aliases
+; ----------------------------------------------------------------------------
+lb       IN  CNAME dns.<<domain>>.
+
+; ----------------------------------------------------------------------------
+; Notes
+; ----------------------------------------------------------------------------
+; - Always bump the serial after changes.
+; - SOA email infra.hl.com. maps to infra@hl.com
+; - Prefer A records for nodes, CNAMEs for logical services.
+; ----------------------------------------------------------------------------
+#+end_src
+
+*** Deploy CoreDNS
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+#+begin_callout_note
+Since I used a named network in docker compose, you need to create it using =docker network create admin-network=
+#+end_callout_note
+
+Once all configuration files are in place, start the service in detach mode:
+
+#+begin_src bash
+docker compose up -d
+#+end_src
+
+At this point, CoreDNS is running and listening locally on port *53*.
+#+begin_src bash :results output
+  ss -tlpen | grep 53
+#+end_src
+
+*** Configure the Admin Node to Use CoreDNS
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+Finally, configure the admin node to use **itself** as the DNS resolver.
+We also need to disable DHCP-provided DNS to avoid overrides.
+
+#+name: admin_network_configuration
+#+begin_src bash
+  sudo nmcli connection modify eth0 \
+    ipv4.dns "127.0.0.1" \
+    ipv4.ignore-auto-dns yes \
+    ipv4.dns-search "hl.lan"
+
+  # Apply changes
+  sudo nmcli connection down eth0
+  sudo nmcli connection up eth0
+#+end_src
+
+#+begin_callout_warning
+Ensure *lb.{{{domain}}}* resolves from *all nodes* before running =kubeadm init= or any join command.[fn:lb-dns]
+#+end_callout_warning
+*** Configure the masters/workers Node to Use CoreDNS
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+Finally, configure the admin node to use **itself** as the DNS resolver.
+We also need to disable DHCP-provided DNS to avoid overrides.
+
+#+name: admin_network_configuration
+#+begin_src bash
+  sudo nmcli connection modify eth0 \
+    ipv4.dns "10.10.10.10" \
+    ipv4.ignore-auto-dns yes \
+    ipv4.dns-search "hl.lan"
+
+  # Apply changes
+  sudo nmcli connection down eth0
+  sudo nmcli connection up eth0
+#+end_src
+
+#+begin_callout_warning
+Ensure *lb.{{{domain}}}* resolves from *all nodes* before running =kubeadm init= or any join command.[fn:lb-dns]
+#+end_callout_warning
+
+*** Firewall configuration
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+#+begin_src bash
+  sudo firewall-cmd --add-port=53/tcp --permanent
+  sudo firewall-cmd --reload
+#+end_src
+
+** Configure NGINX as a Load Balancer for the Kubernetes API
+
+Because we are deploying a **highly available Kubernetes cluster** with multiple control-plane nodes, we need a load balancer in front of the Kubernetes API.
+
+Any reverse-proxy or load-balancing technology can be used here.
+*HAProxy* is a very common and a good choice. But for change, I will use *NGINX* :).
+
+It is important to highlight that the Kubernetes API requires **TCP load balancing**.
+This means **Layer 4 (L4)** load balancing — *not* Layer 7 (HTTP).
+NGINX provides this capability through its *stream* module.
+
+*** Install NGINX (with Stream Module)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+On Rocky Linux, the stream module is provided as a separate package.
+
+#+begin_src bash
+sudo dnf install -y nginx nginx-mod-stream
+#+end_src
+
+*** NGINX Stream Configuration (Kubernetes API)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+First, back up the default configuration file and open a new one.
+
+#+begin_src bash
+sudo mv -v /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bk
+sudo vim /etc/nginx/nginx.conf
+#+end_src
+#+begin_callout_note
+I found that I need to load the =ngx_stream_module= using the absolute path
+#+end_callout_note
+
+Then use the following configuration:
+
+#+begin_src conf
+  load_module /usr/lib64/nginx/modules/ngx_stream_module.so;
+  worker_processes 1;
+
+  events {
+      worker_connections 1024;
+  }
+
+  # -------------------------------------------------------------------
+  # TCP load balancing for Kubernetes API (no TLS termination here)
+  # -------------------------------------------------------------------
+  stream {
+      upstream k8s_api {
+          least_conn;
+
+          server 10.10.10.11:6443;
+          server 10.10.10.12:6443;
+          server 10.10.10.13:6443;
+      }
+
+      server {
+          listen 6443;
+          proxy_pass k8s_api;
+
+          proxy_connect_timeout 5s;
+          proxy_timeout 10m;
+      }
+  }
+#+end_src
+
+This configuration:
+- Listens on port *6443* on the admin node
+- Distributes traffic across all control-plane nodes
+- Preserves TLS end-to-end (no TLS termination on NGINX)
+- Uses a simple *least connections* load-balancing strategy
+
+*** Run NGINX as a Systemd Service
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+For this setup, NGINX is deployed as a **systemd service**.
+This avoids unnecessary Docker networking complexity and keeps the load balancer tightly coupled to the host network.
+
+Before starting NGINX, always validate the configuration:
+
+#+begin_src bash
+sudo nginx -t
+#+end_src
+
+Then enable and start the service:
+
+#+begin_src bash
+sudo systemctl enable --now nginx
+sudo systemctl is-active nginx
+#+end_src
+
+#+begin_example
+active
+#+end_example
+*** Firewall configuration
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+#+begin_src bash
+  sudo firewall-cmd --add-port=6443/tcp --permanent
+  sudo firewall-cmd --reload
+#+end_src
+* Kubernetes Installation
+** Configuration for all nodes (masters and workers)
+
+Disable swap:
+
+#+begin_callout_note
+Kubernetes relies on predictable memory management. Swap breaks eviction logic and leads to unstable scheduling decisions.
+#+end_callout_note
+
+#+ATTR_HTML: :class cmd-root
+#+begin_src bash
+swapoff -a
+sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+#+end_src
+
+Verify swap is disabled:
+
+#+begin_src bash
+swapon --show
+#+end_src
+
+#+begin_example
+# (no output)
+#+end_example
+
+SELinux permissive (bootstrap-friendly):
+
+#+begin_src bash
+setenforce 0
+sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
+getenforce
+#+end_src
+
+#+begin_example
+Permissive
+#+end_example
+
+Kernel modules + sysctl:
+
+#+begin_src bash
+tee /etc/modules-load.d/containerd.conf <<EOF
+overlay
+br_netfilter
+EOF
+
+modprobe overlay
+modprobe br_netfilter
+
+cat <<EOF > /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                = 1
+EOF
+
+sysctl --system
+#+end_src
+
+Predictable checks:
+
+#+begin_src bash
+lsmod | grep -E 'overlay|br_netfilter'
+#+end_src
+
+#+begin_example
+br_netfilter           32768  0
+overlay               94208  0
+#+end_example
+
+*** Install container runtime (containerd)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+#+begin_src bash
+    dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    dnf install -y containerd.io
+
+    containerd config default | tee /etc/containerd/config.toml >/dev/null
+    sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
+
+    systemctl restart containerd
+    systemctl enable containerd
+    systemctl is-active containerd
+
+#+end_src
+
+#+begin_example
+active
+#+end_example
+
+We enable systemd cgroups for kubelet compatibility.[fn:cgroups]
+
+*** Firewall configuration
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+**** Master nodes firewall configuration
+
+#+begin_src bash
+firewall-cmd --permanent \
+  --add-port={6443,2379,2380,10250,10251,10252,10257,10259,179}/tcp
+firewall-cmd --permanent --add-port=4789/udp
+firewall-cmd --reload
+
+firewall-cmd --list-ports
+#+end_src
+
+#+begin_example
+6443/tcp 2379-2380/tcp 10250-10259/tcp 179/tcp 4789/udp
+#+end_example
+
+These ports cover API server, etcd, and control plane components.[fn:cp-ports]
+
+**** Worker nodes firewall configuration
+
+#+begin_src bash
+firewall-cmd --permanent \
+  --add-port={179,10250,30000-32767}/tcp
+firewall-cmd --permanent --add-port=4789/udp
+firewall-cmd --reload
+
+firewall-cmd --list-ports
+#+end_src
+
+#+begin_example
+10250/tcp 179/tcp 30000-32767/tcp 4789/udp
+#+end_example
+
+NodePort range must be reachable from inside the cluster (and from clients if you expose NodePorts).[fn:nodeport]
+
+*** Install Kubernetes tools (kubeadm/kubelet/kubectl)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+#+begin_src bash
+cat <<EOF | tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.35/rpm/
+enabled=1
+gpgcheck=1
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.35/rpm/repodata/repomd.xml.key
+exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
+EOF
+
+dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+systemctl enable --now kubelet
+systemctl is-active kubelet
+#+end_src
+
+#+begin_example
+active
+#+end_example
+
+*** Deploy the first master (bootstrap)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+Run this on *master1.{{{domain}}}*
+
+#+begin_src bash :noweb yes
+kubeadm init \
+  --kubernetes-version "1.35.0" \
+  --pod-network-cidr "10.244.0.0/16" \
+  --service-dns-domain "<<domain>>" \
+  --control-plane-endpoint "lb.<<domain>>:6443" \
+  --upload-certs
+#+end_src
+
+#+begin_example
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, run:
+  mkdir -p $HOME/.kube
+  cp /etc/kubernetes/admin.conf $HOME/.kube/config
+
+You can now join any number of control-plane nodes by running the following command...
+#+end_example
+
+The cluster exists, but networking is not ready until we install a CNI.[fn:cilium-order]
+
+Configure kubectl config file (on master1).
+
+#+begin_src bash
+mkdir -p $HOME/.kube
+cp /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl get nodes
+#+end_src
+
+#+begin_example
+NAME              STATUS     ROLES           AGE   VERSION
+master1.hl.lan    NotReady   control-plane   1m    v1.35.0
+#+end_example
+
+=NotReady= is expected before the CNI is installed.
+
+** Install Cilium CNI
+
+Cilium should be installed before joining other nodes.[fn:cilium-order]
+
+*** Install Helm (admin node or master1)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+#+begin_src bash
+helm version
+#+end_src
+
+#+begin_example
+version.BuildInfo{Version:"v3.15.4"}
+#+end_example
+
+*** Add Cilium repository
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+#+begin_src bash
+helm repo add cilium https://helm.cilium.io/
+helm repo update
+#+end_src
+
+*** Install Cilium (kube-proxy replacement)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+#+begin_src bash :noweb yes
+helm install cilium cilium/cilium \
+  --namespace kube-system \
+  --version "<<cilium_version>>" \
+  --set kubeProxyReplacement=true \
+  --set k8sServiceHost="lb.<<domain>>" \
+  --set k8sServicePort="6443" \
+  --set hubble.enabled=true \
+  --set hubble.relay.enabled=true \
+  --set hubble.ui.enabled=true
+#+end_src
+
+#+begin_example
+NAME: cilium
+STATUS: deployed
+#+end_example
+
+Cilium uses eBPF for service routing and policy enforcement.[fn:cilium]
+
+*** Wait for Cilium to be ready
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+#+begin_src bash
+kubectl -n kube-system rollout status ds/cilium
+#+end_src
+
+#+begin_example
+daemon set "cilium" successfully rolled out
+#+end_example
+
+#+begin_src bash
+kubectl get nodes
+#+end_src
+
+#+begin_example
+NAME              STATUS   ROLES           AGE   VERSION
+master1.hl.lan    Ready    control-plane   6m    v1.35.0
+#+end_example
+
+** Join additionaL control plane nodes
+
+On =master1=, generate the join command:
+
+#+begin_src bash
+kubeadm token create --print-join-command
+#+end_src
+
+#+begin_example
+kubeadm join lb.hl.lan:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
+#+end_example
+
+Then on =master1=, retrieve the certificate key (required for control-plane join):
+
+#+begin_src bash
+kubeadm init phase upload-certs --upload-certs
+#+end_src
+
+#+begin_example
+[upload-certs] Using certificate key:
+<cert-key>
+#+end_example
+
+Now on *master2* and *master3*, run:
+
+#+begin_src bash
+kubeadm join lb.<<domain>>:6443 \
+  --token <token> \
+  --discovery-token-ca-cert-hash sha256:<hash> \
+  --control-plane \
+  --certificate-key <cert-key>
+#+end_src
+
+#+begin_example
+This node has joined the cluster as a control-plane node
+#+end_example
+
+Each control-plane node runs an API server and joins the etcd quorum.[fn:cp-join]
+
+** Join worker nodes
+
+On each worker:
+
+#+begin_src bash
+kubeadm join lb.<<domain>>:6443 \
+  --token <token> \
+  --discovery-token-ca-cert-hash sha256:<hash>
+#+end_src
+
+#+begin_example
+This node has joined the cluster
+#+end_example
+
+Workers run workloads and do not participate in etcd.[fn:worker-join]
+
+* Post-installation checks
+
+** Verify nodes
+
+#+begin_src bash
+kubectl get nodes -o wide
+#+end_src
+
+#+begin_example
+NAME              STATUS   ROLES           VERSION      OS-IMAGE
+master1.hl.lan    Ready    control-plane   v1.35.0      Rocky Linux 10.1 (Red Quartz)
+master2.hl.lan    Ready    control-plane   v1.35.0      Rocky Linux 10.1 (Red Quartz)
+master3.hl.lan    Ready    control-plane   v1.35.0      Rocky Linux 10.1 (Red Quartz)
+worker1.hl.lan    Ready    <none>          v1.35.0      Rocky Linux 10.1 (Red Quartz)
+worker2.hl.lan    Ready    <none>          v1.35.0      Rocky Linux 10.1 (Red Quartz)
+worker3.hl.lan    Ready    <none>          v1.35.0      Rocky Linux 10.1 (Red Quartz)
+
+#+end_example
+
+** Verify core pods
+
+#+begin_src bash
+kubectl get pods -n kube-system
+#+end_src
+
+#+begin_example
+cilium-...              Running
+cilium-operator-...     Running
+coredns-...             Running
+hubble-relay-...        Running
+hubble-ui-...           Running
+#+end_example
+
+** Verify Cilium status
+
+#+begin_src bash
+cilium status
+#+end_src
+
+#+begin_example
+Cilium: OK
+Hubble: OK
+Cluster health: OK
+#+end_example
+
+** Quick functional test (DNS + connectivity)
+
+#+begin_src bash
+kubectl run -it --rm --restart=Never dns-test --image=busybox:1.36 -- nslookup kubernetes.default
+#+end_src
+
+#+begin_example
+Name:      kubernetes.default
+Address:   10.96.0.1
+#+end_example
+
+#+begin_callout_note
+This verifies that CoreDNS is working and that service routing is operational.
+#+end_callout_note
+
+* Footnotes
+
+[fn:swap]
+Kubernetes relies on predictable memory management. Swap breaks eviction logic and leads to unstable scheduling decisions.
+
+[fn:selinux]
+Permissive mode avoids policy conflicts during initial setup. SELinux can be re-enabled later with proper rules.
+
+[fn:sysctl]
+These settings ensure bridged traffic visibility and IP forwarding across nodes.
+
+[fn:cgroups]
+Systemd cgroups prevent resource accounting mismatches between kubelet and containerd.
+
+[fn:cp-ports]
+Required for API server, etcd quorum communication, control-plane components, and (optionally) BGP.
+
+[fn:nodeport]
+NodePort services are exposed through a fixed TCP range on worker nodes.
+
+[fn:lb]
+A stable control-plane endpoint removes single points of failure and allows seamless master replacement.
+
+[fn:lb-dns]
+If nodes cannot resolve *lb.{{{domain}}}*, joining will fail or kubelet will flap because API connectivity is not stable.
+
+[fn:cilium-order]
+Nodes become Ready only after the CNI is installed. Installing Cilium early prevents scheduling/networking race conditions.
+
+[fn:cilium]
+Cilium uses eBPF instead of iptables, improving performance, observability, and security primitives (policies, visibility).
+
+[fn:cp-join]
+Control-plane nodes run API server, controller-manager, scheduler, and participate in the etcd quorum.
+
+[fn:worker-join]
+Worker nodes run workloads (pods), kubelet, container runtime, and Cilium agent; they do not participate in etcd.
+
+** COMMENT Configure NGINX as a Load Balancer on the Admin Node
+
+Because we are deploying a **highly available Kubernetes cluster** with multiple control-plane nodes, we need a load balancer in front of the Kubernetes API.
+
+Any reverse-proxy technology can be used here.
+*HAProxy* is a very simple and commonly used choice, but for change, I will use *NGINX*.
+
+It is important to highlight that the Kubernetes API requires **TCP load balancing**.
+This means **Layer 4 (L4)** load balancing — *not* Layer 7 (HTTP).
+NGINX provides this functionality through its *stream* module.
+
+Below is a minimal and working configuration suitable for our setup.
+*** Install nginx
+#+begin_src bash
+  sudo dnf install nginx nginx-mod-stream -y
+#+end_src
+*** NGINX Stream Configuration (Kubernetes API)
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+#+begin_src bash
+  sudo mv -v /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bk
+  sudo vim -v /etc/nginx/nginx.conf
+#+end_src
+
+#+begin_src conf
+  worker_processes 1;
+
+  events {
+      worker_connections 1024;
+  }
+
+  # -------------------------------------------------------------------
+  # TCP load balancing for Kubernetes API (no TLS termination here)
+  # -------------------------------------------------------------------
+  stream {
+      upstream k8s_api {
+          least_conn;
+
+          server 10.10.10.11:6443; 
+          server 10.10.10.12:6443;
+          server 10.10.10.13:6443;
+      }
+
+      server {
+          listen 6443; (api_port)
+          proxy_pass k8s_api;
+
+          proxy_connect_timeout 5s;
+          proxy_timeout 10m;
+      }
+  }
+#+end_src
+
+This configuration:
+- Listens on port *6443* on the admin node
+- Distributes traffic across all control-plane nodes
+- Preserves TLS end-to-end (no termination on NGINX)
+- Uses a simple *least connections* balancing strategy
+
+**** Run NGINX as a Systemd Service
+:PROPERTIES:
+:UNNUMBERED: yes
+:END:
+
+For this setup, NGINX is deployed as a **systemd service**.
+This avoids unnecessary Docker networking complexity and keeps the load balancer tightly coupled to the host network.
+
+#+begin_src bash
+  sudo nginx -t
+  sudo systemctl enable --now nginx
+  sudo systemctl is-active nginx
+#+end_src
+
+#+begin_example
+active
+#+end_example
+
+--------------
+

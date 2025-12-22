@@ -750,39 +750,142 @@ pre .copy-btn.copied {
   color: rgba(120, 200, 160, 0.85);
 }
 
-/* =========================================================
-   Bash / Shell prompt indicators (explicit via class)
-   - Add in Org:
-     #+ATTR_HTML: :class cmd-root
-     #+begin_src bash ... #+end_src
-   ========================================================= */
-pre.src-bash.cmd-root::after,
-pre.src-sh.cmd-root::after,
-pre.src-zsh.cmd-root::after,
-pre.src-bash.cmd-user::after,
-pre.src-sh.cmd-user::after,
-pre.src-zsh.cmd-user::after {
-  position: absolute;
-  top: 0.55rem;
-  left: 3.2rem; /* leaves room for copy button on the left */
+/* Ensure code block is positioning context */
+.cmd_root pre.src,
+.cmd_user pre.src {
+  /* position: relative; */
+  /* padding-top: 10.4rem;  */
+  /* space for prompt */
+  /* border: 1px solid red; */
+}
+
+/* Shared prompt style */
+.cmd_root pre.src::before,
+.cmd_user pre.src::before {
+  /* position: absolute; */
+  /* top: 0.45rem; */
+  /* left: 0.75rem; */
+
   font-family: var(--mono-font);
   font-size: 0.75em;
   font-weight: 500;
+
   pointer-events: none;
   user-select: none;
   opacity: 0.9;
+  border: 1px solid red;
+  display: inline;
 }
 
-pre.src-bash.cmd-root::after,
-pre.src-sh.cmd-root::after,
-pre.src-zsh.cmd-root::after {
-  content: "root #";
+/* Root */
+.cmd_root pre.src::before {
+  content: "zakaria #";
   color: #d14;
+  display: inline;
 }
 
-pre.src-bash.cmd-user::after,
-pre.src-sh.cmd-user::after,
-pre.src-zsh.cmd-user::after {
+/* User */
+.cmd_user pre.src::before {
   content: "user $";
   color: #2f9e44;
+}
+
+/* =========================================================
+   Footnotes (Org-mode HTML export)
+   - Clean separator
+   - Compact layout (fixes huge vertical gaps)
+   - Number badge + readable text
+   ========================================================= */
+
+/* Wrapper */
+#footnotes,
+.footnotes {
+  margin-top: 2.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+/* Title ("Footnotes:") */
+#footnotes h2,
+#footnotes .footnotes,
+h2.footnotes {
+  margin: 0 0 0.9rem;
+  font-size: 1.05em;
+  font-weight: 600;
+  color: #261b0d;
+}
+
+/* Many Org themes render footnotes under #text-footnotes */
+#text-footnotes {
+  margin: 0;
+  padding: 0;
+}
+
+/* -------------------------------
+   Style A: Org renders <div class="footdef">...</div>
+   ------------------------------- */
+.footdef {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr; /* number badge column + text column */
+  column-gap: 0.9rem;
+
+  margin: 0.7rem 0; /* fixes the huge vertical whitespace */
+  padding: 0.65rem 0.75rem;
+
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+}
+
+.footdef sup {
+  position: static; /* undo your global sup positioning for footnotes */
+  top: auto;
+  vertical-align: baseline;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+/* Number "badge" */
+.footdef sup a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2.1rem;
+  height: 2.1rem;
+
+  font-family: var(--mono-font);
+  font-size: 0.85em;
+  font-weight: 600;
+
+  text-decoration: none;
+  color: #261b0d;
+
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+}
+
+/* Footnote text */
+.footdef .footpara,
+.footdef p {
+  margin: 0;
+  font-size: 0.95em;
+  line-height: 1.55;
+  color: rgba(38, 27, 13, 0.92);
+}
+
+/* Backref link (often appears as ↩ or similar) */
+.footdef a.footref,
+.footdef a.footnum,
+.footdef a[href*="#fnr."] {
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.35);
+}
+
+.footdef a.footref:hover,
+.footdef a.footnum:hover,
+.footdef sup a:hover {
+  background: rgba(0, 0, 0, 0.06);
 }
