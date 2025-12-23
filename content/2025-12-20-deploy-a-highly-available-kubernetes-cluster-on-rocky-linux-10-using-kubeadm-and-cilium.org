@@ -280,9 +280,6 @@ We also need to disable DHCP-provided DNS to avoid overrides.
   sudo nmcli connection up eth0
 #+end_src
 
-#+begin_callout_warning
-Ensure *lb.{{{domain}}}* resolves from *all nodes* before running =kubeadm init= or any join command.[fn:lb-dns]
-#+end_callout_warning
 *** Configure the masters/workers Node to Use CoreDNS
 :PROPERTIES:
 :UNNUMBERED: yes
