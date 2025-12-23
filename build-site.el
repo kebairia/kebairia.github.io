@@ -84,7 +84,7 @@
              :html-head-extra 
              "<header>
                 <h4>
-                  <a href=\"https://kebairia.github.io\" class=\"home\">
+                  <a href=\"https://zakariakebairia.com\" class=\"home\">
                     <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
                   </a>
                   <a href=\"files/feed.rss\" class=\"rss\">

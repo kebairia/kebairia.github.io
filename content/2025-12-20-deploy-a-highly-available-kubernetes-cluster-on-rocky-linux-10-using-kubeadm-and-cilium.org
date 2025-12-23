@@ -64,8 +64,6 @@ In this blog, I will describes how to deploy a *highly available Kubernetes clus
 - *lb.{{{domain}}}* points to the admin node (nginx) and is used as the *control-plane endpoint*.
 - node hostnames use: *master{1..3}.{{{domain}}}* and *worker{1..3}.{{{domain}}}*
 
-* COMMENT Installation
-
 * Configure admin node
 ** Optional: Using =/etc/hosts= Instead of DNS
 :PROPERTIES:
@@ -82,6 +80,7 @@ Be aware that this approach does not scale, and requires manual updates on every
 If you decide to go this route, the following entries must be present on **every node**.
 
 #+begin_src conf :noweb yes
+10.10.10.10   admin.<<domain>> lb.<<domain>>
 10.10.10.11   master1.<<domain>>
 10.10.10.12   master2.<<domain>>
 10.10.10.13   master3.<<domain>>
@@ -149,7 +148,7 @@ networks:
 :UNNUMBERED: yes
 :END:
 
-CoreDNS uses a single configuration file called *Corefile*.
+CoreDNS uses a single configuration file called *Corefile* where you can define your zones.
 we define two zones in it:
 
 1. The =root zone (.)=
@@ -188,7 +187,7 @@ Below is the zone file defining the internal DNS records for *{{{domain}}}*.
 CoreDNS natively understands BIND-style zone files, making migration and maintenance straightforward.
 
 #+name: homelab_zonefile
-#+begin_src bindzone :noweb yes
+#+begin_src conf :noweb yes
 ; vim: ft=bindzone
 ; ============================================================================
 ; Zone File for <<domain>>
@@ -230,6 +229,7 @@ worker3  IN  A  10.10.10.23
 ; Aliases
 ; ----------------------------------------------------------------------------
 lb       IN  CNAME dns.<<domain>>.
+admin    IN  CNAME dns.<<domain>>.
 
 ; ----------------------------------------------------------------------------
 ; Notes
@@ -255,7 +255,7 @@ Once all configuration files are in place, start the service in detach mode:
 docker compose up -d
 #+end_src
 
-At this point, CoreDNS is running and listening locally on port *53*.
+At this point, CoreDNS is running and listening locally on port *53*, you can check that with the following command.
 #+begin_src bash :results output
   ss -tlpen | grep 53
 #+end_src
@@ -285,8 +285,7 @@ We also need to disable DHCP-provided DNS to avoid overrides.
 :UNNUMBERED: yes
 :END:
 
-Finally, configure the admin node to use **itself** as the DNS resolver.
-We also need to disable DHCP-provided DNS to avoid overrides.
+Also, we need to set the admin node as the DNS resolver for all other nodes.
 
 #+name: admin_network_configuration
 #+begin_src bash
@@ -385,8 +384,8 @@ Then use the following configuration:
 This configuration:
 - Listens on port *6443* on the admin node
 - Distributes traffic across all control-plane nodes
-- Preserves TLS end-to-end (no TLS termination on NGINX)
 - Uses a simple *least connections* load-balancing strategy
+# - Preserves TLS end-to-end (no TLS termination on NGINX)
 
 *** Run NGINX as a Systemd Service
 :PROPERTIES:
@@ -425,9 +424,9 @@ active
 
 Disable swap:
 
-#+begin_callout_note
-Kubernetes relies on predictable memory management. Swap breaks eviction logic and leads to unstable scheduling decisions.
-#+end_callout_note
+# #+begin_callout_note
+# Kubernetes relies on predictable memory management. Swap breaks eviction logic and leads to unstable scheduling decisions.
+# #+end_callout_note
 
 #+ATTR_HTML: :class cmd-root
 #+begin_src bash
@@ -719,7 +718,7 @@ kubeadm init phase upload-certs --upload-certs
 
 Now on *master2* and *master3*, run:
 
-#+begin_src bash
+#+begin_src bash :noweb yes
 kubeadm join lb.<<domain>>:6443 \
   --token <token> \
   --discovery-token-ca-cert-hash sha256:<hash> \
@@ -737,7 +736,7 @@ Each control-plane node runs an API server and joins the etcd quorum.[fn:cp-join
 
 On each worker:
 
-#+begin_src bash
+#+begin_src bash :noweb yes
 kubeadm join lb.<<domain>>:6443 \
   --token <token> \
   --discovery-token-ca-cert-hash sha256:<hash>
@@ -846,84 +845,3 @@ Control-plane nodes run API server, controller-manager, scheduler, and participa
 
 [fn:worker-join]
 Worker nodes run workloads (pods), kubelet, container runtime, and Cilium agent; they do not participate in etcd.
-
-** COMMENT Configure NGINX as a Load Balancer on the Admin Node
-
-Because we are deploying a **highly available Kubernetes cluster** with multiple control-plane nodes, we need a load balancer in front of the Kubernetes API.
-
-Any reverse-proxy technology can be used here.
-*HAProxy* is a very simple and commonly used choice, but for change, I will use *NGINX*.
-
-It is important to highlight that the Kubernetes API requires **TCP load balancing**.
-This means **Layer 4 (L4)** load balancing — *not* Layer 7 (HTTP).
-NGINX provides this functionality through its *stream* module.
-
-Below is a minimal and working configuration suitable for our setup.
-*** Install nginx
-#+begin_src bash
-  sudo dnf install nginx nginx-mod-stream -y
-#+end_src
-*** NGINX Stream Configuration (Kubernetes API)
-:PROPERTIES:
-:UNNUMBERED: yes
-:END:
-#+begin_src bash
-  sudo mv -v /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bk
-  sudo vim -v /etc/nginx/nginx.conf
-#+end_src
-
-#+begin_src conf
-  worker_processes 1;
-
-  events {
-      worker_connections 1024;
-  }
-
-  # -------------------------------------------------------------------
-  # TCP load balancing for Kubernetes API (no TLS termination here)
-  # -------------------------------------------------------------------
-  stream {
-      upstream k8s_api {
-          least_conn;
-
-          server 10.10.10.11:6443; 
-          server 10.10.10.12:6443;
-          server 10.10.10.13:6443;
-      }
-
-      server {
-          listen 6443; (api_port)
-          proxy_pass k8s_api;
-
-          proxy_connect_timeout 5s;
-          proxy_timeout 10m;
-      }
-  }
-#+end_src
-
-This configuration:
-- Listens on port *6443* on the admin node
-- Distributes traffic across all control-plane nodes
-- Preserves TLS end-to-end (no termination on NGINX)
-- Uses a simple *least connections* balancing strategy
-
-**** Run NGINX as a Systemd Service
-:PROPERTIES:
-:UNNUMBERED: yes
-:END:
-
-For this setup, NGINX is deployed as a **systemd service**.
-This avoids unnecessary Docker networking complexity and keeps the load balancer tightly coupled to the host network.
-
-#+begin_src bash
-  sudo nginx -t
-  sudo systemctl enable --now nginx
-  sudo systemctl is-active nginx
-#+end_src
-
-#+begin_example
-active
-#+end_example
-
---------------
-
