@@ -84,7 +84,7 @@
              :html-head-extra 
              "<header>
                 <h4>
-                  <a href=\"https://kebairia.github.io\" class=\"home\">
+                  <a href=\"https://zakariakebairia.com\" class=\"home\">
                     <img src=\"img/home.svg\" width=\"50\" alt=\"Home\" />
                   </a>
                   <a href=\"files/feed.rss\" class=\"rss\">
@@ -142,7 +142,7 @@
     Content licensed under <a href=\"http://creativecommons.org/licenses/by-sa/4.0/\">CC-BY-SA 4.0</a> unless otherwise noted.
   </p>
 </p>
-" (format-time-string "%Y")))
+" (format-time-string "%Y"))) 
 ;; -------------------------
 ;; Build the Site
 ;; -------------------------
