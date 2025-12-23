@@ -1,4 +1,12 @@
 /* =========================================================
+   ZakariaK Blog CSS (Cleaned + Consistent)
+   - Fixes selector bugs
+   - Improves typography consistency
+   - Fixes code labels vs prompts collision
+   - Fixes footnotes (single separator + inline badge)
+   ========================================================= */
+
+/* =========================================================
    Fonts
    ========================================================= */
 @import url("https://fonts.googleapis.com/css2?family=PT+Mono&display=swap");
@@ -28,6 +36,8 @@
    ========================================================= */
 :root {
   --background-color: #fefefe;
+  --foreground-color: #261b0d;
+
   --blog-font: "Source Serif Pro", serif;
   --mono-font: "PT Mono", monospace;
 
@@ -36,12 +46,139 @@
   --subtitle-font-size: 18pt;
   --date-font-size: 10pt;
 
-  --subtitle-color: grey;
-  --section-number-font-color: transparent;
+  --subtitle-color: #6f6f6f;
+
   --link-color: var(--foreground-color);
 
+  --section-number-font-color: transparent;
   --section-number-font-size: 12px;
   --section-number-line-height: 0.95;
+
+  --border-soft: rgba(0, 0, 0, 0.12);
+  --border-softer: rgba(0, 0, 0, 0.08);
+  --bg-soft: rgba(0, 0, 0, 0.02);
+  --bg-soft-2: rgba(0, 0, 0, 0.04);
+}
+
+/* =========================================================
+   Base Typography / Layout
+   ========================================================= */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+body {
+  font-family: var(--blog-font);
+  background: var(--background-color);
+  color: var(--foreground-color);
+
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 10px;
+
+  font-size: var(--blog-font-size);
+}
+
+article {
+  line-height: 1.45;
+}
+
+/* FIX: you had `a :not(...)` (note the space) which targets descendants, not the <a>. */
+p {
+  color: inherit;
+  hyphens: auto;
+}
+
+a:not(.uncoloured-link) {
+  color: var(--link-color);
+}
+
+a {
+  hyphens: auto;
+}
+
+.date {
+  font-size: small;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.46;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  hyphens: none;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+.title {
+  text-align: center;
+  padding-bottom: 7px;
+}
+
+.subtitle {
+  font-size: var(--subtitle-font-size);
+  color: var(--subtitle-color);
+  text-align: center;
+}
+
+.inline {
+  display: inline;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.right {
+  text-align: right;
+  float: right;
+}
+
+img {
+  max-width: 100%;
+}
+
+figcaption {
+  font-style: italic;
+}
+
+.summary {
+  margin: 5px auto;
+}
+
+blockquote {
+  border: 2px dashed #ccc;
+  padding: 10px;
+}
+
+.highlight {
+  background-color: #f3f3f3;
+  border-radius: 3px;
+
+  font-size: 0.9em;
+  margin: 5px auto;
+  padding: 5px 15px;
+  border: 2px dashed #ccc;
+}
+
+/* Keep a sensible default superscript/subscript,
+   but we will override in footnotes + footrefs where needed. */
+sup,
+sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.35em;
+}
+
+sub {
+  top: 0.35em;
 }
 
 /* =========================================================
@@ -51,11 +188,6 @@ header {
   position: relative;
   margin: 0 auto -2rem;
   padding-bottom: 60px;
-}
-
-.home:after {
-  /* content: "Zakaria Kebairia"; */
-  font-family: "Fantasque Sans Mono";
 }
 
 header > h4 > a.home img {
@@ -144,7 +276,7 @@ footer {
    ========================================================= */
 .preamble {
   color: #7b7b7b;
-  font-family: "Source Serif Pro";
+  font-family: var(--blog-font);
   font-size: 15px;
 }
 
@@ -161,119 +293,10 @@ footer {
 }
 
 /* =========================================================
-   Base Typography / Layout
-   ========================================================= */
-html,
-body {
-  margin: 0;
-  padding: 0;
-  line-height: 1.2;
-}
-
-body {
-  font-family: var(--blog-font), serif;
-  max-width: 1200px;
-  margin: 40px auto;
-  font-size: var(--blog-font-size);
-  padding: 0 10px;
-  color: #261b0d;
-}
-
-article {
-  line-height: 1.45;
-}
-
-p,
-a :not(.uncoloured-link) {
-  color: inherit;
-  hyphens: auto;
-}
-
-.date {
-  font-size: small;
-}
-
-h1,
-h2,
-h3 {
-  line-height: 1.46;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  hyphens: none;
-}
-
-p {
-  margin-bottom: 1em;
-  hyphens: auto;
-}
-
-.title {
-  text-align: center;
-  padding-bottom: 7px;
-}
-
-.subtitle {
-  font-size: var(--subtitle-font-size);
-  color: var(--subtitle-color);
-  text-align: center;
-}
-
-.inline {
-  display: inline;
-}
-
-.no-underline {
-  text-decoration: none;
-}
-
-.right {
-  text-align: right;
-  float: right;
-}
-
-img {
-  max-width: 100%;
-}
-
-figcaption {
-  font-style: italic;
-}
-
-.summary {
-  margin: 5px auto;
-}
-
-blockquote {
-  border: 2px dashed #ccc;
-  padding: 10px;
-}
-
-.highlight {
-  background-color: #f3f3f3;
-  border-radius: 3px;
-
-  font-size: 0.9em;
-  margin: 5px auto;
-  padding: 5px 15px;
-  border: 2px dashed #ccc;
-}
-
-sup,
-sub {
-  vertical-align: baseline;
-  position: relative;
-  top: -0.4em;
-}
-
-sub {
-  top: 0.4em;
-}
-
-/* =========================================================
    Sidenotes
    ========================================================= */
 .note {
-  font-family: "Source Serif Pro";
+  font-family: var(--blog-font);
   margin-top: 1.9rem;
   margin-bottom: 0;
   font-size: 77%;
@@ -312,10 +335,6 @@ th {
 
 /* =========================================================
    Org Callouts (Special Blocks)
-   - #+begin_callout_note ... #+end_callout_note
-   - #+begin_callout_warning ... #+end_callout_warning
-   - #+begin_callout_error ... #+end_callout_error
-   - #+begin_callout_critical ... #+end_callout_critical
    ========================================================= */
 .callout_note,
 .callout_warning,
@@ -334,8 +353,7 @@ th {
   overflow: hidden;
   position: relative;
 
-  /* readability (keep blog font) */
-  font-family: var(--blog-font), serif;
+  font-family: var(--blog-font);
   line-height: 1.55;
 }
 
@@ -349,7 +367,7 @@ th {
   background: var(--co-title-bg);
   border-bottom: 1px solid var(--co-border);
 
-  font-family: var(--blog-font), serif;
+  font-family: var(--blog-font);
   font-weight: 600;
   font-size: 0.95em;
   letter-spacing: 0.3px;
@@ -446,7 +464,7 @@ th {
   font-size: 0.95em;
 }
 
-/* Callout variants */
+/* Variants */
 .callout_note {
   --co-accent: #1f7a74;
   --co-bg: rgba(31, 122, 116, 0.1);
@@ -524,9 +542,8 @@ th {
 
 /* =========================================================
    Code (Clean + readable)
-   - Fixes the original 5% font-size issue
-   - Fixes inline code fixed width/height
-   - Adds language label, output label, copy button, prompts
+   - Language label moved to ::after
+   - Prompt lives in ::before (no collision)
    ========================================================= */
 
 /* Inline code */
@@ -562,7 +579,7 @@ pre.output {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
 
-  padding: 1.25rem 1.1rem 1rem; /* top padding for labels/prompts */
+  padding: 1.35rem 1.1rem 1rem; /* room for labels/prompt */
   margin: 1.2rem 0;
 
   overflow-x: auto;
@@ -578,10 +595,9 @@ pre.output {
 /* Output blocks are slightly dimmer */
 pre.example,
 pre.output {
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
-/* Optional: slightly different background for explicit output blocks */
 pre.output {
   background: #111827;
   border-color: rgba(255, 255, 255, 0.1);
@@ -620,10 +636,26 @@ pre::-webkit-scrollbar-track {
   border-radius: 10px;
 }
 
-/* =========================================================
-   Language labels (minimal)
-   ========================================================= */
+/* Prompt label (left) — default off unless wrapped by .cmd_root/.cmd_user */
 pre.src::before {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  left: 0.75rem;
+
+  font-family: var(--mono-font);
+  font-size: 0.75em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+  color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Language label (right) */
+pre.src::after {
+  content: "";
   position: absolute;
   top: 0.55rem;
   right: 0.75rem;
@@ -639,65 +671,62 @@ pre.src::before {
   user-select: none;
 }
 
-/* Language mappings */
-pre.src-bash::before {
+/* Language mappings -> ::after */
+pre.src-bash::after {
   content: "bash";
 }
-pre.src-sh::before {
+pre.src-sh::after {
   content: "sh";
 }
-pre.src-zsh::before {
+pre.src-zsh::after {
   content: "zsh";
 }
 
-pre.src-yaml::before,
-pre.src-yml::before {
+pre.src-yaml::after,
+pre.src-yml::after {
   content: "yaml";
 }
 
-pre.src-hcl::before {
+pre.src-hcl::after {
   content: "hcl";
 }
-
-pre.src-json::before {
+pre.src-json::after {
   content: "json";
 }
-pre.src-toml::before {
+pre.src-toml::after {
   content: "toml";
 }
-pre.src-ini::before {
+pre.src-ini::after {
   content: "ini";
 }
 
-pre.src-go::before {
+pre.src-go::after {
   content: "go";
 }
-pre.src-python::before {
+pre.src-python::after {
   content: "python";
 }
-pre.src-rust::before {
+pre.src-rust::after {
   content: "rust";
 }
 
-pre.src-dockerfile::before {
+pre.src-dockerfile::after {
   content: "dockerfile";
 }
-pre.src-makefile::before {
+pre.src-makefile::after {
   content: "make";
 }
 
-pre.src-conf::before {
+pre.src-conf::after {
   content: "conf";
 }
-pre.src-nginx::before {
+pre.src-nginx::after {
   content: "nginx";
 }
 
-/* =========================================================
-   Output label ("output")
-   ========================================================= */
-pre.example::before,
-pre.output::before {
+/* Output label (right) */
+pre.example::after,
+pre.output::after {
   content: "output";
   position: absolute;
   top: 0.55rem;
@@ -713,9 +742,7 @@ pre.output::before {
   user-select: none;
 }
 
-/* =========================================================
-   Copy-to-clipboard button (expects copy.js to inject it)
-   ========================================================= */
+/* Copy-to-clipboard button (expects copy.js to inject it) */
 pre .copy-btn {
   position: absolute;
   top: 0.55rem;
@@ -750,95 +777,121 @@ pre .copy-btn.copied {
   color: rgba(120, 200, 160, 0.85);
 }
 
-/* Ensure code block is positioning context */
-.cmd_root pre.src,
-.cmd_user pre.src {
-  /* position: relative; */
-  /* padding-top: 10.4rem;  */
-  /* space for prompt */
-  /* border: 1px solid red; */
-}
-
-/* Shared prompt style */
-.cmd_root pre.src::before,
-.cmd_user pre.src::before {
-  /* position: absolute; */
-  /* top: 0.45rem; */
-  /* left: 0.75rem; */
-
-  font-family: var(--mono-font);
-  font-size: 0.75em;
-  font-weight: 500;
-
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.9;
-  border: 1px solid red;
-  display: inline;
-}
-
-/* Root */
+/* Prompt variants (set content + color) */
 .cmd_root pre.src::before {
   content: "zakaria #";
-  color: #d14;
-  display: inline;
+  color: rgba(255, 120, 160, 0.92);
 }
 
-/* User */
 .cmd_user pre.src::before {
   content: "user $";
-  color: #2f9e44;
+  color: rgba(120, 220, 160, 0.9);
 }
 
 /* =========================================================
    Footnotes (Org-mode HTML export)
-   - Clean separator
-   - Compact layout (fixes huge vertical gaps)
-   - Number badge + readable text
    ========================================================= */
 
-/* Wrapper */
+/* ---- Separator spacing + single dashed line ---- */
 #footnotes,
-.footnotes {
-  margin-top: 2.2rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.18);
+#text-footnotes {
+  margin-top: 2rem; /* space BEFORE separator */
 }
 
-/* Title ("Footnotes:") */
+/* Prefer #text-footnotes when present */
+#text-footnotes {
+  border-top: 1px dashed rgba(0, 0, 0, 0.18);
+  padding-top: 1.4rem; /* space after line */
+}
+
+/* Fallback if theme doesn’t use #text-footnotes (modern browsers) */
+#footnotes:not(:has(#text-footnotes)) {
+  border-top: 1px dashed rgba(0, 0, 0, 0.18);
+  padding-top: 1.4rem;
+}
+
+/* Prevent double border from nested .footnotes container */
+.footnotes {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Title */
 #footnotes h2,
-#footnotes .footnotes,
 h2.footnotes {
   margin: 0 0 0.9rem;
   font-size: 1.05em;
   font-weight: 600;
-  color: #261b0d;
+  color: var(--foreground-color);
 }
 
-/* Many Org themes render footnotes under #text-footnotes */
-#text-footnotes {
-  margin: 0;
-  padding: 0;
+/* ---- In-text footnote reference badge ---- */
+/* Neutralize global sup positioning for these refs */
+sup.footref,
+sup[id^="fnr"] {
+  position: static;
+  top: auto;
+  vertical-align: super;
+  line-height: 1;
 }
 
-/* -------------------------------
-   Style A: Org renders <div class="footdef">...</div>
-   ------------------------------- */
+/* Badge */
+sup a.footref,
+sup a[href^="#fn."],
+sup a[href^="#fn:"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.72em;
+  font-weight: 650;
+  line-height: 1;
+
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.35rem;
+  border-radius: 0.45rem;
+
+  background: #fbf3e6;
+  border: 1px solid #e2c8a2;
+  color: #6b4a1f;
+
+  text-decoration: none;
+  margin-left: 0.15rem;
+}
+
+sup a.footref:hover,
+sup a[href^="#fn."]:hover,
+sup a[href^="#fn:"]:hover {
+  background: #f6e6cc;
+  border-color: #d4b07a;
+}
+
+sup a.footref:focus-visible,
+sup a[href^="#fn."]:focus-visible,
+sup a[href^="#fn:"]:focus-visible {
+  outline: 2px solid #c9974a;
+  outline-offset: 2px;
+}
+
+/* ---- Footnote definitions as “cards” ---- */
 .footdef {
   display: grid;
-  grid-template-columns: 2.4rem 1fr; /* number badge column + text column */
+  grid-template-columns: 2.4rem 1fr;
   column-gap: 0.9rem;
 
-  margin: 0.7rem 0; /* fixes the huge vertical whitespace */
+  margin: 0.7rem 0;
   padding: 0.65rem 0.75rem;
 
-  background: rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--bg-soft);
+  border: 1px solid var(--border-softer);
   border-radius: 12px;
 }
 
+/* Neutralize global sup positioning inside footnotes */
 .footdef sup {
-  position: static; /* undo your global sup positioning for footnotes */
+  position: static;
   top: auto;
   vertical-align: baseline;
   line-height: 1;
@@ -846,7 +899,7 @@ h2.footnotes {
   padding: 0;
 }
 
-/* Number "badge" */
+/* Number badge (list) */
 .footdef sup a {
   display: inline-flex;
   align-items: center;
@@ -857,17 +910,16 @@ h2.footnotes {
 
   font-family: var(--mono-font);
   font-size: 0.85em;
-  font-weight: 600;
+  font-weight: 650;
 
   text-decoration: none;
-  color: #261b0d;
+  color: var(--foreground-color);
 
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: var(--bg-soft-2);
+  border: 1px solid var(--border-soft);
   border-radius: 10px;
 }
 
-/* Footnote text */
 .footdef .footpara,
 .footdef p {
   margin: 0;
@@ -876,16 +928,16 @@ h2.footnotes {
   color: rgba(38, 27, 13, 0.92);
 }
 
-/* Backref link (often appears as ↩ or similar) */
-.footdef a.footref,
-.footdef a.footnum,
-.footdef a[href*="#fnr."] {
+/* Backref links */
+.footdef a[href*="#fnr."],
+.footdef a[href*="#fnr:"] {
   text-decoration: none;
   border-bottom: 1px dotted rgba(0, 0, 0, 0.35);
 }
 
-.footdef a.footref:hover,
-.footdef a.footnum:hover,
+.footdef a[href*="#fnr."]:hover,
+.footdef a[href*="#fnr:"]:hover,
 .footdef sup a:hover {
   background: rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
 }
