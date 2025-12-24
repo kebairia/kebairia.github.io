@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-24 Wed 00:05 -->
+<!-- 2025-12-24 Wed 00:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kvmcli v1.0.0-alpha</title>
@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="css/main.css" type="text/css" />
 <header>
                 <h4>
-                  <a href="https://kebairia.github.io" class="home">
+                  <a href="https://zakariakebairia.github.io" class="home">
                     <img src="img/home.svg" width="50" alt="Home" />
                   </a>
                   <a href="files/feed.rss" class="rss">
@@ -28,8 +28,8 @@
 <div id="content">
 <h1 class="title">Kvmcli v1.0.0-alpha</h1>
 
-<div id="outline-container-org5dfb000" class="outline-2">
-<h2 id="org5dfb000"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org6539901" class="outline-2">
+<h2 id="org6539901"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 And here it is: <a href="https://github.com/kebairia/kvmcli">kvmcli v1.0.0-alpha</a>
@@ -45,8 +45,8 @@ Earlier versions worked, but they were basically just wrappers around the <code>
 </div>
 </div>
 
-<div id="outline-container-org5f17f99" class="outline-2">
-<h2 id="org5f17f99"><span class="section-number-2">2</span> Why switching to Go</h2>
+<div id="outline-container-org39f29f8" class="outline-2">
+<h2 id="org39f29f8"><span class="section-number-2">2</span> Why switching to Go</h2>
 <div class="outline-text-2" id="text-2">
 <div class="note">
 <p>
@@ -103,8 +103,8 @@ What <code>go-libvirt</code> provided:
 </div>
 
 
-<div id="outline-container-org7419c6b" class="outline-2">
-<h2 id="org7419c6b"><span class="section-number-2">3</span> YAML Configuration: Why It Didn’t Scale</h2>
+<div id="outline-container-org61d1d1d" class="outline-2">
+<h2 id="org61d1d1d"><span class="section-number-2">3</span> YAML Configuration: Why It Didn’t Scale</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 When I first switched to Go, I kept using YAML.
@@ -171,8 +171,8 @@ YAML was good for static data, but bad for composition.
 </div>
 </div>
 
-<div id="outline-container-org3dd5db2" class="outline-2">
-<h2 id="org3dd5db2"><span class="section-number-2">4</span> Switching to HCL</h2>
+<div id="outline-container-orgac42516" class="outline-2">
+<h2 id="orgac42516"><span class="section-number-2">4</span> Switching to HCL</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The main configuration change in <b>v1.0.0</b> is the move from YAML to HCL.
@@ -218,8 +218,8 @@ The configuration stays readable even when the number of VMs increases.
 </div>
 </div>
 
-<div id="outline-container-org160f68e" class="outline-2">
-<h2 id="org160f68e"><span class="section-number-2">5</span> SQLite Backend</h2>
+<div id="outline-container-org3937c9d" class="outline-2">
+<h2 id="org3937c9d"><span class="section-number-2">5</span> SQLite Backend</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 kvmcli now uses SQLite to store information about resources.
@@ -246,8 +246,8 @@ SQLite was chosen because:
 </div>
 </div>
 
-<div id="outline-container-org35f32c2" class="outline-2">
-<h2 id="org35f32c2"><span class="section-number-2">6</span> Logging Improvements</h2>
+<div id="outline-container-orgcb3523d" class="outline-2">
+<h2 id="orgcb3523d"><span class="section-number-2">6</span> Logging Improvements</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Logging was improved to make debugging easier.
@@ -256,8 +256,8 @@ Go really pushed me to be more strict and intentional about logging 😄
 </div>
 </div>
 
-<div id="outline-container-orga144cdf" class="outline-2">
-<h2 id="orga144cdf"><span class="section-number-2">7</span> What’s Next</h2>
+<div id="outline-container-org6dd96b5" class="outline-2">
+<h2 id="org6dd96b5"><span class="section-number-2">7</span> What’s Next</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Planned work after v1.0.0:
