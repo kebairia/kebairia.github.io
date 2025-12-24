@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-12-23 Tue 23:42 -->
+<!-- 2025-12-24 Wed 00:03 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deploy a Highly Available Kubernetes Cluster on Rocky Linux 10 using kubeadm and Cilium</title>
@@ -19,17 +19,17 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgc7ba284">1. Introduction</a></li>
-<li><a href="#org5e8d518">2. Topology</a></li>
-<li><a href="#org8a1a228">3. Configure admin node</a></li>
-<li><a href="#orgfa1a300">4. Kubernetes Installation</a></li>
-<li><a href="#orgccd4116">5. Post-installation checks</a></li>
+<li><a href="#orgfa59960">1. Introduction</a></li>
+<li><a href="#org72f06e3">2. Topology</a></li>
+<li><a href="#org5b07bf0">3. Configure admin node</a></li>
+<li><a href="#org50ce23b">4. Kubernetes Installation</a></li>
+<li><a href="#orgbd9c53c">5. Post-installation checks</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc7ba284" class="outline-2">
-<h2 id="orgc7ba284"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orgfa59960" class="outline-2">
+<h2 id="orgfa59960"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In this blog, I will describes how to deploy a <b>highly available Kubernetes cluster</b> on <b>Rocky Linux 10</b> using <code>kubeadm</code> and <b>Cilium</b> as the CNI.
@@ -38,8 +38,8 @@ In this blog, I will describes how to deploy a <b>highly available Kubernetes cl
 </div>
 
 
-<div id="outline-container-org5e8d518" class="outline-2">
-<h2 id="org5e8d518"><span class="section-number-2">2</span> Topology</h2>
+<div id="outline-container-org72f06e3" class="outline-2">
+<h2 id="org72f06e3"><span class="section-number-2">2</span> Topology</h2>
 <div class="outline-text-2" id="text-2">
 
 <div class="figure">
@@ -47,10 +47,10 @@ In this blog, I will describes how to deploy a <b>highly available Kubernetes cl
 </p>
 </div>
 </div>
-<div id="outline-container-org52cfae4" class="outline-3">
-<h3 id="org52cfae4"><span class="section-number-3">2.1</span> Node inventory (single source of truth)</h3>
+<div id="outline-container-orgf93896e" class="outline-3">
+<h3 id="orgf93896e"><span class="section-number-3">2.1</span> Node inventory (single source of truth)</h3>
 <div class="outline-text-3" id="text-2-1">
-<table id="org70dd2ba" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org60c6b14" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -144,8 +144,8 @@ In this blog, I will describes how to deploy a <b>highly available Kubernetes cl
 </div>
 </div>
 
-<div id="outline-container-orgc48658f" class="outline-3">
-<h3 id="orgc48658f"><span class="section-number-3">2.2</span> DNS conventions</h3>
+<div id="outline-container-orgf4c2db3" class="outline-3">
+<h3 id="orgf4c2db3"><span class="section-number-3">2.2</span> DNS conventions</h3>
 <div class="outline-text-3" id="text-2-2">
 <ul class="org-ul">
 <li><b>lb.hl.lan</b> points to the admin node (nginx) and is used as the <b>control-plane endpoint</b>.</li>
@@ -155,13 +155,13 @@ In this blog, I will describes how to deploy a <b>highly available Kubernetes cl
 </div>
 </div>
 
-<div id="outline-container-org8a1a228" class="outline-2">
-<h2 id="org8a1a228"><span class="section-number-2">3</span> Configure admin node</h2>
+<div id="outline-container-org5b07bf0" class="outline-2">
+<h2 id="org5b07bf0"><span class="section-number-2">3</span> Configure admin node</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgb69715c" class="outline-3">
-<h3 id="orgb69715c">Optional: Using <code>/etc/hosts</code> Instead of DNS</h3>
-<div class="outline-text-3" id="text-orgb69715c">
+<div id="outline-container-orga0d42db" class="outline-3">
+<h3 id="orga0d42db">Optional: Using <code>/etc/hosts</code> Instead of DNS</h3>
+<div class="outline-text-3" id="text-orga0d42db">
 <p>
 Before deploying the cluster, all nodes must be able to resolve each other by name.
 </p>
@@ -191,7 +191,7 @@ If you decide to go this route, the following entries must be present on <b><b>e
 </div>
 </div>
 
-<div id="outline-container-org0cd6cdc" class="outline-3">
+<div id="outline-container-org0207697" class="outline-3">
 <h3 id="dns"><span class="section-number-3">3.1</span> Configure DNS on the Admin Node (CoreDNS)</h3>
 <div class="outline-text-3" id="text-dns">
 <p>
@@ -228,9 +228,9 @@ In our case, we will deploy CoreDNS <b><b>using Docker Compose</b></b>.
 
 
 
-<div id="outline-container-orge846923" class="outline-4">
-<h4 id="orge846923">Docker Compose Definition</h4>
-<div class="outline-text-4" id="text-orge846923">
+<div id="outline-container-orgd7c4c1a" class="outline-4">
+<h4 id="orgd7c4c1a">Docker Compose Definition</h4>
+<div class="outline-text-4" id="text-orgd7c4c1a">
 <p>
 The following Compose file runs CoreDNS, exposes DNS on port <b>53 (TCP/UDP)</b>, and mounts both:
 </p>
@@ -240,7 +240,7 @@ The following Compose file runs CoreDNS, exposes DNS on port <b>53 (TCP/UDP)</b>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-yaml" id="orgf42c3cb">services:
+<pre class="src src-yaml" id="org393408a">services:
   coredns:
     image: coredns/coredns:latest
     container_name: coredns
@@ -262,9 +262,9 @@ networks:
 </div>
 </div>
 
-<div id="outline-container-orge828ed3" class="outline-4">
-<h4 id="orge828ed3">CoreDNS Configuration (Corefile)</h4>
-<div class="outline-text-4" id="text-orge828ed3">
+<div id="outline-container-org19c1583" class="outline-4">
+<h4 id="org19c1583">CoreDNS Configuration (Corefile)</h4>
+<div class="outline-text-4" id="text-org19c1583">
 <p>
 CoreDNS uses a single configuration file called <b>Corefile</b>.
 we define two zones in it:
@@ -284,7 +284,7 @@ we define two zones in it:
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-conf" id="orgaf1cafa">.:53 {
+<pre class="src src-conf" id="org5c9aa35">.:53 {
     forward . 1.1.1.1 8.8.8.8 8.8.4.4
     log
     errors
@@ -301,16 +301,16 @@ hl.lan:53 {
 </div>
 </div>
 
-<div id="outline-container-org6bb1c71" class="outline-4">
-<h4 id="org6bb1c71">Homelab Zone File (BIND-Compatible)</h4>
-<div class="outline-text-4" id="text-org6bb1c71">
+<div id="outline-container-orgaf00665" class="outline-4">
+<h4 id="orgaf00665">Homelab Zone File (BIND-Compatible)</h4>
+<div class="outline-text-4" id="text-orgaf00665">
 <p>
 Below is the zone file defining the internal DNS records for <b>hl.lan</b>.
 CoreDNS natively understands BIND-style zone files, making migration and maintenance straightforward.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bindzone" id="org5d1e8bb">; vim: ft=bindzone
+<pre class="src src-bindzone" id="org606e872">; vim: ft=bindzone
 ; ============================================================================
 ; Zone File for hl.lan
 ; ============================================================================
@@ -364,9 +364,9 @@ lb       IN  CNAME dns.hl.lan.
 </div>
 </div>
 
-<div id="outline-container-org7d763b0" class="outline-4">
-<h4 id="org7d763b0">Deploy CoreDNS</h4>
-<div class="outline-text-4" id="text-org7d763b0">
+<div id="outline-container-org0aed86f" class="outline-4">
+<h4 id="org0aed86f">Deploy CoreDNS</h4>
+<div class="outline-text-4" id="text-org0aed86f">
 <div class="callout_note">
 <p>
 Since I used a named network in docker compose, you need to create it using <code>docker network create admin-network</code>
@@ -393,16 +393,16 @@ At this point, CoreDNS is running and listening locally on port <b>53</b>.
 </div>
 </div>
 
-<div id="outline-container-org7c36313" class="outline-4">
-<h4 id="org7c36313">Configure the Admin Node to Use CoreDNS</h4>
-<div class="outline-text-4" id="text-org7c36313">
+<div id="outline-container-org94ce60f" class="outline-4">
+<h4 id="org94ce60f">Configure the Admin Node to Use CoreDNS</h4>
+<div class="outline-text-4" id="text-org94ce60f">
 <p>
 Finally, configure the admin node to use <b><b>itself</b></b> as the DNS resolver.
 We also need to disable DHCP-provided DNS to avoid overrides.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org63cbef7">sudo nmcli connection modify eth0 <span style="font-style: italic;">\</span>
+<pre class="src src-bash" id="org5921449">sudo nmcli connection modify eth0 <span style="font-style: italic;">\</span>
   ipv4.dns <span style="font-style: italic;">"127.0.0.1"</span> <span style="font-style: italic;">\</span>
   ipv4.ignore-auto-dns yes <span style="font-style: italic;">\</span>
   ipv4.dns-search <span style="font-style: italic;">"hl.lan"</span>
@@ -415,16 +415,16 @@ sudo nmcli connection up eth0
 </div>
 </div>
 
-<div id="outline-container-orgf53b777" class="outline-4">
-<h4 id="orgf53b777">Configure the masters/workers Node to Use CoreDNS</h4>
-<div class="outline-text-4" id="text-orgf53b777">
+<div id="outline-container-org13f8045" class="outline-4">
+<h4 id="org13f8045">Configure the masters/workers Node to Use CoreDNS</h4>
+<div class="outline-text-4" id="text-org13f8045">
 <p>
 Finally, configure the admin node to use <b><b>itself</b></b> as the DNS resolver.
 We also need to disable DHCP-provided DNS to avoid overrides.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org240d76e">sudo nmcli connection modify eth0 <span style="font-style: italic;">\</span>
+<pre class="src src-bash" id="org69ab522">sudo nmcli connection modify eth0 <span style="font-style: italic;">\</span>
   ipv4.dns <span style="font-style: italic;">"10.10.10.10"</span> <span style="font-style: italic;">\</span>
   ipv4.ignore-auto-dns yes <span style="font-style: italic;">\</span>
   ipv4.dns-search <span style="font-style: italic;">"hl.lan"</span>
@@ -444,9 +444,9 @@ Ensure <b>lb.hl.lan</b> resolves from <b>all nodes</b> before running <code>kube
 </div>
 </div>
 
-<div id="outline-container-orgb94cf26" class="outline-4">
-<h4 id="orgb94cf26">Firewall configuration</h4>
-<div class="outline-text-4" id="text-orgb94cf26">
+<div id="outline-container-orgfe6d69f" class="outline-4">
+<h4 id="orgfe6d69f">Firewall configuration</h4>
+<div class="outline-text-4" id="text-orgfe6d69f">
 <div class="org-src-container">
 <pre class="src src-bash">sudo firewall-cmd --add-port=53/tcp --permanent
 sudo firewall-cmd --reload
@@ -456,8 +456,8 @@ sudo firewall-cmd --reload
 </div>
 </div>
 
-<div id="outline-container-orgb0eb4a3" class="outline-3">
-<h3 id="orgb0eb4a3"><span class="section-number-3">3.2</span> Configure NGINX as a Load Balancer for the Kubernetes API</h3>
+<div id="outline-container-orgc8cf419" class="outline-3">
+<h3 id="orgc8cf419"><span class="section-number-3">3.2</span> Configure NGINX as a Load Balancer for the Kubernetes API</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Because we are deploying a <b><b>highly available Kubernetes cluster</b></b> with multiple control-plane nodes, we need a load balancer in front of the Kubernetes API.
@@ -475,9 +475,9 @@ NGINX provides this capability through its <b>stream</b> module.
 </p>
 </div>
 
-<div id="outline-container-org7789e7d" class="outline-4">
-<h4 id="org7789e7d">Install NGINX (with Stream Module)</h4>
-<div class="outline-text-4" id="text-org7789e7d">
+<div id="outline-container-org9f18976" class="outline-4">
+<h4 id="org9f18976">Install NGINX (with Stream Module)</h4>
+<div class="outline-text-4" id="text-org9f18976">
 <p>
 On Rocky Linux, the stream module is provided as a separate package.
 </p>
@@ -489,9 +489,9 @@ On Rocky Linux, the stream module is provided as a separate package.
 </div>
 </div>
 
-<div id="outline-container-orga0f35bc" class="outline-4">
-<h4 id="orga0f35bc">NGINX Stream Configuration (Kubernetes API)</h4>
-<div class="outline-text-4" id="text-orga0f35bc">
+<div id="outline-container-orgbdc956b" class="outline-4">
+<h4 id="orgbdc956b">NGINX Stream Configuration (Kubernetes API)</h4>
+<div class="outline-text-4" id="text-orgbdc956b">
 <p>
 First, back up the default configuration file and open a new one.
 </p>
@@ -555,9 +555,9 @@ This configuration:
 </div>
 </div>
 
-<div id="outline-container-orgbbcf425" class="outline-4">
-<h4 id="orgbbcf425">Run NGINX as a Systemd Service</h4>
-<div class="outline-text-4" id="text-orgbbcf425">
+<div id="outline-container-org8a63cdd" class="outline-4">
+<h4 id="org8a63cdd">Run NGINX as a Systemd Service</h4>
+<div class="outline-text-4" id="text-org8a63cdd">
 <p>
 For this setup, NGINX is deployed as a <b><b>systemd service</b></b>.
 This avoids unnecessary Docker networking complexity and keeps the load balancer tightly coupled to the host network.
@@ -587,9 +587,9 @@ active
 </pre>
 </div>
 </div>
-<div id="outline-container-org7b63deb" class="outline-4">
-<h4 id="org7b63deb">Firewall configuration</h4>
-<div class="outline-text-4" id="text-org7b63deb">
+<div id="outline-container-org03c37f0" class="outline-4">
+<h4 id="org03c37f0">Firewall configuration</h4>
+<div class="outline-text-4" id="text-org03c37f0">
 <div class="org-src-container">
 <pre class="src src-bash">sudo firewall-cmd --add-port=6443/tcp --permanent
 sudo firewall-cmd --reload
@@ -599,12 +599,12 @@ sudo firewall-cmd --reload
 </div>
 </div>
 </div>
-<div id="outline-container-orgfa1a300" class="outline-2">
-<h2 id="orgfa1a300"><span class="section-number-2">4</span> Kubernetes Installation</h2>
+<div id="outline-container-org50ce23b" class="outline-2">
+<h2 id="org50ce23b"><span class="section-number-2">4</span> Kubernetes Installation</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org658871b" class="outline-3">
-<h3 id="org658871b"><span class="section-number-3">4.1</span> Configuration for all nodes (masters and workers)</h3>
+<div id="outline-container-orga75fe11" class="outline-3">
+<h3 id="orga75fe11"><span class="section-number-3">4.1</span> Configuration for all nodes (masters and workers)</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Disable swap:
@@ -689,9 +689,9 @@ overlay               94208  0
 </pre>
 </div>
 
-<div id="outline-container-orgb33dc89" class="outline-4">
-<h4 id="orgb33dc89">Install container runtime (containerd)</h4>
-<div class="outline-text-4" id="text-orgb33dc89">
+<div id="outline-container-orgbfa821b" class="outline-4">
+<h4 id="orgbfa821b">Install container runtime (containerd)</h4>
+<div class="outline-text-4" id="text-orgbfa821b">
 <div class="org-src-container">
 <pre class="src src-bash">dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 dnf install -y containerd.io
@@ -716,14 +716,14 @@ We enable systemd cgroups for kubelet compatibility.<sup><a id="fnr.2" class="fo
 </div>
 </div>
 
-<div id="outline-container-orgb5b99ae" class="outline-4">
-<h4 id="orgb5b99ae">Firewall configuration</h4>
-<div class="outline-text-4" id="text-orgb5b99ae">
+<div id="outline-container-org2637b63" class="outline-4">
+<h4 id="org2637b63">Firewall configuration</h4>
+<div class="outline-text-4" id="text-org2637b63">
 </div>
 
 <ul class="org-ul">
-<li><a id="org5ceb33f"></a>Master nodes firewall configuration<br />
-<div class="outline-text-5" id="text-org5ceb33f">
+<li><a id="orgedc5fe1"></a>Master nodes firewall configuration<br />
+<div class="outline-text-5" id="text-orgedc5fe1">
 <div class="org-src-container">
 <pre class="src src-bash">firewall-cmd --permanent <span style="font-style: italic;">\</span>
   --add-port={6443,2379,2380,10250,10251,10252,10257,10259,179}/tcp
@@ -744,8 +744,8 @@ These ports cover API server, etcd, and control plane components.<sup><a id="fnr
 </div>
 </li>
 
-<li><a id="org68c3fc4"></a>Worker nodes firewall configuration<br />
-<div class="outline-text-5" id="text-org68c3fc4">
+<li><a id="orgd3e2b69"></a>Worker nodes firewall configuration<br />
+<div class="outline-text-5" id="text-orgd3e2b69">
 <div class="org-src-container">
 <pre class="src src-bash">firewall-cmd --permanent <span style="font-style: italic;">\</span>
   --add-port={179,10250,30000-32767}/tcp
@@ -768,9 +768,9 @@ NodePort range must be reachable from inside the cluster (and from clients if yo
 </ul>
 </div>
 
-<div id="outline-container-org376de7b" class="outline-4">
-<h4 id="org376de7b">Install Kubernetes tools (kubeadm/kubelet/kubectl)</h4>
-<div class="outline-text-4" id="text-org376de7b">
+<div id="outline-container-orgc42cc25" class="outline-4">
+<h4 id="orgc42cc25">Install Kubernetes tools (kubeadm/kubelet/kubectl)</h4>
+<div class="outline-text-4" id="text-orgc42cc25">
 <div class="org-src-container">
 <pre class="src src-bash">cat &lt;&lt;EOF | tee /etc/yum.repos.d/kubernetes.repo<span style="font-weight: bold;">
 [kubernetes]
@@ -794,9 +794,9 @@ active
 </div>
 </div>
 
-<div id="outline-container-orgc3ecc10" class="outline-4">
-<h4 id="orgc3ecc10">Deploy the first master (bootstrap)</h4>
-<div class="outline-text-4" id="text-orgc3ecc10">
+<div id="outline-container-org24cee6c" class="outline-4">
+<h4 id="org24cee6c">Deploy the first master (bootstrap)</h4>
+<div class="outline-text-4" id="text-org24cee6c">
 <p>
 Run this on <b>master1.hl.lan</b>
 </p>
@@ -850,17 +850,17 @@ master1.hl.lan    NotReady   control-plane   1m    v1.35.0
 </div>
 </div>
 
-<div id="outline-container-org5558b80" class="outline-3">
-<h3 id="org5558b80"><span class="section-number-3">4.2</span> Install Cilium CNI</h3>
+<div id="outline-container-orgafcfd0e" class="outline-3">
+<h3 id="orgafcfd0e"><span class="section-number-3">4.2</span> Install Cilium CNI</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Cilium should be installed before joining other nodes.<sup><a id="fnr.5.100" class="footref" href="#fn.5">5</a></sup>
 </p>
 </div>
 
-<div id="outline-container-orgae761d9" class="outline-4">
-<h4 id="orgae761d9">Install Helm (admin node or master1)</h4>
-<div class="outline-text-4" id="text-orgae761d9">
+<div id="outline-container-org971d4f4" class="outline-4">
+<h4 id="org971d4f4">Install Helm (admin node or master1)</h4>
+<div class="outline-text-4" id="text-org971d4f4">
 <div class="org-src-container">
 <pre class="src src-bash">helm version
 </pre>
@@ -872,9 +872,9 @@ version.BuildInfo{Version:"v3.15.4"}
 </div>
 </div>
 
-<div id="outline-container-orga9a7076" class="outline-4">
-<h4 id="orga9a7076">Add Cilium repository</h4>
-<div class="outline-text-4" id="text-orga9a7076">
+<div id="outline-container-orged9d7b8" class="outline-4">
+<h4 id="orged9d7b8">Add Cilium repository</h4>
+<div class="outline-text-4" id="text-orged9d7b8">
 <div class="org-src-container">
 <pre class="src src-bash">helm repo add cilium https://helm.cilium.io/
 helm repo update
@@ -883,9 +883,9 @@ helm repo update
 </div>
 </div>
 
-<div id="outline-container-org9796efb" class="outline-4">
-<h4 id="org9796efb">Install Cilium (kube-proxy replacement)</h4>
-<div class="outline-text-4" id="text-org9796efb">
+<div id="outline-container-orgb8b1c64" class="outline-4">
+<h4 id="orgb8b1c64">Install Cilium (kube-proxy replacement)</h4>
+<div class="outline-text-4" id="text-orgb8b1c64">
 <div class="org-src-container">
 <pre class="src src-bash">helm install cilium cilium/cilium <span style="font-style: italic;">\</span>
   --namespace kube-system <span style="font-style: italic;">\</span>
@@ -910,9 +910,9 @@ Cilium uses eBPF for service routing and policy enforcement.<sup><a id="fnr.6" c
 </div>
 </div>
 
-<div id="outline-container-org924567b" class="outline-4">
-<h4 id="org924567b">Wait for Cilium to be ready</h4>
-<div class="outline-text-4" id="text-org924567b">
+<div id="outline-container-org8332455" class="outline-4">
+<h4 id="org8332455">Wait for Cilium to be ready</h4>
+<div class="outline-text-4" id="text-org8332455">
 <div class="org-src-container">
 <pre class="src src-bash">kubectl -n kube-system rollout status ds/cilium
 </pre>
@@ -935,8 +935,8 @@ master1.hl.lan    Ready    control-plane   6m    v1.35.0
 </div>
 </div>
 
-<div id="outline-container-orga25094a" class="outline-3">
-<h3 id="orga25094a"><span class="section-number-3">4.3</span> Join additionaL control plane nodes</h3>
+<div id="outline-container-orgfdfb7ce" class="outline-3">
+<h3 id="orgfdfb7ce"><span class="section-number-3">4.3</span> Join additionaL control plane nodes</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 On <code>master1</code>, generate the join command:
@@ -970,7 +970,7 @@ Now on <b>master2</b> and <b>master3</b>, run:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">kubeadm join lb.&lt;&lt;domain&gt;&gt;:6443 <span style="font-style: italic;">\</span>
+<pre class="src src-bash">kubeadm join lb.hl.lan:6443 <span style="font-style: italic;">\</span>
   --token &lt;token&gt; <span style="font-style: italic;">\</span>
   --discovery-token-ca-cert-hash sha256:&lt;hash&gt; <span style="font-style: italic;">\</span>
   --control-plane <span style="font-style: italic;">\</span>
@@ -988,15 +988,15 @@ Each control-plane node runs an API server and joins the etcd quorum.<sup><a id=
 </div>
 </div>
 
-<div id="outline-container-org4d909f2" class="outline-3">
-<h3 id="org4d909f2"><span class="section-number-3">4.4</span> Join worker nodes</h3>
+<div id="outline-container-orgcb680a0" class="outline-3">
+<h3 id="orgcb680a0"><span class="section-number-3">4.4</span> Join worker nodes</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 On each worker:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">kubeadm join lb.&lt;&lt;domain&gt;&gt;:6443 <span style="font-style: italic;">\</span>
+<pre class="src src-bash">kubeadm join lb.hl.lan:6443 <span style="font-style: italic;">\</span>
   --token &lt;token&gt; <span style="font-style: italic;">\</span>
   --discovery-token-ca-cert-hash sha256:&lt;hash&gt;
 </pre>
@@ -1013,12 +1013,12 @@ Workers run workloads and do not participate in etcd.<sup><a id="fnr.8" class="f
 </div>
 </div>
 
-<div id="outline-container-orgccd4116" class="outline-2">
-<h2 id="orgccd4116"><span class="section-number-2">5</span> Post-installation checks</h2>
+<div id="outline-container-orgbd9c53c" class="outline-2">
+<h2 id="orgbd9c53c"><span class="section-number-2">5</span> Post-installation checks</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orgeaaa730" class="outline-3">
-<h3 id="orgeaaa730"><span class="section-number-3">5.1</span> Verify nodes</h3>
+<div id="outline-container-orgea4b33f" class="outline-3">
+<h3 id="orgea4b33f"><span class="section-number-3">5.1</span> Verify nodes</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 <pre class="src src-bash">kubectl get nodes -o wide
@@ -1038,8 +1038,8 @@ worker3.hl.lan    Ready    &lt;none&gt;          v1.35.0      Rocky Linux 10.1 (
 </div>
 </div>
 
-<div id="outline-container-orgfc796e8" class="outline-3">
-<h3 id="orgfc796e8"><span class="section-number-3">5.2</span> Verify core pods</h3>
+<div id="outline-container-org47f45b6" class="outline-3">
+<h3 id="org47f45b6"><span class="section-number-3">5.2</span> Verify core pods</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 <pre class="src src-bash">kubectl get pods -n kube-system
@@ -1056,8 +1056,8 @@ hubble-ui-...           Running
 </div>
 </div>
 
-<div id="outline-container-org2913a00" class="outline-3">
-<h3 id="org2913a00"><span class="section-number-3">5.3</span> Verify Cilium status</h3>
+<div id="outline-container-org603e0a3" class="outline-3">
+<h3 id="org603e0a3"><span class="section-number-3">5.3</span> Verify Cilium status</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
 <pre class="src src-bash">cilium status
@@ -1072,8 +1072,8 @@ Cluster health: OK
 </div>
 </div>
 
-<div id="outline-container-orgfe45c6b" class="outline-3">
-<h3 id="orgfe45c6b"><span class="section-number-3">5.4</span> Quick functional test (DNS + connectivity)</h3>
+<div id="outline-container-org29d5596" class="outline-3">
+<h3 id="org29d5596"><span class="section-number-3">5.4</span> Quick functional test (DNS + connectivity)</h3>
 <div class="outline-text-3" id="text-5-4">
 <div class="org-src-container">
 <pre class="src src-bash">kubectl run -it --rm --restart=Never dns-test --image=busybox:1.36 -- nslookup kubernetes.default
